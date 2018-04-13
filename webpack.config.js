@@ -20,16 +20,6 @@ module.exports = {
         test: /\.(scss|css)$/,
         loaders: ['style-loader', 'css-loader', 'sass-loader'],
       },
-      // { test: /.(jpg|png|svg)$/, 
-      //   loader: 'url-loader', 
-      //   options: { limit: 25000, }, 
-      // }, 
-      // { test: /.(jpg|png|svg)$/, 
-      //   loader: 'file-loader', 
-      //   options: { 
-      //     name: '../../[path][name].[ext]', 
-      //   }, 
-      // },
     ],
   },
   resolve: {
