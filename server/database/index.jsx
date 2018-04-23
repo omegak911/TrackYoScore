@@ -1,6 +1,6 @@
 import Sequelize from 'sequelize';
 
-const SQL_database = new Sequelize('TrackYoScore', 'root', '', {
+const SQL_database = new Sequelize('trackyoscore', 'root', '', { //set username and password for deployment
   host: 'localhost',
   dialect: 'postgres',
   operatorsAliases: false,
@@ -10,6 +10,7 @@ const SQL_database = new Sequelize('TrackYoScore', 'root', '', {
     min: 0,
     acquire: 30000,
     idle: 10000,
+    handleDisconnects: true,
   },
 })
 

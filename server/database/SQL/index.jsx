@@ -9,7 +9,7 @@ const Games = db.define('games', {
   title: { type: Sequelize.STRING, unique: true },
 });
 
-const History = db.define('histories', {
+const Histories = db.define('histories', {
   gameID: Sequelize.INTEGER,
   playerScore: Sequelize.JSON,
 });
@@ -33,4 +33,18 @@ const Users = db.define('users', {
   losses: Sequelize.INTEGER,
 });
 
-export { Games, History, HistoryConfirmation, Perks, Users };
+//join tables
+
+const UserPerks = db.define('userPerks', {});
+Users.belongsToMany(Perks, { through: UserPerks, as: 'perk' });
+Perks.belongsToMany(Users, { through: UserPerks });
+
+const UserHistories = db.define('userHistories', {});
+Users.belongsToMany(Histories, { through: UserHistories });
+Histories.belongsToMany(Users, { through: UserHistories, as: 'challengeHistory' });
+
+const TempUserHistories = db.define('tempUserHistories', {});
+Users.belongsToMany(HistoryConfirmation, { through: TempUserHistories });
+HistoryConfirmation.belongsToMany(Users, { through: TempUserHistories, as: 'tempHistory' });
+
+export { Games, Histories, HistoryConfirmation, Perks, Users, UserPerks, UserHistories, TempUserHistories };
