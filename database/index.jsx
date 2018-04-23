@@ -2,7 +2,7 @@ import Sequelize from 'sequelize';
 
 const SQL_database = new Sequelize('TrackYoScore', 'root', '', {
   host: 'localhost',
-  dialect: 'mysql',
+  dialect: 'postgres',
   operatorsAliases: false,
 
   pool: {
