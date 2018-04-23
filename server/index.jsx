@@ -1,6 +1,8 @@
 import express from 'express';
 import path from 'path';
 import bodyParser from 'body-parser';
+import db from './database/index';
+// import setup from './database/SQL/setup';  TODO - create script to run this separately
 //import router
 
 const app = express();
