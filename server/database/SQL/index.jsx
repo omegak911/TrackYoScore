@@ -6,7 +6,7 @@ import Sequelize from 'sequelize';
 import db from '../index';
 
 const Games = db.define('games', {
-  title: { type: Sequelize.STRING, unique: true },
+  title: { type: Sequelize.STRING, unique: true, allowNull: false },
   image: { type: Sequelize.STRING, allowNull: false },
 });
 
