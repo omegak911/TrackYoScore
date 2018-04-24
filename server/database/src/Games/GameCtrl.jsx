@@ -13,10 +13,16 @@ const addGame = (req, res) => {
 const fetchGame = (req, res) => {
   //if user is logged in
 
-  fetchGameHelper(result => {
+  fetchGameHelper( async result => {
     console.log('fetchGame result: ', result)
 
-    res.status(200).send('result');
+    const filteredResult = result.map(game => {
+      return { 
+        title: game.title, 
+        image: game.image 
+      }
+    })
+    await res.status(200).send(filteredResult);
   })
 }
 
