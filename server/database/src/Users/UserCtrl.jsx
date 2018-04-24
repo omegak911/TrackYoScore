@@ -19,10 +19,9 @@ const updateUser = (req, res) => {
   //req.user should contain username
   //req.body should contain data object containing update key/values
 
-
   updateUserHelper(req.body, (result) => {
     console.log('update User result: ', result);
-
+  //returns and array with length of 1 if success
     res.status(201).send('result');
   })
 }
@@ -30,9 +29,9 @@ const updateUser = (req, res) => {
 const validateUser = (req, res) => {
   //req.body should contain username and password
 
-  validateUserHelper(req.body, (result) => {
+  validateUserHelper(req.query, (result) => {
     console.log('validate user result: ', result);
-
+    //null if not found
     res.status(201).send('result');
   })
 }

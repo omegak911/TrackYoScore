@@ -12,3 +12,5 @@ router.route('/login')
 
 router.route('/updateUser')
   .put(updateUser);
+
+export default router;
