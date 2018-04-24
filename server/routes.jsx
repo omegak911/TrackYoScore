@@ -8,7 +8,7 @@ import resultRouter from './database/src/Result/ResultRouter';
 const router = express.Router();
 
 router.use('/user', userRouter);
-// router.use('/game', gameRouter);  
+router.use('/game', gameRouter);  
 // router.use('/perk', perkRouter);  //determine if this will be used
 // router.use('/result', resultRouter);
 
