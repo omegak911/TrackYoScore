@@ -10,6 +10,9 @@ db.sync({ force: true })
     console.log('db synced');
     process.exit();
   })
+  // .then(() => {
+  //   return db.drop()
+  // })
   .catch(() => {
     console.log('error syncing database');
   });

@@ -15,7 +15,7 @@ const Histories = db.define('histories', {
   playerScore: Sequelize.JSON,
 });
 
-const HistoryConfirmation = db.define('confirmation', {
+const HistoryConfirmation = db.define('history_confirmation', {
   gameID: Sequelize.INTEGER,
   playerScore: Sequelize.JSON,
 })
@@ -37,16 +37,17 @@ const Users = db.define('users', {
 
 //join tables
 
-const UserPerks = db.define('userPerks', {});
+const UserPerks = db.define('user_perks', {});
 Users.belongsToMany(Perks, { through: UserPerks, as: 'perk' });
 Perks.belongsToMany(Users, { through: UserPerks });
 
-const UserHistories = db.define('userHistories', {});
+const UserHistories = db.define('user_histories', {});
 Users.belongsToMany(Histories, { through: UserHistories });
 Histories.belongsToMany(Users, { through: UserHistories, as: 'challengeHistory' });
 
-const TempUserHistories = db.define('tempUserHistories', {});
-Users.belongsToMany(HistoryConfirmation, { through: TempUserHistories });
-HistoryConfirmation.belongsToMany(Users, { through: TempUserHistories, as: 'tempHistory' });
+const UserHistoryConfirmations = db.define('user_history_confirmations', {});
+Users.belongsToMany(HistoryConfirmation, { through: UserHistoryConfirmations });
+HistoryConfirmation.belongsToMany(Users, { through: UserHistoryConfirmations, as: 'temp_history' });
+HistoryConfirmation.hasMany(Games);
 
-export { Games, Histories, HistoryConfirmation, Perks, Users, UserPerks, UserHistories, TempUserHistories };
+export { Games, Histories, HistoryConfirmation, Perks, Users, UserPerks, UserHistories, UserHistoryConfirmations };
