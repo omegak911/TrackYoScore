@@ -1,10 +1,14 @@
-import Sequelize from 'sequelize';
-import SQL_database from '../index';
+import express from 'express';
 
-const Users = SQL_database.define('users', {
-  username: { type: Sequelize.STRING, unique: true },
-  password: Sequelize.STRING,
-  email: { type: Sequelize.STRING, unique: true },
-  wins: Sequelize.Number,
-  loses: Sequelize.Number,
-})
+import { createUser, updateUser, validateUser } from './UserCtrl';
+
+const router = express.Router();
+
+router.route('/signup')
+  .post(createUser);
+
+router.route('/login')
+  .get(validateUser);
+
+router.route('/updateUser')
+  .put(updateUser);

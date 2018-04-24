@@ -3,7 +3,8 @@ import path from 'path';
 import bodyParser from 'body-parser';
 import db from './database/index';
 // import setup from './database/SQL/setup';  TODO - create script to run this separately
-//import router
+import router from './router';
+
 
 const app = express();
 const port = process.env.port || 3666;
@@ -12,7 +13,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, '../client/dist')));
 
-// app.use(router)
+app.use(router);
 
 app.use('*', (req, res) => res.sendFile(path.resolve(__dirname, '../client/dist/index.html')));
 
