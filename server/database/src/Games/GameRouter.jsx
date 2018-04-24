@@ -1,12 +1,12 @@
 import express from 'express';
-
-// import {}
+import { addGame, fetchGame } from './GameCtrl';
 
 const router = express.Router();
 
 router.route('/add')
-  .post()
+  .post(addGame);
 
-
+router.route('/fetch')
+  .get(fetchGame);
 
 export default router;
