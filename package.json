@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "setup:db": "node ./server/database/SQL/setup.jsx",
+    "setup:db": "node ./server/database/bin/entry.js",
     "start": "nodemon ./server/bin/entry.js",
     "build": "webpack -w"
   },

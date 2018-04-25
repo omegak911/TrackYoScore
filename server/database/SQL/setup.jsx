@@ -5,14 +5,11 @@
 import db from '../index';
 import { Games, History, HistoryConfirmation, Perks, Users, UserPerks, UserHistories, TempUserHistories } from './index';
 
-db.sync({ force: true })
+db.sync({ force: true, logging: console.log })
   .then(() => {
     console.log('db synced');
     process.exit();
   })
-  // .then(() => {
-  //   return db.drop()
-  // })
   .catch(() => {
     console.log('error syncing database');
   });
