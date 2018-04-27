@@ -63,7 +63,18 @@ Perks:
 - 
 
 
+Functionality:
+when a score is entered, 
+- it is added to the confirmation table
+- each player will have an individual entry in the confirmation join table
+- each player will search this table on login for notification
+(might as well send this info to on login if we're touching it anyways)
 
+when a score is validated
+- it will find the associated confirmation table and update scoresValidated + subtract 1
+- if validation = 0, it will add the score to history table
+- each player will have an individual entry in the user_history join table
+- onclick history, we would search the join table for related histories
 
 
 
