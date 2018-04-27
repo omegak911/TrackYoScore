@@ -18,6 +18,7 @@ const Histories = db.define('histories', {
 const HistoryConfirmation = db.define('history_confirmation', {
   gameID: Sequelize.INTEGER,
   playerScore: Sequelize.JSON,
+  validation: Sequelize.INTEGER,
 })
 
 const Perks = db.define('perks', {
