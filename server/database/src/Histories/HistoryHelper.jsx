@@ -1,28 +1,39 @@
-import { Histories, HistoryConfirmation } from '../../SQL/index';
+import { Histories, HistoryConfirmation, UserHistories } from '../../SQL/index';
 
 const addTempHistoryHelper = ({ gameID, playerScore }, callback) => {
-  HistoryConfirmation.create({
+  return HistoryConfirmation.create({
     gameID,
     playerScore,
   })
-  .then(result => callback(result))
-  .catch(err => callback(err));
+  .then(result => { 
+    //for each user, add to temp hist join table for confirmation
+    //notification needed for user to know there's a pending join table that needs validation
+    callback(result)})
+  .catch(err => console.log(err));
 
-  //for each user, add to join table
-  //notification needed for user to know there's a pending join table that needs validation
+
 };
 
 const addHistoryHelper = ({ gameID, playerScore }, callback) => {
-  Histories.create({
+  return Histories.create({
     gameID,
     playerScore,
   })
-  .then(result => callback(result))
-  .catch(err => callback(err));
+  .then(result => {
+    //for each user, add to history join table
+    callback(result)})
+  .catch(err => console.log(err));
+
 };
 
-const fetchHistoryHelper = ({  }) => {
-
+const fetchHistoryHelper = ({ userID }, callback) => {
+  return UserHistories.findAll({
+    where: {
+      userID,
+    }
+  })
+  .then(result => callback(result))
+  .then(err => console.log(err));
 }
 
 export { addHistoryHelper, addTempHistoryHelper };
