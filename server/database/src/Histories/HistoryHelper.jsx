@@ -18,16 +18,6 @@ const addUserConfirmationHelper = ({ userID, historyConfirmationID }) =>
   .then(result => console.log(`userID: ${userID} entry submitted to user_history_confirmation table`))
   .catch(err => console.log(err));
 
-const addHistoryHelper = ({ gameID, playerScore }, callback) =>
-  Histories.create({
-    gameID,
-    playerScore,
-  })
-  .then(result => {
-    //for each user, add to history join table
-    callback(result)})
-  .catch(err => console.log(err));
-
 const doesConfirmationExistHelper = ({ userID }, callback) => 
   UserHistoryConfirmations.findAll({
     where: {
@@ -36,15 +26,6 @@ const doesConfirmationExistHelper = ({ userID }, callback) =>
   })
   .then(result => callback(result))
   .catch(err => console.log(err));
-
-const fetchHistoryHelper = ({ userID }, callback) =>
-  UserHistories.findAll({
-    where: {
-      userID,
-    }
-  })
-  .then(result => callback(result))
-  .then(err => console.log(err));
 
 const validateConfirmationHelper = ({ id, playerScore }, callback) =>
   HistoryConfirmation.update(
@@ -60,11 +41,39 @@ const validateConfirmationHelper = ({ id, playerScore }, callback) =>
     })
     .catch(err => console.log(err));
 
+const addHistoryHelper = ({ gameID, playerScore }, callback) =>
+  Histories.create({
+    gameID,
+    playerScore,
+  })
+  .then(result => {
+    //for each user, add to history join table
+    callback(result)})
+  .catch(err => console.log(err));
+
+const addUserHistoryHelper = ({ userID, historyID }) =>
+  UserHistories.create({
+    userID,
+    historyID,
+  })
+  .then(() => console.log('success'))
+  .catch(err => console.log(err));
+
+const fetchHistoryHelper = ({ userID }, callback) =>
+  UserHistories.findAll({
+    where: {
+      userID,
+    }
+  })
+  .then(result => callback(result))
+  .then(err => console.log(err));
+
 export { 
   addHistoryHelper, 
+  addUserHistoryHelper,
   addConfirmationHelper, 
   addUserConfirmationHelper, 
   doesConfirmationExistHelper, 
   fetchHistoryHelper, 
-  validateConfirmationHelper 
+  validateConfirmationHelper
 };
