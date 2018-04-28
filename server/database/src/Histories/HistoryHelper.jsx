@@ -51,7 +51,7 @@ const fetchHistoryHelper = ({ userID }, callback) => {
 const validateConfirmationHelper = ({ id, playerScore }, callback) => {
   return HistoryConfirmation.findOne({
     where: {
-      userID,
+      id,  //id of the game, taken from user_history_confirmations
     }
   })
   .then(result => {
@@ -63,4 +63,11 @@ const validateConfirmationHelper = ({ id, playerScore }, callback) => {
   .catch(err => console.log(err));
 }
 
-export { addHistoryHelper, addConfirmationHelper, doesConfirmationExistHelper, fetchHistoryHelper, validateConfirmationHelper };
+export { 
+  addHistoryHelper, 
+  addConfirmationHelper, 
+  addUserConfirmationHelper, 
+  doesConfirmationExistHelper, 
+  fetchHistoryHelper, 
+  validateConfirmationHelper 
+};
