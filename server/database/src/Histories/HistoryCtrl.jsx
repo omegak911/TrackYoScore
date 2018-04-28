@@ -21,8 +21,11 @@ const addConfirmation = (req,res) => {
 
 const validateConfirmation = (req, res) => {
   //check if user is logged in
-
-  validateConfirmationHelper
+  validateConfirmationHelper(req.body, (result) => {  //accepts confirmationID as id
+    //take result, check if validation is 0
+    //if 0, send to History and remove join + confirmation
+    res.status(201).send('success');
+  })
 
 }
 
