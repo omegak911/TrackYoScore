@@ -26,12 +26,13 @@ const validateConfirmation = (req, res) => {
   validateConfirmationHelper(req.body, (result) => {  //accepts confirmationID as id + update confirmation
     //take result, check if validation is 0
     //if 0, send to History and remove join + confirmation
-    //addHistory
+    //for each user
+    //addHistory()
     res.status(201).send('success');
   });
 };
 
-const addHistory = (req, res) => {
+const addHistory = (/* input data from validateConfirmation */) => {
   //this function should be used by validateConfirmation
 
   addHistoryHelper(/* object.gameID + object.playerScore */, (result) => {
@@ -59,7 +60,6 @@ const fetchHistory = (req, res) => {
 export { 
   addConfirmation, 
   validateConfirmation, 
-  addHistory, 
   doesConfirmationExist, 
   fetchHistory 
 };
