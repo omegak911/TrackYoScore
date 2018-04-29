@@ -17,9 +17,9 @@ const addConfirmation = (req,res) => {
     //   addUserConfirmationHelper(/* object.userID, object.historyConfirmationID*/)
     // }
     res.status(201).send('success')
-  })
+  });
   //on success, client side should update user notification just for that user
-}
+};
 
 const validateConfirmation = (req, res) => {
   //check if user is logged in
@@ -28,8 +28,8 @@ const validateConfirmation = (req, res) => {
     //if 0, send to History and remove join + confirmation
     //addHistory
     res.status(201).send('success');
-  })
-}
+  });
+};
 
 const addHistory = (req, res) => {
   //this function should be used by validateConfirmation
@@ -37,18 +37,29 @@ const addHistory = (req, res) => {
   addHistoryHelper(/* object.gameID + object.playerScore */, (result) => {
     addUserHistoryHelper(/* userID, historyID*/)
     res.status(201).send('success');
-  })
-}
+  });
+};
 
 const doesConfirmationExist = (req,res) => {
-
-//  doesConfirmationExistHelper, 
-
-}
+//check if user is logged in
+  doesConfirmationExistHelper(/* userID */, (result) => {
+    console.log('doesConfirmationExist result: ', result);
+    res.status(201).send('success');
+  });
+};
 
 const fetchHistory = (req, res) => {
-//fetchHistoryHelper, 
+  //check if user is logged in
+  fetchHistoryHelper(/* userID */, (result) => {
+    console.log('fetchHistory result: ', result);
+    res.status(201).send('success');
+  });
+};
 
-}
-
-export { addConfirmation, fetchHistory };
+export { 
+  addConfirmation, 
+  validateConfirmation, 
+  addHistory, 
+  doesConfirmationExist, 
+  fetchHistory 
+};
