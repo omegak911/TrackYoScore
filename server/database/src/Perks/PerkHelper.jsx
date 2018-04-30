@@ -8,11 +8,11 @@ const addUserPerkHelper = ({ userID, perkID }, callback) =>
   .then(result => callback(result))
   .catch(err => console.log(err));
 
-const addPerk = ({ type }, callback) =>
+const addPerkHelper = ({ type }, callback) =>
   Perks.create({
     type,
   })
   .then(result => callback(result))
   .catch(err => console.log(err));
 
-export { addUserPerkHelper, addPerk };
+export { addUserPerkHelper, addPerkHelper };
