@@ -109,7 +109,69 @@ const seedGames = [
 ];
 
 const seedConfirmationHistories = [
-  
+  {
+    gameID: 2,
+    playerScore: [
+      {
+        userID: 2,
+        score: 10,
+      },
+      {
+        userID: 3,
+        score: 10,
+      },
+      {
+        userID: 4,
+        score: 5,
+      },
+      {
+        userID: 6,
+        score: 5,
+      },
+    ]
+  },
+  {
+    gameID: 2,
+    playerScore: [
+      {
+        userID: 2,
+        score: 5,
+      },
+      {
+        userID: 3,
+        score: 5,
+      },
+      {
+        userID: 4,
+        score: 10,
+      },
+      {
+        userID: 6,
+        score: 10,
+      },
+    ]
+  },
+  {
+    gameID: 2,
+    playerScore: [
+      {
+        userID: 2,
+        score: 10,
+      },
+      {
+        userID: 3,
+        score: 5,
+      },
+      {
+        userID: 4,
+        score: 10,
+      },
+      {
+        userID: 6,
+        score: 5,
+      },
+    ]
+  },
 ];
 
 const seedHistories = [
@@ -131,14 +193,32 @@ const updateUsers = async () => {
 
 const createGames = async () => {
   for (let i = 0; i < seedGames.length; i++) {
-    addGameHelper(seedGames[i], (result) => console.log(`Added ${seedGames[i].title} to DB`));
+    await addGameHelper(seedGames[i], (result) => console.log(`Added ${seedGames[i].title} to DB`));
   };
 } 
+
+const createConfirmation = async () => {
+  for (let i = 0; i < seedConfirmationHistories.length; i++) {
+    await addConfirmationHelper(seedConfirmationHistories[i], async (result) => {
+      let scores = result.dataValues.playerScore;
+      let confirmationID = result.dataValues.id;
+      console.log('*** scores before: ', scores)
+      for (let k = 0; k < scores.length; k++) {
+        scores[k].historyConfirmationId = confirmationID;
+        scores[k].userId = scores[k].userID;
+        await addUserConfirmationHelper(scores[k]);
+      }
+      console.log('*** scores after: ', scores)
+    });
+
+  }
+}
 
 const seedData = async () => {
   await createUsers();
   await updateUsers();
   await createGames();
+  await createConfirmation();
 }
 
 seedData();
