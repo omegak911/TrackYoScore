@@ -79,23 +79,66 @@ const userUpdates = [
       losses: 2,
     }
   },
-]
+];
+
+const seedGames = [
+  {
+    title: 'Super Smash Bros.',
+    image: 'https://upload.wikimedia.org/wikipedia/en/4/42/Supersmashbox.jpg',
+  },
+  {
+    title: 'Chess',
+    image: 'https://upload.wikimedia.org/wikipedia/commons/6/6f/ChessSet.jpg',
+  },
+  {
+    title: 'Beer Pong',
+    image: 'https://upload.wikimedia.org/wikipedia/commons/9/94/Beerpong_shots.png',
+  },
+  {
+    title: 'Hearthstone',
+    image: 'https://upload.wikimedia.org/wikipedia/en/5/51/Hearthstone_screenshot.png',
+  },
+  {
+    title: 'Hearthstone',
+    image: 'https://upload.wikimedia.org/wikipedia/en/5/51/Hearthstone_screenshot.png',
+  },
+  {
+    title: 'Settlers of Catan',
+    image: 'https://upload.wikimedia.org/wikipedia/en/a/a3/Catan-2015-boxart.jpg',
+  },
+];
+
+const seedConfirmationHistories = [
+  
+];
+
+const seedHistories = [
+
+];
+
 
 const createUsers = async () => {
   for (let i = 0; i < seedUsers.length; i++) {
     await createUserHelper(seedUsers[i], (result) => console.log(seedUsers[i].username, ' added to DB'));
-  }
-}
+  };
+};
 
 const updateUsers = async () => {
   for (let i = 0; i < userUpdates.length; i++) {
     await updateUserHelper(userUpdates[i], (result) => console.log(userUpdates[i].username, ' info updated'))
-  }
-}
+  };
+};
+
+const createGames = async () => {
+  for (let i = 0; i < seedGames.length; i++) {
+    addGameHelper(seedGames[i], (result) => console.log(`Added ${seedGames[i].title} to DB`));
+  };
+} 
 
 const seedData = async () => {
   await createUsers();
   await updateUsers();
+  await createGames();
 }
 
 seedData();
