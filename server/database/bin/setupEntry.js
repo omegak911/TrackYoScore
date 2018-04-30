@@ -1,4 +1,4 @@
 require('babel-polyfill');
 require('babel-register');
 
-require('../SQL/setup');
+require('../SQL/setupTables');
