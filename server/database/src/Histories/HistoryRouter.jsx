@@ -17,6 +17,4 @@ router.route('/confirmation')
 router.route('/history')
   .get(fetchHistory);
 
-
-
 export default router;
