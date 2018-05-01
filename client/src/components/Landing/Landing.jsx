@@ -13,6 +13,7 @@ class Landing extends Component {
   }
 
   handleButton = (e) => {
+    e.preventDefault();
     const type = e.target.name;
     type === "switch" ? this.switch() : type === 'login' ? this.login() : this.signup();
   }
@@ -34,7 +35,11 @@ class Landing extends Component {
 
     axios
       .get('/api/user/login', options)
-      .then(result => console.log(result))
+      .then(({ data }) => {
+        console.log(data)
+        //update redux store with data
+        //redirect to main page
+      })
       .catch(err => console.log(err));
   }
 
@@ -48,7 +53,11 @@ class Landing extends Component {
 
     axios
       .post('/api/user/signup', options)
-      .then(result => console.log(result))
+      .then(({ data }) => {
+        console.log(data)
+        //update redux store with data
+        //redirect to main page
+      })
       .catch(err => console.log(err));
   }
 
