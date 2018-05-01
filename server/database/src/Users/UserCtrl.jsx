@@ -32,7 +32,7 @@ const validateUser = (req, res) => {
   validateUserHelper(req.query, (result) => {
     console.log('validate user result: ', result);
     //null if not found
-    res.status(201).send('result');
+    res.status(200).send(result);
   })
 }
 

@@ -1,6 +1,6 @@
 // export { Games, Histories, HistoryConfirmation, Perks, Users, UserPerks, UserHistories, TempUserHistories };
 
-import { Users } from '../../SQL/index';
+import { Users, HistoryConfirmation } from '../../SQL/index';
 
 //add user
 const createUserHelper = ({ username, password }, callback) => 
@@ -16,7 +16,6 @@ const createUserHelper = ({ username, password }, callback) =>
   .then((result) => callback(result))
   .catch(err => { 
     console.log(err);
-    callback('error');
   });
 
 //update
@@ -33,14 +32,19 @@ const updateUserHelper = ({ username, data }, callback) =>
       where: { username }
     }
   )
-  .then((result) => callback(result))
-  .catch(err => callback(err))
+  .then(result => callback(result))
+  .catch(err => console.log(err))
 
 const validateUserHelper = ({ username, password }, callback) => 
   Users.findOne({
-    where: { username, password }
+    where: { username, password },
+    include: [{
+        model: HistoryConfirmation,
+        as: 'temp_history',
+      }],
+    attributes: { exclude: [ 'password', 'updatedAt'] }
   })
-  .then((result) => callback(result))
-  .catch(err => callback(err));
+  .then(result => callback(result))
+  .catch(err => console.log(err));
 
 export { createUserHelper, updateUserHelper, validateUserHelper };
