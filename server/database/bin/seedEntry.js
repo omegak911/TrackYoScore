@@ -1,4 +1,4 @@
 require('babel-polyfill');
 require('babel-register');
 
-require('../SQL/testData');
+require('../SQL/seedData');
