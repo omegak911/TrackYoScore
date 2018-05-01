@@ -11,12 +11,12 @@ const Games = db.define('games', {
 });
 
 const Histories = db.define('histories', {
-  gameID: Sequelize.INTEGER,
+  gameId: Sequelize.INTEGER,
   playerScore: Sequelize.JSON,
 });
 
-const HistoryConfirmation = db.define('history_confirmation', {
-  gameID: Sequelize.INTEGER,
+const HistoryConfirmation = db.define('confirmation', {
+  gameId: Sequelize.INTEGER,
   playerScore: Sequelize.JSON,
   validation: Sequelize.INTEGER,
 })
@@ -46,7 +46,7 @@ const UserHistories = db.define('user_histories', {});
 Users.belongsToMany(Histories, { through: UserHistories });
 Histories.belongsToMany(Users, { through: UserHistories, as: 'challengeHistory' });
 
-const UserHistoryConfirmations = db.define('user_history_confirmations', {});
+const UserHistoryConfirmations = db.define('user_confirmations', {});
 Users.belongsToMany(HistoryConfirmation, { through: UserHistoryConfirmations });
 HistoryConfirmation.belongsToMany(Users, { through: UserHistoryConfirmations, as: 'temp_history' });
 HistoryConfirmation.hasMany(Games);

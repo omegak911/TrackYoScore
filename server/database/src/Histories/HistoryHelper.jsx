@@ -10,10 +10,10 @@ const addConfirmationHelper = ({ gameID, playerScore, validation = Object.keys(p
     callback(result)})
   .catch(err => console.log(err));
 
-const addUserConfirmationHelper = ({ userId, historyConfirmationId }) =>
+const addUserConfirmationHelper = ({ userId, confirmationId }) =>
   UserHistoryConfirmations.create({
     userId,
-    historyConfirmationId,
+    confirmationId,
   })
   .then(result => console.log(`userID: ${userId} entry submitted to user_history_confirmation table`))
   .catch(err => console.log(err));

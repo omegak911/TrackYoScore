@@ -99,10 +99,6 @@ const seedGames = [
     image: 'https://upload.wikimedia.org/wikipedia/en/5/51/Hearthstone_screenshot.png',
   },
   {
-    title: 'Hearthstone',
-    image: 'https://upload.wikimedia.org/wikipedia/en/5/51/Hearthstone_screenshot.png',
-  },
-  {
     title: 'Settlers of Catan',
     image: 'https://upload.wikimedia.org/wikipedia/en/a/a3/Catan-2015-boxart.jpg',
   },
@@ -110,64 +106,64 @@ const seedGames = [
 
 const seedConfirmationHistories = [
   {
-    gameID: 2,
+    gameId: 2,
     playerScore: [
       {
-        userID: 2,
+        userId: 2,
         score: 10,
       },
       {
-        userID: 3,
+        userId: 3,
         score: 10,
       },
       {
-        userID: 4,
+        userId: 4,
         score: 5,
       },
       {
-        userID: 6,
+        userId: 6,
         score: 5,
       },
     ]
   },
   {
-    gameID: 2,
+    gameId: 2,
     playerScore: [
       {
-        userID: 2,
+        userId: 2,
         score: 5,
       },
       {
-        userID: 3,
+        userId: 3,
         score: 5,
       },
       {
-        userID: 4,
+        userId: 4,
         score: 10,
       },
       {
-        userID: 6,
+        userId: 6,
         score: 10,
       },
     ]
   },
   {
-    gameID: 2,
+    gameId: 2,
     playerScore: [
       {
-        userID: 2,
+        userId: 2,
         score: 10,
       },
       {
-        userID: 3,
+        userId: 3,
         score: 5,
       },
       {
-        userID: 4,
+        userId: 4,
         score: 10,
       },
       {
-        userID: 6,
+        userId: 6,
         score: 5,
       },
     ]
@@ -175,7 +171,48 @@ const seedConfirmationHistories = [
 ];
 
 const seedHistories = [
-
+  {
+    gameId: 2,
+    playerScore: [
+      {
+        userId: 2,
+        score: 10,
+      },
+      {
+        userId: 3,
+        score: 5,
+      },
+      {
+        userId: 4,
+        score: 10,
+      },
+      {
+        userId: 6,
+        score: 5,
+      },
+    ]
+  },
+  {
+    gameId: 2,
+    playerScore: [
+      {
+        userId: 2,
+        score: 10,
+      },
+      {
+        userId: 3,
+        score: 5,
+      },
+      {
+        userId: 4,
+        score: 10,
+      },
+      {
+        userId: 6,
+        score: 5,
+      },
+    ]
+  },
 ];
 
 
@@ -195,23 +232,25 @@ const createGames = async () => {
   for (let i = 0; i < seedGames.length; i++) {
     await addGameHelper(seedGames[i], (result) => console.log(`Added ${seedGames[i].title} to DB`));
   };
-} 
+};
 
 const createConfirmation = async () => {
   for (let i = 0; i < seedConfirmationHistories.length; i++) {
     await addConfirmationHelper(seedConfirmationHistories[i], async (result) => {
-      let scores = result.dataValues.playerScore;
-      let confirmationID = result.dataValues.id;
-      console.log('*** scores before: ', scores)
-      for (let k = 0; k < scores.length; k++) {
-        scores[k].historyConfirmationId = confirmationID;
-        scores[k].userId = scores[k].userID;
-        await addUserConfirmationHelper(scores[k]);
-      }
-      console.log('*** scores after: ', scores)
-    });
 
-  }
+      let scores = result.dataValues.playerScore;
+      let confirmationId = result.dataValues.id;
+
+      for (let k = 0; k < scores.length; k++) {
+        scores[k].confirmationId = confirmationId;
+        await addUserConfirmationHelper(scores[k]);
+      };
+    });
+  };
+};
+
+const createHistory = async () => {
+
 }
 
 const seedData = async () => {
@@ -219,6 +258,6 @@ const seedData = async () => {
   await updateUsers();
   await createGames();
   await createConfirmation();
-}
+};
 
 seedData();
