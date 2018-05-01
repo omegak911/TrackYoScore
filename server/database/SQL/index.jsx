@@ -43,12 +43,12 @@ Users.belongsToMany(Perks, { through: UserPerks, as: 'perk' });
 Perks.belongsToMany(Users, { through: UserPerks });
 
 const UserHistories = db.define('user_histories', {});
-Users.belongsToMany(Histories, { through: UserHistories });
-Histories.belongsToMany(Users, { through: UserHistories, as: 'challengeHistory' });
+Users.belongsToMany(Histories, { through: UserHistories, as: 'challengeHistory' });
+Histories.belongsToMany(Users, { through: UserHistories });
 
 const UserHistoryConfirmations = db.define('user_confirmations', {});
-Users.belongsToMany(HistoryConfirmation, { through: UserHistoryConfirmations });
-HistoryConfirmation.belongsToMany(Users, { through: UserHistoryConfirmations, as: 'temp_history' });
+Users.belongsToMany(HistoryConfirmation, { through: UserHistoryConfirmations, as: 'temp_history' });
+HistoryConfirmation.belongsToMany(Users, { through: UserHistoryConfirmations });
 HistoryConfirmation.hasMany(Games);
 
 export { Games, Histories, HistoryConfirmation, Perks, Users, UserPerks, UserHistories, UserHistoryConfirmations };
