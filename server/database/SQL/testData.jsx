@@ -237,7 +237,6 @@ const createGames = async () => {
 const createConfirmation = async () => {
   for (let i = 0; i < seedConfirmationHistories.length; i++) {
     await addConfirmationHelper(seedConfirmationHistories[i], async (result) => {
-
       let scores = result.dataValues.playerScore;
       let confirmationId = result.dataValues.id;
 
@@ -250,7 +249,17 @@ const createConfirmation = async () => {
 };
 
 const createHistory = async () => {
+  for (let i = 0; i < seedHistories.length; i++) {
+    await addHistoryHelper(seedHistories[i], async (result) => {
+      let scores = result.dataValues.playerScore;
+      let historyId = result.dataValues.id;
 
+      for (let k = 0; k < scores.length; k++) {
+        scores[k].historyId = historyId;
+        await addUserHistoryHelper(scores[k]);
+      };
+    })
+  }
 }
 
 const seedData = async () => {
@@ -258,6 +267,7 @@ const seedData = async () => {
   await updateUsers();
   await createGames();
   await createConfirmation();
+  await createHistory();
 };
 
 seedData();
