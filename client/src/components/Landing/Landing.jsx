@@ -1,5 +1,10 @@
 import React, { Component } from 'react';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 import axios from 'axios';
+
+import { userData } from '../../redux/actions'; 
 
 class Landing extends Component {
   constructor(props) {
@@ -36,9 +41,8 @@ class Landing extends Component {
     axios
       .get('/api/user/login', options)
       .then(({ data }) => {
-        console.log(data)
-        //update redux store with data
-        //redirect to main page
+        this.props.userData(data);
+        this.props.history.push('/home');
       })
       .catch(err => console.log(err));
   }
@@ -54,9 +58,8 @@ class Landing extends Component {
     axios
       .post('/api/user/signup', options)
       .then(({ data }) => {
-        console.log(data)
-        //update redux store with data
-        //redirect to main page
+        this.props.userData(data);
+        this.props.history.push('/home');
       })
       .catch(err => console.log(err));
   }
@@ -65,13 +68,11 @@ class Landing extends Component {
     this.setState({ login: !this.state.login });
   }
 
-
   render() {
     let { login } = this.state;
 
     return (
       <div>
-        Hello from Landing Page
         <div className="login">
           <form name={login ? "login" : "signup"} onSubmit={e => this.handleButton(e)}>
             <input type="text" name="username" placeholder="username" onChange={e => this.handleEntry(e)}/>
@@ -88,4 +89,8 @@ class Landing extends Component {
   }
 }
 
-export default Landing;
+const matchDispatchToProps = (dispatch) => {
+  return bindActionCreators({ userData }, dispatch);
+}
+
+export default connect(null, matchDispatchToProps)(Landing);
