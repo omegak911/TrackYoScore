@@ -2,7 +2,7 @@ import express from 'express';
 
 import userRouter from './database/src/Users/UserRouter';
 import gameRouter from './database/src/Games/GameRouter';
-import perkRouter from './database/src/Perks/PerkRouter';
+// import perkRouter from './database/src/Perks/PerkRouter';
 import historyRouter from './database/src/Histories/HistoryRouter';
 
 const router = express.Router();
