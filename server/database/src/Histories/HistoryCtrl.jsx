@@ -32,10 +32,10 @@ const validateConfirmation = (req, res) => {
   });
 };
 
-const addHistory = (/* input data from validateConfirmation */) => {
+const addHistory = (data) => {  /* input data from validateConfirmation */
   //this function should be used by validateConfirmation
 
-  addHistoryHelper(/* object.gameID + object.playerScore */, (result) => {
+  addHistoryHelper(data, (result) => { /* object.gameID + object.playerScore */
     addUserHistoryHelper(/* userID, historyID*/)
     res.status(201).send('success');
   });
@@ -43,7 +43,7 @@ const addHistory = (/* input data from validateConfirmation */) => {
 
 const doesConfirmationExist = (req,res) => {
 //check if user is logged in
-  doesConfirmationExistHelper(/* userID */, (result) => {
+  doesConfirmationExistHelper(req.body, (result) => { /* userID */
     console.log('doesConfirmationExist result: ', result);
     res.status(201).send('success');
   });
@@ -51,7 +51,7 @@ const doesConfirmationExist = (req,res) => {
 
 const fetchHistory = (req, res) => {
   //check if user is logged in
-  fetchHistoryHelper(/* userID */, (result) => {
+  fetchHistoryHelper(req.body, (result) => { /* userID */
     console.log('fetchHistory result: ', result);
     res.status(201).send('success');
   });
