@@ -40,7 +40,7 @@ const validateUserHelper = ({ username, password }, callback) =>
     where: { username, password },
     include: [{
         model: HistoryConfirmation,
-        as: 'temp_history',
+        as: 'confirmationNeeded',
       }],
     attributes: { exclude: [ 'password', 'updatedAt'] }
   })

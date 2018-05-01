@@ -47,7 +47,7 @@ Users.belongsToMany(Histories, { through: UserHistories, as: 'challengeHistory' 
 Histories.belongsToMany(Users, { through: UserHistories });
 
 const UserHistoryConfirmations = db.define('user_confirmations', {});
-Users.belongsToMany(HistoryConfirmation, { through: UserHistoryConfirmations, as: 'temp_history' });
+Users.belongsToMany(HistoryConfirmation, { through: UserHistoryConfirmations, as: 'confirmationNeeded' });
 HistoryConfirmation.belongsToMany(Users, { through: UserHistoryConfirmations });
 HistoryConfirmation.hasMany(Games);
 
