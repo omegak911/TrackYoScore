@@ -43,9 +43,9 @@ const userUpdates = [
     username: 'pikachu',
     data: {
       level: 6,
-      currentEXP: 4000,
-      nextLevelEXP: 10000,
-      wins: 80,
+      currentEXP: 650,
+      nextLevelEXP: 700,
+      wins: 10,
       losses: 0,
     }
   },
@@ -53,29 +53,29 @@ const userUpdates = [
     username: 'squirtle',
     data: {
       level: 3,
-      currentEXP: 2000,
-      nextLevelEXP: 2500,
-      wins: 40,
-      losses: 10,
+      currentEXP: 300,
+      nextLevelEXP: 400,
+      wins: 11,
+      losses: 1,
     }
   },
   {
     username: 'bulbasaur',
     data: {
       level: 4,
-      currentEXP: 2500,
-      nextLevelEXP: 3000,
-      wins: 50,
-      losses: 17,
+      currentEXP: 430,
+      nextLevelEXP: 500,
+      wins: 5,
+      losses: 7,
     }
   },
   {
     username: 'charizard',
     data: {
       level: 10,
-      currentEXP: 20000,
-      nextLevelEXP: 300000,
-      wins: 100,
+      currentEXP: 1100,
+      nextLevelEXP: 1200,
+      wins: 30,
       losses: 2,
     }
   },
