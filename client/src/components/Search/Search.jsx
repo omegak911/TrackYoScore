@@ -19,10 +19,12 @@ class Search extends Component {
     this.setState({ [name]: value });
   }
 
-  findUsers = () => {
+  findUsers = (e) => {
+    e.preventDefault();
+    const { userQuery } = this.state;
     const options = {
       params: {
-        userQuery,
+        username: userQuery,
       }
     }
 
@@ -38,7 +40,7 @@ class Search extends Component {
   render() {
     return (
       <div>
-        <form onSubmit={this.findUsers}>
+        <form onSubmit={e => this.findUsers(e)}>
           <input name="userQuery" placeholder="search users" type="text" onChange={e => this.handleEntry(e)}/>
           <button type="button" onClick={this.findUsers}>search</button>
         </form>
