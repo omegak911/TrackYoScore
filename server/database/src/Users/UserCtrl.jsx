@@ -1,4 +1,4 @@
-import { createUserHelper, updateUserHelper, validateUserHelper } from './UserHelper';
+import { createUserHelper, searchUsersHelper, updateUserHelper, validateUserHelper } from './UserHelper';
 
 const createUser = (req, res) => {
   //req.body should contain username and password
@@ -11,6 +11,13 @@ const createUser = (req, res) => {
     // res.status(201).send(result);
 
     res.status(201).send('result');
+  })
+}
+
+const searchUsers = (req, res) => {
+  //check if user is logged in
+  searchUsersHelper(req.query, (result) => {
+    res.status(201).send(result);
   })
 }
 

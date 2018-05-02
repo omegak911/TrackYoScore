@@ -1,6 +1,9 @@
 // export { Games, Histories, HistoryConfirmation, Perks, Users, UserPerks, UserHistories, TempUserHistories };
 
 import { Users, HistoryConfirmation } from '../../SQL/index';
+import Sequelize from 'sequelize';
+
+const Op = Sequelize.Op;
 
 //add user
 const createUserHelper = ({ username, password }, callback) => 
@@ -17,6 +20,21 @@ const createUserHelper = ({ username, password }, callback) =>
   .catch(err => { 
     console.log(err);
   });
+
+const searchUsersHelper = ({ username }, callback) =>
+  Users.findAll({
+    attributes: ['username', 'id'],
+    limit: 20,
+    where: {
+      username: {
+        [Op.like]: `%${username}%`
+      }
+    },
+
+    raw: true,
+  })
+  .then(result => callback(result))
+  .catch(err => console.log(err));
 
 //update
   // level: Sequelize.INTEGER,
@@ -47,4 +65,4 @@ const validateUserHelper = ({ username, password }, callback) =>
   .then(result => callback(result))
   .catch(err => console.log(err));
 
-export { createUserHelper, updateUserHelper, validateUserHelper };
+export { createUserHelper, searchUsersHelper, updateUserHelper, validateUserHelper };
