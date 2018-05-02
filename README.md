@@ -79,5 +79,16 @@ when a score is validated
 - each player will have an individual entry in the user_history join table
 - onclick history, we would search the join table for related histories
 
-
+Leveling system
+Level   EXP increment per level
+2-10    100 starting at 200
+11-20   200
+21-30   400
+31-40   600
+41-50   800
+51-60   1200
+61-70   1600
+71-80   2000
+81-90   2400
+91-100  2800
 
