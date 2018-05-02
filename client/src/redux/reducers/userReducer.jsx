@@ -3,6 +3,9 @@ const reducer = (state = null, action) => {
     case 'USER_DATA': 
       return action.payload;
       break;
+    case 'USER_LIST':
+      return action.payload;
+      break;
   }
   return state;
 }

@@ -18,7 +18,7 @@ class Home extends Component {
     return (
       <div>
         <button type="button" onClick={this.showTreasure}>**********</button>
-        Hello from HomePage
+        submit new scores here
       </div>
     )
   }
