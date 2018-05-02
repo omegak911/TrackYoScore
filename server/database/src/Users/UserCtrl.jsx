@@ -36,4 +36,4 @@ const validateUser = (req, res) => {
   })
 }
 
-export { createUser, updateUser, validateUser };
+export { createUser, searchUsers, updateUser, validateUser };

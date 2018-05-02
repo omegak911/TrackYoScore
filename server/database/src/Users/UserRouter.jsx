@@ -1,6 +1,6 @@
 import express from 'express';
 
-import { createUser, updateUser, validateUser } from './UserCtrl';
+import { createUser, searchUsers, updateUser, validateUser } from './UserCtrl';
 
 const router = express.Router();
 
@@ -12,5 +12,8 @@ router.route('/login')
 
 router.route('/updateUser')
   .put(updateUser);
+
+router.route('/search')
+  .get(searchUsers);
 
 export default router;
