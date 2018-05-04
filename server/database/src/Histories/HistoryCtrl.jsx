@@ -39,42 +39,15 @@ const validateConfirmation = (req, res) => {
     //if 0, send to History and remove join + confirmation
     result = result[1][0];
 
+    //if validation === 0
+      //add to history
+      //remove from confirmation
     const { playerScore } = result;
     if (result.validation === 0) {
       await addHistory(result);
       await removeConfirmationHelper(result);
     }
-
-    //user validates confirmation
-    //removes user_confirmation
-    //if validation === 0
-      //add to history
-      //remove from confirmation
-
-  //   let { username } = req.body;
-  //   let { currentEXP, nextLevelEXP, wins, losses, level } = req.body.data;
-  //   console.log('reached')
-  //   console.log(username);
-  //   console.log(req.body.data)
-  //   if (currentEXP >= nextLevelEXP) {
-  //     nextLevelEXP = await levelHelper(nextLevelEXP);
-  //     level += 1;
-  //     console.log('reached if')
-  //   };
-
-  //   const userData = {
-  //     username,
-  //     currentEXP,
-  //     nextLevelEXP,
-  //     wins,
-  //     losses
-  //   };
-
-  //   await updateUserHelper(userData, (result) => {
-  //     res.status(201).send(result);
-  //   });
-  // };
-
+    
     res.status(201).send('success');
   });
 };
@@ -89,7 +62,15 @@ const addHistory = (data) => {  /* input data from validateConfirmation */
         let { userId } = playerScore[i];
         //add to user_history
         await addUserHistoryHelper({ userId, historyId });
+        //e.g. playerScore = [{ userId, score }, { userId, score }, { userId, score }, { userId, score }]
         //update user stats////////
+
+
+        //if score is 10 - add to win
+        //if score is 5 - add to losses
+
+        //1 - find user, get result, update result, update db
+        //2 - see if there's a way we can do this with one query
 
         // const updateUserHelper = ({ username, data }, callback) =>
         //   Users.update(
@@ -103,6 +84,31 @@ const addHistory = (data) => {  /* input data from validateConfirmation */
         //   )
         //   .then(result => callback(result))
         //   .catch(err => console.log(err))
+
+
+        //   let { username } = req.body;
+        //   let { currentEXP, nextLevelEXP, wins, losses, level } = req.body.data;
+        //   console.log('reached')
+        //   console.log(username);
+        //   console.log(req.body.data)
+        //   if (currentEXP >= nextLevelEXP) {
+        //     nextLevelEXP = await levelHelper(nextLevelEXP);
+        //     level += 1;
+        //     console.log('reached if')
+        //   };
+
+        //   const userData = {
+        //     username,
+        //     currentEXP,
+        //     nextLevelEXP,
+        //     wins,
+        //     losses
+        //   };
+
+        //   await updateUserHelper(userData, (result) => {
+        //     res.status(201).send(result);
+        //   });
+        // };
 
       }
   });
