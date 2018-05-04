@@ -1,4 +1,4 @@
-import { createUserHelper, searchUsersHelper, updateUserHelper, validateUserHelper } from './UserHelper';
+import { createUserHelper, searchUsersHelper, validateUserHelper } from './UserHelper';
 import levelHelper from './LevelHelper'; 
 
 const createUser = (req, res) => {
