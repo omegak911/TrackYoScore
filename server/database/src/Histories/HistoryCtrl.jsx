@@ -44,7 +44,6 @@ const validateConfirmation = (req, res) => {
       await addHistory(result);
       await removeConfirmationHelper(result);
     }
-    console.log(result);
 
     //user validates confirmation
     //removes user_confirmation
@@ -81,24 +80,31 @@ const validateConfirmation = (req, res) => {
 };
 
 const addHistory = (data) => {  /* input data from validateConfirmation */
-  //this function should be used by validateConfirmation
-
-  addHistoryHelper(data, ({ dataValues }) => { /* object.gameID + object.playerScore */
-    // addUserHistoryHelper(/* userID, historyID*/)
-    //for each user
-      //add to user_history
-      //update user stats
-      console.log('reached addHistoryHelper')
+  //add validated confirmation to history
+  addHistoryHelper(data, async ({ dataValues }) => { /* object.gameID + object.playerScore */
       const { id, playerScore } = dataValues;
       const historyId = id;
-      console.log('histId, ', historyId)
+      //for each user in playerScore
       for (let i = 0; i < playerScore.length; i++) {
-        //add user_history
         let { userId } = playerScore[i];
-        addUserHistoryHelper({ userId, historyId });
+        //add to user_history
+        await addUserHistoryHelper({ userId, historyId });
+        //update user stats////////
+
+        // const updateUserHelper = ({ username, data }, callback) =>
+        //   Users.update(
+        //     data,
+        //     {
+        //       where: { username },
+        //       returning: true,
+        //       raw: true,
+        //       attributes: { exclude: [ 'password', 'createdAt', 'updatedAt'] }
+        //     }
+        //   )
+        //   .then(result => callback(result))
+        //   .catch(err => console.log(err))
+
       }
-    console.log('addHistory result: ', dataValues);
-    // res.status(201).send('success');  probably don't need this
   });
 };
 
