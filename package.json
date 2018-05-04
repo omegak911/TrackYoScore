@@ -6,7 +6,6 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "setup:db": "node ./server/database/bin/setupEntry.js",
-    "setup:seed": "node ./server/database/bin/seedEntry.js",
     "start": "nodemon ./server/bin/entry.js",
     "build": "webpack -w"
   },

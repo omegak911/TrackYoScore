@@ -1,3 +1,5 @@
+import db from '../index';
+import { Games, History, HistoryConfirmation, Perks, Users, UserPerks, UserHistories, TempUserHistories } from './index';
 import { createUserHelper, updateUserHelper, validateUserHelper } from '../src/Users/UserHelper';
 import { addGameHelper, fetchGameHelper } from '../src/Games/GameHelper';
 
@@ -263,6 +265,10 @@ const createHistory = async () => {
 }
 
 const seedData = async () => {
+  await db.sync({ force: true, logging: console.log })
+  .then(() => console.log('db synced'))
+  .catch(() => console.log('error syncing database'));
+
   await createUsers();
   await updateUsers();
   await createGames();
