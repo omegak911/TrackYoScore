@@ -1,4 +1,5 @@
 import { createUserHelper, searchUsersHelper, updateUserHelper, validateUserHelper } from './UserHelper';
+import levelHelper from './LevelHelper'; 
 
 const createUser = (req, res) => {
   //req.body should contain username and password
@@ -21,17 +22,14 @@ const searchUsers = (req, res) => {
   })
 }
 
-const updateUser = (req, res) => {
+const updateUsername = async (req, res) => {
   //need passport for req.user
-  //req.user should contain username
-  //req.body should contain data object containing update key/values
+  //req.user should contain username + password
+  //req.body should contain new username
 
-  updateUserHelper(req.body, (result) => {
-    console.log('update User result: ', result);
-  //returns and array with length of 1 if success
-    res.status(201).send('result');
-  })
-}
+  // await updateUserHelper(req.body, (result) => {
+  //   res.status(201).send(result)});
+};
 
 const validateUser = (req, res) => {
   //req.body should contain username and password
@@ -40,7 +38,7 @@ const validateUser = (req, res) => {
     console.log('validate user result: ', result);
     //null if not found
     res.status(200).send(result);
-  })
-}
+  });
+};
 
-export { createUser, searchUsers, updateUser, validateUser };
+export { createUser, searchUsers, updateUsername, validateUser };

@@ -30,7 +30,6 @@ const searchUsersHelper = ({ username }, callback) =>
         [Op.like]: `%${username}%`
       }
     },
-
     raw: true,
   })
   .then(result => callback(result))
@@ -47,7 +46,10 @@ const updateUserHelper = ({ username, data }, callback) =>
   Users.update(
     data,
     {
-      where: { username }
+      where: { username },
+      returning: true,
+      raw: true,
+      attributes: { exclude: [ 'password', 'createdAt', 'updatedAt'] }
     }
   )
   .then(result => callback(result))
