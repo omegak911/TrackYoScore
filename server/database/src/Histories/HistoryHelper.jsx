@@ -18,6 +18,16 @@ const addUserConfirmationHelper = ({ userId, confirmationId }) =>
   .then(result => console.log(`userID: ${userId} entry submitted to user_history_confirmation table`))
   .catch(err => console.log(err));
 
+const removeUserConfirmationHelper = ({ userId, confirmationId }) =>
+  UserHistoryConfirmations.destroy({
+    where: {
+      userId,
+      confirmationId,
+    }
+  })
+  .then(result => console.log(result))
+  .catch(err => console.log(err));
+
 const doesConfirmationExistHelper = ({ userID }, callback) => 
   UserHistoryConfirmations.findAll({
     where: {
@@ -27,14 +37,19 @@ const doesConfirmationExistHelper = ({ userID }, callback) =>
   .then(result => callback(result))
   .catch(err => console.log(err));
 
-const validateConfirmationHelper = ({ id, playerScore }, callback) =>
+const removeConfirmationHelper = ({ id }) => 
+  HistoryConfirmation.destroy({
+    where: { id }
+  })
+  .then(result => console.log(result))
+  .catch(err => console.log(err));
+
+const validateConfirmationHelper = ({ id, validation }, callback) =>
   HistoryConfirmation.update(
-    { playerScore },
-    { where: {
-      id,  //id of the game, taken from user_history_confirmations
-    },
+    { validation },
+    { where: { id },  //id of confirmation, taken from user_history_confirmations
     returning: true,
-    plain: true,
+    raw: true
     })
     .then(result => {
       callback(result);
@@ -72,8 +87,10 @@ export {
   addHistoryHelper, 
   addUserHistoryHelper,
   addConfirmationHelper, 
+  removeUserConfirmationHelper,
   addUserConfirmationHelper, 
   doesConfirmationExistHelper, 
+  removeConfirmationHelper,
   fetchHistoryHelper, 
   validateConfirmationHelper
 };

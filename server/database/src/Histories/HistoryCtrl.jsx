@@ -2,11 +2,16 @@ import {
   addHistoryHelper, 
   addUserHistoryHelper,
   addConfirmationHelper, 
+  removeUserConfirmationHelper,
   addUserConfirmationHelper, 
   doesConfirmationExistHelper, 
+  removeConfirmationHelper,
   fetchHistoryHelper, 
   validateConfirmationHelper }
   from './HistoryHelper';
+
+import { updateUserHelper } from '../Users/UserHelper';
+import levelHelper from '../Users/LevelHelper';
 
 const addConfirmation = (req,res) => {
   //check if user is logged in
@@ -23,11 +28,55 @@ const addConfirmation = (req,res) => {
 
 const validateConfirmation = (req, res) => {
   //check if user is logged in
-  validateConfirmationHelper(req.body, (result) => {  //accepts confirmationID as id + update confirmation
+  validateConfirmationHelper(req.body, async (result) => {  //accepts confirmationID as id + update confirmation
+    //remove user_confirmation from join table
+    const { userId } = req.body;
+    const confirmationId = req.body.id
+
     //take result, check if validation is 0
     //if 0, send to History and remove join + confirmation
-    //for each user
-    //addHistory()
+    result = result[1][0]
+    if (result.validation === 0) {
+      await addHistory(result);
+      await removeConfirmationHelper(result);
+    }
+    console.log(result);
+
+    //user validates confirmation
+    //removes user_confirmation
+    //if validation === 0
+      //add to history
+      //remove from confirmation
+
+
+
+
+
+
+  //   let { username } = req.body;
+  //   let { currentEXP, nextLevelEXP, wins, losses, level } = req.body.data;
+  //   console.log('reached')
+  //   console.log(username);
+  //   console.log(req.body.data)
+  //   if (currentEXP >= nextLevelEXP) {
+  //     nextLevelEXP = await levelHelper(nextLevelEXP);
+  //     level += 1;
+  //     console.log('reached if')
+  //   };
+
+  //   const userData = {
+  //     username,
+  //     currentEXP,
+  //     nextLevelEXP,
+  //     wins,
+  //     losses
+  //   };
+
+  //   await updateUserHelper(userData, (result) => {
+  //     res.status(201).send(result);
+  //   });
+  // };
+
     res.status(201).send('success');
   });
 };
@@ -36,8 +85,12 @@ const addHistory = (data) => {  /* input data from validateConfirmation */
   //this function should be used by validateConfirmation
 
   addHistoryHelper(data, (result) => { /* object.gameID + object.playerScore */
-    addUserHistoryHelper(/* userID, historyID*/)
-    res.status(201).send('success');
+    // addUserHistoryHelper(/* userID, historyID*/)
+    //for each user
+      //add to user_history
+      //update user stats
+    console.log('addHistory result: ', result);
+    // res.status(201).send('success');  probably don't need this
   });
 };
 
