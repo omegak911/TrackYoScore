@@ -1,5 +1,4 @@
-const increaseNextLevelCap = ({ level, nextLevelEXP }) => {
-  level += 1;
+const increaseNextLevelCap = (nextLevelEXP) => {
 
   if (level < 11) {
     nextLevelEXP += 100;
@@ -23,7 +22,7 @@ const increaseNextLevelCap = ({ level, nextLevelEXP }) => {
     nextLevelEXP += 2800;
   }
 
-  return { level, nextLevelEXP }
+  return nextLevelEXP
 }
 
 export default increaseNextLevelCap;
