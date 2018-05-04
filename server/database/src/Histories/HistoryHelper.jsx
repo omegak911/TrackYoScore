@@ -1,8 +1,8 @@
 import { Histories, HistoryConfirmation, UserHistories, UserHistoryConfirmations } from '../../SQL/index';
 
-const addConfirmationHelper = ({ gameID, playerScore, validation = Object.keys(playerScore).length }, callback) =>
+const addConfirmationHelper = ({ gameId, playerScore, validation = Object.keys(playerScore).length }, callback) =>
   HistoryConfirmation.create({
-    gameID,
+    gameId,
     playerScore,
     validation,
   })

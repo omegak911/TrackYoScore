@@ -37,7 +37,9 @@ const validateConfirmation = (req, res) => {
 
     //take result, check if validation is 0
     //if 0, send to History and remove join + confirmation
-    result = result[1][0]
+    result = result[1][0];
+
+    const { playerScore } = result;
     if (result.validation === 0) {
       await addHistory(result);
       await removeConfirmationHelper(result);
@@ -81,12 +83,21 @@ const validateConfirmation = (req, res) => {
 const addHistory = (data) => {  /* input data from validateConfirmation */
   //this function should be used by validateConfirmation
 
-  addHistoryHelper(data, (result) => { /* object.gameID + object.playerScore */
+  addHistoryHelper(data, ({ dataValues }) => { /* object.gameID + object.playerScore */
     // addUserHistoryHelper(/* userID, historyID*/)
     //for each user
       //add to user_history
       //update user stats
-    console.log('addHistory result: ', result);
+      console.log('reached addHistoryHelper')
+      const { id, playerScore } = dataValues;
+      const historyId = id;
+      console.log('histId, ', historyId)
+      for (let i = 0; i < playerScore.length; i++) {
+        //add user_history
+        let { userId } = playerScore[i];
+        addUserHistoryHelper({ userId, historyId });
+      }
+    console.log('addHistory result: ', dataValues);
     // res.status(201).send('success');  probably don't need this
   });
 };
