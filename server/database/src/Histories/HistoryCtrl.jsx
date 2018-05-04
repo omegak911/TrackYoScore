@@ -28,10 +28,12 @@ const addConfirmation = (req,res) => {
 
 const validateConfirmation = (req, res) => {
   //check if user is logged in
-  validateConfirmationHelper(req.body, async (result) => {  //accepts confirmationID as id + update confirmation
-    //remove user_confirmation from join table
+  validateConfirmationHelper(req.body, async (result) => {  //accepts confirmationId and validation - 1
     const { userId } = req.body;
     const confirmationId = req.body.id
+
+    //remove user_confirmation from join table
+    await removeUserConfirmationHelper({ userId, confirmationId });
 
     //take result, check if validation is 0
     //if 0, send to History and remove join + confirmation
@@ -47,11 +49,6 @@ const validateConfirmation = (req, res) => {
     //if validation === 0
       //add to history
       //remove from confirmation
-
-
-
-
-
 
   //   let { username } = req.body;
   //   let { currentEXP, nextLevelEXP, wins, losses, level } = req.body.data;
