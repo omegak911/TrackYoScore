@@ -268,6 +268,7 @@ const seedData = async () => {
   await createGames();
   await createConfirmation();
   await createHistory();
+  await process.exit();
 };
 
 seedData();
