@@ -1,4 +1,4 @@
-import { createUserHelper, searchUsersHelper, validateUserHelper } from './UserHelper';
+import { createUserHelper, searchUsersHelper, userProfileHelper, validateUserHelper } from './UserHelper';
 import levelHelper from './LevelHelper'; 
 
 const createUser = (req, res) => {
@@ -31,6 +31,14 @@ const updateUsername = async (req, res) => {
   //   res.status(201).send(result)});
 };
 
+const userProfile = (req, res) => {
+  //check if user logged in
+  console.log(req.query)
+  userProfileHelper(req.query, (result) => {
+    res.status(200).send(result);
+  })
+}
+
 const validateUser = (req, res) => {
   //req.body should contain username and password
 
@@ -41,4 +49,4 @@ const validateUser = (req, res) => {
   });
 };
 
-export { createUser, searchUsers, updateUsername, validateUser };
+export { createUser, searchUsers, updateUsername, userProfile, validateUser };

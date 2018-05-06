@@ -55,6 +55,15 @@ const updateUserHelper = (id, data, callback) =>
   .then(result => callback(result[0][0]))
   .catch(err => console.log(err))
 
+const userProfileHelper = ({ id }, callback) =>
+  Users.findOne({
+    where: { id },
+    attributes: { exclude: ['password', 'createdAt', 'updatedAt', 'currentEXP', 'nextLevelEXP']},
+    plain: true,
+  })
+  .then(result => callback(result))
+  .catch(err => console.log(err));
+
 const validateUserHelper = ({ username, password }, callback) => 
   Users.findOne({
     where: { username, password },
@@ -67,4 +76,4 @@ const validateUserHelper = ({ username, password }, callback) =>
   .then(result => callback(result))
   .catch(err => console.log(err));
 
-export { createUserHelper, searchUsersHelper, updateUserHelper, validateUserHelper };
+export { createUserHelper, searchUsersHelper, updateUserHelper, userProfileHelper, validateUserHelper };
