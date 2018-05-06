@@ -43,7 +43,7 @@ const searchUsersHelper = ({ username }, callback) =>
   // losses: Sequelize.INTEGER,
 
 const updateUserHelper = ({ username, data }, callback) =>
-  Users.update(
+  Users.increment(
     data,
     {
       where: { username },

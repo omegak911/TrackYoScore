@@ -12,7 +12,7 @@ const SQL_database = new Sequelize('trackyoscore', 'root', '', { //set username 
     idle: 10000,
     handleDisconnects: true,
   },
-})
+});
 
 SQL_database
   .authenticate()
