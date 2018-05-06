@@ -1,13 +1,17 @@
-const reducer = (state = null, action) => {
+const userData = (state = null, action) => {
   switch(action.type) {
     case 'USER_DATA': 
       return action.payload;
-      break;
-    case 'USER_LIST':
-      return action.payload;
-      break;
   }
   return state;
 }
 
-export default reducer;
+const listOfUsers = (state = [], action) => {
+  switch(action.type) {
+    case 'USER_LIST': 
+      return action.payload;
+  }
+  return state;
+}
+
+export { userData, listOfUsers };

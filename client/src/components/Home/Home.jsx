@@ -21,7 +21,7 @@ class Home extends Component {
       <div>
         <button type="button" onClick={this.showTreasure}>**********</button>
         submit new scores here
-        <Search />
+        <Search history={this.props.history}/>
       </div>
     )
   }
@@ -29,7 +29,7 @@ class Home extends Component {
 
 const mapStateToProps = state => {
   return {
-    user_data: state.user_data,
+    userData: state.userData
   }
 }
 
