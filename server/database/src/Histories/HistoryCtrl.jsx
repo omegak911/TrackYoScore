@@ -57,7 +57,6 @@ const addHistory = (data) => {  /* input data from validateConfirmation */
   addHistoryHelper(data, async ({ dataValues }) => { /* object.gameID + object.playerScore */
       const { id, playerScore } = dataValues;
       const historyId = id;
-      console.log('reached addHistoryHelper')
       //for each user in playerScore
       for (let i = 0; i < playerScore.length; i++) {
         let { userId, score } = playerScore[i];
@@ -65,7 +64,6 @@ const addHistory = (data) => {  /* input data from validateConfirmation */
         //add to user_history
 
         await addUserHistoryHelper({ userId, historyId });
-        console.log('reached addUserHistoryHelper')
         //e.g. playerScore = [{ userId, score }, { userId, score }, { userId, score }, { userId, score }]
         //****update user stats****//
 
@@ -81,13 +79,11 @@ const addHistory = (data) => {  /* input data from validateConfirmation */
         }
 
         await updateUserHelper(userId, data, async (result) => {
-          console.log('reached updateUserHelper')
           let { id, currentEXP, level, nextLevelEXP } = result;
           //check currentEXP against nextLevelEXP and if bigger
           if (currentEXP >= nextLevelEXP) {
             nextLevelEXP = await levelHelper(level, nextLevelEXP);
             await updateUserHelper(id, { level: 1, nextLevelEXP }, (result) => {
-            console.log('final update result: ', result);
           })
           };
         })
