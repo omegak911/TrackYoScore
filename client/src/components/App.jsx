@@ -3,6 +3,8 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 import Home from './Home/Home';
 import Landing from './Landing/Landing';
+import Profile from './Profile/Profile';
+import UserSearchResults  from './Search/UserSearchResult';
 
 const App = () => {
 
@@ -12,6 +14,8 @@ const App = () => {
           <Switch>
             <Route exact path='/' component={Landing} />
             <Route path='/home' component={Home} />
+            <Route path='/profile' component={Profile} />
+            <Route path='/userSearchResults' component={UserSearchResults} />
           </Switch>
       </BrowserRouter>
     </div>
