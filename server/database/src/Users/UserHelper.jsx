@@ -42,17 +42,17 @@ const searchUsersHelper = ({ username }, callback) =>
   // wins: Sequelize.INTEGER,
   // losses: Sequelize.INTEGER,
 
-const updateUserHelper = ({ username, data }, callback) =>
+const updateUserHelper = (id, data, callback) =>
   Users.increment(
     data,
     {
-      where: { username },
+      where: { id },
       returning: true,
-      raw: true,
-      attributes: { exclude: [ 'password', 'createdAt', 'updatedAt'] }
+      plain: true,
+      // attributes: { exclude: [ 'password', 'createdAt', 'updatedAt'] }
     }
   )
-  .then(result => callback(result))
+  .then(result => callback(result[0][0]))
   .catch(err => console.log(err))
 
 const validateUserHelper = ({ username, password }, callback) => 
