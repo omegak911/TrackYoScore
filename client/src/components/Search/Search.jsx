@@ -31,8 +31,8 @@ class Search extends Component {
     axios
       .get('/api/user/search', options)
       .then(({ data }) => {
-        // this.props.searchedUsers();
-        console.log(data)
+        this.props.searchedUsers(data);
+        this.props.history.push('/userSearchResults');
       })
       .catch(err => console.log(err));
   }
