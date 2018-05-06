@@ -42,37 +42,37 @@ const seedUsers = [
 
 const userUpdates = [
   {
-    username: 'pikachu',
+    id: 2,
     data: {
       level: 6,
-      currentEXP: 650,
+      currentEXP: 790,
       nextLevelEXP: 700,
       wins: 10,
       losses: 0,
     }
   },
   {
-    username: 'squirtle',
+    id: 3,
     data: {
       level: 3,
-      currentEXP: 300,
+      currentEXP: 400,
       nextLevelEXP: 400,
       wins: 11,
       losses: 1,
     }
   },
   {
-    username: 'bulbasaur',
+    id: 4,
     data: {
       level: 4,
-      currentEXP: 430,
+      currentEXP: 530,
       nextLevelEXP: 500,
       wins: 5,
       losses: 7,
     }
   },
   {
-    username: 'charizard',
+    id: 6,
     data: {
       level: 10,
       currentEXP: 1100,
@@ -226,7 +226,7 @@ const createUsers = async () => {
 
 const updateUsers = async () => {
   for (let i = 0; i < userUpdates.length; i++) {
-    await updateUserHelper(userUpdates[i], (result) => console.log(userUpdates[i].username, ' info updated'))
+    await updateUserHelper( userUpdates[i].id, userUpdates[i].data, (result) => console.log(result, ' info updated'))
   };
 };
 
@@ -266,7 +266,7 @@ const createHistory = async () => {
 
 const seedData = async () => {
   await db.sync({ force: true, logging: console.log })
-  .then(() => console.log('db synced'))
+  .then( async () => console.log('db synced'))
   .catch(() => console.log('error syncing database'));
 
   await createUsers();
