@@ -1,28 +1,28 @@
-const increaseNextLevelCap = (nextLevelEXP) => {
-
+const increaseNextLevelCap = (level, nextLevelEXP) => {
+  let addNeededEXP = 0;
   if (level < 11) {
-    nextLevelEXP += 100;
+    addNeededEXP += 100;
   } else if (level < 21) {
-    nextLevelEXP += 200;
+    addNeededEXP += 200;
   } else if (level < 31) {
-    nextLevelEXP += 400;
+    addNeededEXP += 400;
   } else if (level < 41) {
-    nextLevelEXP += 600;
+    addNeededEXP += 600;
   } else if (level < 51) {
-    nextLevelEXP += 800;
+    addNeededEXP += 800;
   } else if (level < 61) {
-    nextLevelEXP += 1200;
+    addNeededEXP += 1200;
   } else if (level < 71) {
-    nextLevelEXP += 1600;
+    addNeededEXP += 1600;
   } else if (level < 81) {
-    nextLevelEXP += 2000;
+    addNeededEXP += 2000;
   } else if (level < 91) {
-    nextLevelEXP += 2400;
+    addNeededEXP += 2400;
   } else if (level < 100) {
-    nextLevelEXP += 2800;
+    addNeededEXP += 2800;
   }
 
-  return nextLevelEXP
+  return addNeededEXP
 }
 
 export default increaseNextLevelCap;
