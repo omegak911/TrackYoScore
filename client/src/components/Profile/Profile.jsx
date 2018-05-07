@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 
+import './Profile.scss';
+
 class Profile extends Component {
   constructor(props) {
     super(props);
@@ -58,7 +60,7 @@ class Profile extends Component {
           losses { losses }
         </div>
 
-        <div className="bio">
+        <div className="profileBio">
           bio
         </div>
 
