@@ -6,6 +6,8 @@ import axios from 'axios';
 
 import { userData } from '../../redux/actions'; 
 
+import './Landing.scss';
+
 class Landing extends Component {
   constructor(props) {
     super(props);
@@ -13,7 +15,8 @@ class Landing extends Component {
       login: true,
       username: '',
       password: '',
-      email: ''
+      email: '',
+      invalid: false,
     }
   }
 
@@ -41,8 +44,14 @@ class Landing extends Component {
     axios
       .get('/api/user/login', options)
       .then(({ data }) => {
-        this.props.userData(data);
-        this.props.history.push('/home');
+        console.log('login data: ', data)
+        if (data === 'invalid') {
+          this.setState({ invalid: true });
+          setTimeout( () => this.setState({ invalid: false }), 5000);
+        } else if (data.username) {
+          this.props.userData(data);
+          this.props.history.push('/home');
+        }
       })
       .catch(err => console.log(err));
   }
@@ -69,7 +78,7 @@ class Landing extends Component {
   }
 
   render() {
-    let { login } = this.state;
+    let { invalid, login } = this.state;
 
     return (
       <div>
@@ -77,9 +86,18 @@ class Landing extends Component {
           <form name={login ? "login" : "signup"} onSubmit={e => this.handleButton(e)}>
             <input type="text" name="username" placeholder="username" onChange={e => this.handleEntry(e)}/>
             <br/>
-            {!login && <div><input type="text" name="email" placeholder="email" onChange={e => this.handleEntry(e)}/><br/></div>}
+            {!login && 
+              <div>
+                <input type="text" name="email" placeholder="email" onChange={e => this.handleEntry(e)}/>
+              </div>
+            }
             <input type="password" name="password" placeholder="password" onChange={e => this.handleEntry(e)}/>
             <br/>
+            {invalid &&
+              <div>
+                <span className="invalidLandingInput">Invalid username and/or password</span>
+              </div>
+            }
             <button>{login ? 'Login' : 'SignUp'}</button>
           </form>
           <button name="switch" type="button" onClick={e => this.handleButton(e)}>{login ? 'Go SignUp' : 'Go Login'}</button>

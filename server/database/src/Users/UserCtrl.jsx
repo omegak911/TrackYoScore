@@ -43,9 +43,9 @@ const validateUser = (req, res) => {
   //req.body should contain username and password
 
   validateUserHelper(req.query, (result) => {
-    console.log('validate user result: ', result);
     //null if not found
-    res.status(200).send(result);
+    const data  = result === null ? 'invalid' : result
+    res.status(200).send(data);
   });
 };
 
