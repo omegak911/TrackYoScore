@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux'; 
 import axios from 'axios';
 
 import './Profile.scss';
@@ -17,6 +18,8 @@ class Profile extends Component {
   componentDidMount() {
     const { state } = this.props.location;
 
+    console.log(state);
+
     //one condition if user goes to own profile
 
     //2nd condition if user goes to another profile
@@ -29,6 +32,8 @@ class Profile extends Component {
     axios
       .get('/api/user/profile', options)
       .then(({ data }) => {
+        console.log(options)
+        console.log(data)
         const { username, level, wins, losses } = data;
         this.setState({ username, level, wins, losses })
       })
@@ -39,8 +44,8 @@ class Profile extends Component {
     const { state } = this.props.location;
 
     let options = {
-      userId: this.props.userData.id,
-      friendId: state.user.id
+      requestorId: this.props.userData.id,
+      requesteeId: state.user.id
     }
 
     axios
@@ -51,10 +56,11 @@ class Profile extends Component {
 
   button = () => {
     console.log(this.state);
+    console.log(this.props);
   }
 
   render() {
-    const { username, level, wins, losses } = this.state;
+    let { username, level, wins, losses } = this.state;
     const { userData } = this.props;
 
     return (
@@ -102,4 +108,10 @@ class Profile extends Component {
   }
 }
 
-export default Profile;
+const mapStateToProps = state => {
+  return {
+    userData: state.userData,
+  }
+}
+
+export default connect(mapStateToProps)(Profile);
