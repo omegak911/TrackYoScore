@@ -1,5 +1,5 @@
 import db from '../index';
-import { Games, History, HistoryConfirmation, Perks, Users, UserPerks, UserHistories, TempUserHistories } from './index';
+import { Friends, FriendRequests, Games, History, HistoryConfirmation, Perks, Users, UserPerks, UserHistories, TempUserHistories } from './index';
 import { createUserHelper, updateUserHelper, validateUserHelper } from '../src/Users/UserHelper';
 import { addGameHelper, fetchGameHelper } from '../src/Games/GameHelper';
 
