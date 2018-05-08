@@ -1,7 +1,14 @@
 $border: 1px solid black;
 
+.container {
+  display: flex;
+}
+
 .profileImage {
   border: $border;
+  width: 100%;
+  max-width: 15%;
+  height: auto;
 }
 
 .profileStats {

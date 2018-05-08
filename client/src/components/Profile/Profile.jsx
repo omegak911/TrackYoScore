@@ -35,40 +35,67 @@ class Profile extends Component {
       .catch(err => console.log(err));
   }
 
+  friendRequest = () => {
+    const { state } = this.props.location;
+
+    let options = {
+      userId: this.props.userData.id,
+      friendId: state.user.id
+    }
+
+    axios
+      .post('api/user/friendRequest', options)
+      .then(({ data }) => console.log('friendRequest data: ', data))
+      .catch(err => console.log(err));
+  }
+
   button = () => {
     console.log(this.state);
   }
 
   render() {
     const { username, level, wins, losses } = this.state;
+    const { userData } = this.props;
 
     return (
       <div>
         welcome to Profile
         <button onClick={this.button}>*********</button>
-        <div className="profileImage">
-          Profile Image
+        <div className="container">
+          <div className="profileImage">
+            Profile Image
+          </div>
         </div>
 
-        <div className="profileStats">
-          username: { username }
-          <br/>
-          level: { level }
-          <br/>
-          wins: { wins }
-          <br/>
-          losses { losses }
+        <div className="container">
+          <div className="profileStats">
+            username: { username }
+            <br/>
+            level: { level }
+            <br/>
+            wins: { wins }
+            <br/>
+            losses { losses }
+          </div>
         </div>
 
-        <div className="profileBio">
-          bio
+        <div className="container">
+          <div className="profileBio">
+            bio
+          </div>
         </div>
+        
+        {userData.username !== username &&
+        <button type="button" onClick={this.friendRequest}>Add Friend</button>
+        }
 
-        <div>
-
-        </div>
-
-
+        {userData.username === username && 
+          <div>
+            friend requests
+          </div>
+        
+        
+        }
 
       </div>
     )
