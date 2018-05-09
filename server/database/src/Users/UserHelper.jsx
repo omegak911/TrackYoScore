@@ -1,6 +1,6 @@
 // export { Games, Histories, HistoryConfirmation, Perks, Users, UserPerks, UserHistories, TempUserHistories };
 
-import { Users, HistoryConfirmation } from '../../SQL/index';
+import { FriendRequests, Friends, Users, HistoryConfirmation } from '../../SQL/index';
 import Sequelize from 'sequelize';
 
 const Op = Sequelize.Op;
@@ -70,7 +70,17 @@ const validateUserHelper = ({ username, password }, callback) =>
     include: [{
         model: HistoryConfirmation,
         as: 'confirmationNeeded',
-      }],
+      }, {
+        model: Users,
+        as: 'friendRequests',
+        attributes: ['id', 'username'],
+      },
+      {
+        model: Users,
+        as: 'friendsList',
+        attributes: ['id', 'username'],
+      },
+    ],
     attributes: { exclude: [ 'password', 'updatedAt'] }
   })
   .then(result => callback(result))
