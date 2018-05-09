@@ -1,9 +1,9 @@
 import { Friends, FriendRequests } from '../../SQL/index';
 
-const addFriendHelper = ({ requestorId, requesteeId }, callback) =>
+const addFriendHelper = ({ userId, friendId }, callback) =>
   Friends.create({
-    userOneId: requestorId,
-    userTwoId: requesteeId
+    userId,
+    friendId,
   })
   .then(() => callback())
   .catch(err => console.log(err));
