@@ -40,7 +40,8 @@ const FriendRequests = db.define('friend_requests', {
   requestorId: Sequelize.INTEGER,
   requesteeId: Sequelize.INTEGER,
 })
-
+Users.belongsToMany(Users, { through: FriendRequests, as: 'friendRequests', foreignKey: 'requesteeId' });
+Users.belongsToMany(Users, { through: FriendRequests, as: 'requestee', foreignKey: 'requestorId' });
 //join tables
 
 const UserPerks = db.define('user_perks', {});
@@ -57,7 +58,7 @@ HistoryConfirmation.belongsToMany(Users, { through: UserHistoryConfirmations });
 HistoryConfirmation.hasMany(Games);
 
 const Friends = db.define('friends', {});
-Users.belongsToMany(Users, { through: Friends, as: 'userOne', foreignKey: 'userOneId' });
-Users.belongsToMany(Users, { through: Friends, as: 'userTwo', foreignKey: 'userTwoId' });
+Users.belongsToMany(Users, { through: Friends, as: 'friendsList', foreignKey: 'userId' });
+Users.belongsToMany(Users, { through: Friends, as: 'user', foreignKey: 'friendId' });
 
 export { FriendRequests, Friends, Games, Histories, HistoryConfirmation, Perks, Users, UserPerks, UserHistories, UserHistoryConfirmations };

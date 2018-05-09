@@ -2,6 +2,7 @@ import db from '../index';
 import { Friends, FriendRequests, Games, History, HistoryConfirmation, Perks, Users, UserPerks, UserHistories, TempUserHistories } from './index';
 import { createUserHelper, updateUserHelper, validateUserHelper } from '../src/Users/UserHelper';
 import { addGameHelper, fetchGameHelper } from '../src/Games/GameHelper';
+import { addFriendHelper, friendRequestHelper } from '../src/Friends/FriendHelper';
 
 import { 
   addHistoryHelper, 
@@ -217,6 +218,48 @@ const seedHistories = [
   },
 ];
 
+const seedFriendRequests = [
+  {
+    requestorId: 1,
+    requesteeId: 2,
+  },
+  {
+    requestorId: 3,
+    requesteeId: 2,
+  },
+  {
+    requestorId: 4,
+    requesteeId: 1,
+  },
+  {
+    requestorId: 5,
+    requesteeId: 6,
+  },
+  {
+    requestorId: 6,
+    requesteeId: 3,
+  }
+];
+
+const seedFriends = [
+  {
+    userId: 2,
+    friendId: 4,
+  },
+  {
+    userId: 2,
+    friendId: 5,
+  },
+  {
+    userId: 6,
+    friendId: 2,
+  },
+  {
+    userId: 1,
+    friendId: 3,
+  },
+]
+
 
 const createUsers = async () => {
   for (let i = 0; i < seedUsers.length; i++) {
@@ -264,6 +307,18 @@ const createHistory = async () => {
   }
 }
 
+const createFriendRequest = async () => {
+  for (let i = 0; i < seedFriendRequests.length; i++) {
+    await friendRequestHelper(seedFriendRequests[i], () => console.log(seedFriendRequests[i], ' added createFriendRequest'))
+  }
+}
+
+const createFriend = async () => {
+  for (let i = 0; i < seedFriends.length; i++) {
+    await addFriendHelper(seedFriends[i], () => console.log(seedFriends[i], ' added to Friends'));
+  }
+}
+
 const seedData = async () => {
   await db.sync({ force: true, logging: console.log })
   .then( async () => console.log('db synced'))
@@ -274,6 +329,8 @@ const seedData = async () => {
   await createGames();
   await createConfirmation();
   await createHistory();
+  await createFriendRequest();
+  await createFriend();
   await process.exit();
 };
 
