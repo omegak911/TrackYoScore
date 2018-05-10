@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'; 
+import { bindActionCreators } from 'redux';
 import axios from 'axios';
+
+import { updateUserData } from '../../redux/actions';
 
 import './Profile.scss';
 
@@ -12,13 +15,17 @@ class Profile extends Component {
       level: '',
       wins: 0,
       losses: 0,
+      showFriendRequests: false,
+      friendRequests: []
     };
   }
 
   componentDidMount() {
     const { state } = this.props.location;
-
+    const { friendRequests } = this.props.userData;
     console.log(state);
+
+    this.setState({ friendRequests });
 
     //one condition if user goes to own profile
 
@@ -49,8 +56,28 @@ class Profile extends Component {
     }
 
     axios
-      .post('api/user/friendRequest', options)
+      .post('api/friend/friendRequest', options)
       .then(({ data }) => console.log('friendRequest data: ', data))
+      .catch(err => console.log(err));
+  }
+
+  addFriend = ({ friend_requests }, index) => {
+    let { userData, updateUserData } = this.props;
+    let { friendRequests } = this.state;
+    friendRequests.splice(index, 1);
+
+    this.setState({ friendRequests });
+
+    userData.friendRequests = friendRequests;
+    updateUserData(userData);
+
+    const options = {
+      id: friend_requests.id
+    }
+
+    axios
+      .post('api/friend/validateFriendRequest', options)
+      .then(() => console.log('sent accepted friend request'))
       .catch(err => console.log(err));
   }
 
@@ -59,8 +86,12 @@ class Profile extends Component {
     console.log(this.props);
   }
 
+  showFriendRequests = () => {
+    this.setState({ showFriendRequests: !this.state.showFriendRequests })
+  }
+
   render() {
-    let { username, level, wins, losses } = this.state;
+    let { username, level, wins, losses, showFriendRequests, friendRequests } = this.state;
     const { userData } = this.props;
 
     return (
@@ -97,12 +128,20 @@ class Profile extends Component {
 
         {userData.username === username && 
           <div>
-            friend requests
+            <button type="button" onClick={this.showFriendRequests}>
+              friend requests
+            </button>
+            {showFriendRequests && 
+              <div>
+                {friendRequests.map((request, index) => 
+                  <div key={index}>
+                    {request.username} 
+                    <button type="button" onClick={() => this.addFriend(request, index)}>accept</button>
+                  </div>)}
+              </div>
+            }   
           </div>
-        
-        
         }
-
       </div>
     )
   }
@@ -114,4 +153,8 @@ const mapStateToProps = state => {
   }
 }
 
-export default connect(mapStateToProps)(Profile);
+const matchDispatchToProps = dispatch => {
+  return bindActionCreators({ updateUserData }, dispatch);
+}
+
+export default connect(mapStateToProps, matchDispatchToProps)(Profile);
