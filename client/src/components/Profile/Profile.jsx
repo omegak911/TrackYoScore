@@ -18,6 +18,8 @@ class Profile extends Component {
       showFriendRequests: false,
       friendRequests: [],
       friends: [],
+      areFriends: false,
+      alreadyAPendingRequest: false,
     };
   }
 
@@ -38,29 +40,49 @@ class Profile extends Component {
         await this.setState({ username, level, wins, losses });
 
         if (username === userData.username) {
-          await this.setState({ friendRequests: pendingFriendRequests, friends });
+          await this.setState({ areFriends: true });
+        } else {
+          for (let i = 0; i < friends.length; i++) {
+            if (friends[i].username === username) {
+              this.setState({ areFriends: true });
+            }
+          }
         }
+        await this.setState({ friendRequests: pendingFriendRequests, friends });
       })
       .catch(err => console.log(err));
   }
 
   friendRequest = () => {
-    const { state } = this.props.location;
+    let { userData } = this.props;
+    let { friendRequests, username } = this.state;
 
-    let options = {
-      requestorId: this.props.userData.id,
-      requesteeId: state.user.id
+    //if there's already a pending request
+    let alreadyAPendingRequest = false;
+    for (let i = 0; i < friendRequests.length; i++) {
+      if (friendRequests[i].username === username) {
+        alreadyAPendingRequest = true;
+      }
     }
 
-    axios
-      .post('api/friend/friendRequest', options)
-      .then(({ data }) => console.log('friendRequest data: ', data))
-      .catch(err => console.log(err));
+    if (alreadyAPendingRequest) {
+      this.setState({ alreadyAPendingRequest });
+    } else {
+      let options = {
+        requestorId: userData.id,
+        requesteeId: username
+      }
+
+      axios
+        .post('api/friend/friendRequest', options)
+        .then(({ data }) => console.log('friendRequest data: ', data))
+        .catch(err => console.log(err));
+    }
   }
 
   addFriend = ({ friend_requests }, index) => {
     let { friends, userData, updatePendingFriendRequests, updateFriendList } = this.props;
-    let { friendRequests } = this.state;
+    let { friendRequests, username } = this.state;
     let remainingRequests = friendRequests.slice();
     let updatedFriendsList = friends.slice();
 
@@ -82,6 +104,7 @@ class Profile extends Component {
       .post('api/friend/validateFriendRequest', options)
       .then(() => console.log('sent accepted friend request'))
       .catch(err => console.log(err));
+
   }
 
   button = () => {
@@ -94,7 +117,7 @@ class Profile extends Component {
   }
 
   render() {
-    let { username, level, wins, losses, showFriendRequests, friendRequests, friends } = this.state;
+    let { username, level, wins, losses, showFriendRequests, friendRequests, friends, areFriends, alreadyAPendingRequest } = this.state;
     const { userData } = this.props;
 
     return (
@@ -125,8 +148,12 @@ class Profile extends Component {
           </div>
         </div>
         
-        {userData.username !== username &&
+        {!areFriends &&
         <button type="button" onClick={this.friendRequest}>Add Friend</button>
+        }
+
+        {alreadyAPendingRequest &&
+          <div>Request already exists, go check your profile to accept their request.</div>
         }
 
         {userData.username === username && 
