@@ -37,11 +37,12 @@ const Users = db.define('users', {
 });
 
 const FriendRequests = db.define('friend_requests', {
-  requestorId: Sequelize.INTEGER,
-  requesteeId: Sequelize.INTEGER,
+  id: { type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true },
+  friendId: Sequelize.INTEGER,
+  userId: Sequelize.INTEGER,
 })
-Users.belongsToMany(Users, { through: FriendRequests, as: 'friendRequests', foreignKey: 'requesteeId' });
-Users.belongsToMany(Users, { through: FriendRequests, as: 'requestee', foreignKey: 'requestorId' });
+Users.belongsToMany(Users, { through: FriendRequests, as: 'friendRequests', foreignKey: 'userId' });
+Users.belongsToMany(Users, { through: FriendRequests, as: 'requestee', foreignKey: 'friendId' });
 //join tables
 
 const UserPerks = db.define('user_perks', {});
@@ -57,7 +58,9 @@ Users.belongsToMany(HistoryConfirmation, { through: UserHistoryConfirmations, as
 HistoryConfirmation.belongsToMany(Users, { through: UserHistoryConfirmations });
 HistoryConfirmation.hasMany(Games);
 
-const Friends = db.define('friends', {});
+const Friends = db.define('friends', {
+  id: { type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true },
+});
 Users.belongsToMany(Users, { through: Friends, as: 'friendsList', foreignKey: 'userId' });
 Users.belongsToMany(Users, { through: Friends, as: 'user', foreignKey: 'friendId' });
 

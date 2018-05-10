@@ -220,24 +220,24 @@ const seedHistories = [
 
 const seedFriendRequests = [
   {
-    requestorId: 1,
-    requesteeId: 2,
+    friendId: 1,
+    userId: 2,
   },
   {
-    requestorId: 3,
-    requesteeId: 2,
+    friendId: 3,
+    userId: 2,
   },
   {
-    requestorId: 4,
-    requesteeId: 1,
+    friendId: 4,
+    userId: 1,
   },
   {
-    requestorId: 5,
-    requesteeId: 6,
+    friendId: 5,
+    userId: 6,
   },
   {
-    requestorId: 6,
-    requesteeId: 3,
+    friendId: 6,
+    userId: 3,
   }
 ];
 
