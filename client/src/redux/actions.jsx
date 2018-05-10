@@ -8,4 +8,14 @@ const updateUserData = data => ({
   payload: data,
 });
 
-export { searchedUsers, updateUserData };
+const updatePendingFriendRequests = data => ({
+  type: 'NEW_FRIEND_REQUESTS',
+  payload: data,
+});
+
+const updateFriendList = data => ({
+  type: 'NEW_FRIENDLIST',
+  payload: data,
+});
+
+export { searchedUsers, updateUserData, updatePendingFriendRequests, updateFriendList };
