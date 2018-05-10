@@ -3,9 +3,9 @@ const searchedUsers = data => ({
   payload: data
 });
 
-const userData = data => ({
+const updateUserData = data => ({
   type: 'USER_DATA',
   payload: data,
 });
 
-export { searchedUsers, userData };
+export { searchedUsers, updateUserData };

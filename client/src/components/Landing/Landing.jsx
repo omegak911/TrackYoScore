@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import axios from 'axios';
 
-import { userData } from '../../redux/actions'; 
+import { updateUserData } from '../../redux/actions'; 
 
 import './Landing.scss';
 
@@ -49,7 +49,7 @@ class Landing extends Component {
           this.setState({ invalid: true });
           setTimeout( () => this.setState({ invalid: false }), 5000);
         } else if (data.username) {
-          this.props.userData(data);
+          this.props.updateUserData(data);
           this.props.history.push('/home');
         }
       })
@@ -108,7 +108,7 @@ class Landing extends Component {
 }
 
 const matchDispatchToProps = (dispatch) => {
-  return bindActionCreators({ userData }, dispatch);
+  return bindActionCreators({ updateUserData }, dispatch);
 }
 
 export default connect(null, matchDispatchToProps)(Landing);
