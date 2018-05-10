@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import axios from 'axios';
 
-import { updateUserData } from '../../redux/actions';
+import { updateUserData, updatePendingFriendRequests, updateFriendList } from '../../redux/actions';
 
 import './Profile.scss';
 
@@ -16,20 +16,15 @@ class Profile extends Component {
       wins: 0,
       losses: 0,
       showFriendRequests: false,
-      friendRequests: []
+      friendRequests: [],
+      friends: [],
     };
   }
 
   componentDidMount() {
     const { state } = this.props.location;
-    const { friendRequests } = this.props.userData;
-    console.log(state);
+    const { friends, userData, pendingFriendRequests } = this.props;
 
-    this.setState({ friendRequests });
-
-    //one condition if user goes to own profile
-
-    //2nd condition if user goes to another profile
     let options = {
       params: {
         id: state.user.id
@@ -38,11 +33,13 @@ class Profile extends Component {
     
     axios
       .get('/api/user/profile', options)
-      .then(({ data }) => {
-        console.log(options)
-        console.log(data)
+      .then( async ({ data }) => {
         const { username, level, wins, losses } = data;
-        this.setState({ username, level, wins, losses })
+        await this.setState({ username, level, wins, losses });
+
+        if (username === userData.username) {
+          await this.setState({ friendRequests: pendingFriendRequests, friends });
+        }
       })
       .catch(err => console.log(err));
   }
@@ -62,14 +59,20 @@ class Profile extends Component {
   }
 
   addFriend = ({ friend_requests }, index) => {
-    let { userData, updateUserData } = this.props;
+    let { friends, userData, updatePendingFriendRequests, updateFriendList } = this.props;
     let { friendRequests } = this.state;
-    friendRequests.splice(index, 1);
+    let remainingRequests = friendRequests.slice();
+    let updatedFriendsList = friends.slice();
 
-    this.setState({ friendRequests });
+    let user = remainingRequests.splice(index, 1)[0];
 
-    userData.friendRequests = friendRequests;
-    updateUserData(userData);
+    updatedFriendsList.push({ id: user.id, username: user.username });
+    //add to redux friends (not replace)
+    updateFriendList(updatedFriendsList);
+    //remove from redux friendRequests
+    updatePendingFriendRequests(remainingRequests);
+    //update state for re-render
+    this.setState({ friends: updatedFriendsList, friendRequests: remainingRequests });
 
     const options = {
       id: friend_requests.id
@@ -91,7 +94,7 @@ class Profile extends Component {
   }
 
   render() {
-    let { username, level, wins, losses, showFriendRequests, friendRequests } = this.state;
+    let { username, level, wins, losses, showFriendRequests, friendRequests, friends } = this.state;
     const { userData } = this.props;
 
     return (
@@ -150,11 +153,14 @@ class Profile extends Component {
 const mapStateToProps = state => {
   return {
     userData: state.userData,
+    friends: state.friends,
+    pendingConfirmations: state.pendingConfirmations,
+    pendingFriendRequests: state.pendingFriendRequests
   }
 }
 
 const matchDispatchToProps = dispatch => {
-  return bindActionCreators({ updateUserData }, dispatch);
+  return bindActionCreators({ updateUserData, updatePendingFriendRequests, updateFriendList }, dispatch);
 }
 
 export default connect(mapStateToProps, matchDispatchToProps)(Profile);
