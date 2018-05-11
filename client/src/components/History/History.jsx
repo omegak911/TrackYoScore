@@ -10,9 +10,16 @@ class History extends Component {
 
   componentDidMount() {
     const { id } = this.props.userData;
+    console.log('history user id: ', id);
+
+    let options = {
+      params: {
+        userId: id,
+      }
+    }
 
     axios
-      .get('/api/history/history', { userId: id })
+      .get('/api/history/history', options)
       .then(({ data }) => console.log(data))
       .catch(err => console.log(err));
   }
