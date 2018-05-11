@@ -19,6 +19,7 @@ class Profile extends Component {
       friends: [],
       areFriends: false,
       showFriendRequests: false,
+      showFriendList: false,
       friendRequests: [],
       alreadyAPendingRequest: false,
     };
@@ -118,13 +119,9 @@ class Profile extends Component {
       .catch(err => console.log(err));
   }
 
-  showFriendRequests = () => {
-    this.setState({ showFriendRequests: !this.state.showFriendRequests })
-  }
-
-  button = () => {
-    console.log(this.state);
-    console.log(this.props);
+  showList = (e) => {
+    const stateKey = e.target.name;
+    this.setState({ [stateKey]: !this.state[stateKey] })
   }
 
   render() {
@@ -136,14 +133,13 @@ class Profile extends Component {
       friends, 
       areFriends, 
       showFriendRequests, 
+      showFriendList,
       friendRequests, 
       alreadyAPendingRequest } = this.state;
     const { userData } = this.props;
 
     return (
       <div>
-        welcome to Profile
-        <button onClick={this.button}>*********</button>
         <div className="container">
           <div className="profileImage">
             Profile Image
@@ -164,7 +160,7 @@ class Profile extends Component {
 
         <div className="container">
           <div className="profileBio">
-            bio
+            bio text goes here, maybe a form
           </div>
         </div>
         
@@ -178,7 +174,7 @@ class Profile extends Component {
 
         {userData.username === username && 
           <div>
-            <button type="button" onClick={this.showFriendRequests}>
+            <button type="button" name="showFriendRequests" onClick={e => this.showList(e)}>
               friend requests
             </button>
             {showFriendRequests && 
@@ -188,6 +184,18 @@ class Profile extends Component {
                     {request.username} 
                     <button type="button" onClick={() => this.acceptFriendRequest(request, index)}>accept</button>
                   </div>)}
+              </div>
+            }
+            <button type="button" name="showFriendList" onClick={e => this.showList(e)}>
+              friends
+            </button>
+            {showFriendList &&
+              <div>
+                {friends.map((friend, index) =>
+                  <div key={index}>
+                    {friend.username}
+                  </div>
+                )}
               </div>
             }   
           </div>
