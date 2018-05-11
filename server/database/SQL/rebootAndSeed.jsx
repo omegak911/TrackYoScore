@@ -134,18 +134,22 @@ const seedConfirmationHistories = [
     playerScore: [
       {
         userId: 2,
+        username: 'pikachu',
         score: 5,
       },
       {
         userId: 3,
+        username: 'squirtle',
         score: 5,
       },
       {
         userId: 4,
+        username: 'bulbasaur',
         score: 10,
       },
       {
         userId: 6,
+        username: 'charizard',
         score: 10,
       },
     ]
@@ -155,18 +159,22 @@ const seedConfirmationHistories = [
     playerScore: [
       {
         userId: 2,
+        username: 'pikachu',
         score: 10,
       },
       {
         userId: 3,
+        username: 'squirtle',
         score: 5,
       },
       {
         userId: 4,
+        username: 'bulbasaur',
         score: 10,
       },
       {
         userId: 6,
+        username: 'charizard',
         score: 5,
       },
     ]
@@ -179,18 +187,22 @@ const seedHistories = [
     playerScore: [
       {
         userId: 2,
+        username: 'pikachu',
         score: 10,
       },
       {
         userId: 3,
+        username: 'squirtle',
         score: 5,
       },
       {
         userId: 4,
+        username: 'bulbasaur',
         score: 10,
       },
       {
         userId: 6,
+        username: 'charizard',
         score: 5,
       },
     ]
@@ -200,18 +212,22 @@ const seedHistories = [
     playerScore: [
       {
         userId: 2,
+        username: 'pikachu',
         score: 10,
       },
       {
         userId: 3,
+        username: 'squirtle',
         score: 5,
       },
       {
         userId: 4,
+        username: 'bulbasaur',
         score: 10,
       },
       {
         userId: 6,
+        username: 'charizard',
         score: 5,
       },
     ]
