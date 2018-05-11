@@ -101,10 +101,8 @@ const doesConfirmationExist = (req,res) => {
 
 const fetchHistory = (req, res) => {
   //check if user is logged in
-  console.log('fetchHist body: ', req.body)
-  fetchHistoryHelper(req.query, (result) => { /* userID */
-    console.log('fetchHistory result: ', result);
-    res.status(201).send('success');
+  fetchHistoryHelper(req.query, (result) => {
+    res.status(201).send(result);
   });
 };
 

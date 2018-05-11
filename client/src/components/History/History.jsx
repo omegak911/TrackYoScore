@@ -14,7 +14,7 @@ class History extends Component {
 
     let options = {
       params: {
-        userId: id,
+        id,
       }
     }
 

@@ -74,9 +74,9 @@ const addUserHistoryHelper = ({ userId, historyId }) =>
   .then(() => console.log('success'))
   .catch(err => console.log(err));
 
-const fetchHistoryHelper = ({ userId }, callback) =>
+const fetchHistoryHelper = ({ id }, callback) =>
   Users.findOne({
-    where: { id: userId },
+    where: { id },
     attributes: ['username'],
     plain: true,
     include: [{
@@ -87,14 +87,6 @@ const fetchHistoryHelper = ({ userId }, callback) =>
   })
   .then(({ dataValues }) => callback(dataValues.challengeHistory))
   .catch(err => console.log(err));
-
-  // UserHistories.findAll({
-  //   where: {
-  //     userId,
-  //   }
-  // })
-  // .then(result => callback(result))
-  // .then(err => console.log(err));
 
 export { 
   addHistoryHelper, 
