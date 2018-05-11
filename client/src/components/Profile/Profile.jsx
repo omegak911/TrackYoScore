@@ -16,10 +16,10 @@ class Profile extends Component {
       level: '',
       wins: 0,
       losses: 0,
-      showFriendRequests: false,
-      friendRequests: [],
       friends: [],
       areFriends: false,
+      showFriendRequests: false,
+      friendRequests: [],
       alreadyAPendingRequest: false,
     };
   }
@@ -28,11 +28,11 @@ class Profile extends Component {
     this.updateState();
   }
 
+  //if we're navigated to a different profile, allow componentDidUpdate()
   shouldComponentUpdate() {
     let { id } = this.props.location.state.user;
     return id === this.state.id;
   }
-
   componentDidUpdate(prevProps, prevState) {
     let { id } = this.props.location.state.user;
     if (id !== prevState.id) {
@@ -44,11 +44,7 @@ class Profile extends Component {
     const { state } = this.props.location;
     const { friends, userData, pendingFriendRequests } = this.props;
 
-    let options = {
-      params: {
-        id: state.user.id
-      }
-    }
+    let options = { params: { id: state.user.id }}
     
     axios
       .get('/api/user/profile', options)
@@ -56,6 +52,7 @@ class Profile extends Component {
         const { id, username, level, wins, losses } = data;
         await this.setState({ id, username, level, wins, losses });
 
+        //determine if it's the user's profile.  If not, are they already friends
         if (username === userData.username) {
           await this.setState({ areFriends: true });
         } else {
@@ -74,7 +71,7 @@ class Profile extends Component {
     let { userData } = this.props;
     let { friendRequests, username } = this.state;
 
-    //if there's already a pending request
+    //if there's already a pending request, tell the user
     let alreadyAPendingRequest = false;
     for (let i = 0; i < friendRequests.length; i++) {
       if (friendRequests[i].username === username) {
@@ -97,22 +94,20 @@ class Profile extends Component {
     }
   }
 
-  addFriend = ({ friend_requests }, index) => {
-    let { friends, userData, updatePendingFriendRequests, updateFriendList } = this.props;
-    let { friendRequests, username } = this.state;
+  acceptFriendRequest = ({ friend_requests }, index) => {
+    let { friends, updatePendingFriendRequests, updateFriendList } = this.props;
+    let { friendRequests } = this.state;
+    //copy and remove added friend from pending requests then update friendslist
     let remainingRequests = friendRequests.slice();
     let updatedFriendsList = friends.slice();
-
     let user = remainingRequests.splice(index, 1)[0];
-
     updatedFriendsList.push({ id: user.id, username: user.username });
-    //add to redux friends (not replace)
-    updateFriendList(updatedFriendsList);
-    //remove from redux friendRequests
-    updatePendingFriendRequests(remainingRequests);
-    //update state for re-render
     this.setState({ friends: updatedFriendsList, friendRequests: remainingRequests });
+    //update redux friendsList and pendingRequests
+    updateFriendList(updatedFriendsList);
+    updatePendingFriendRequests(remainingRequests);
 
+    //update database friendsList and pendingRequests
     const options = {
       id: friend_requests.id
     }
@@ -121,7 +116,10 @@ class Profile extends Component {
       .post('api/friend/validateFriendRequest', options)
       .then(() => console.log('sent accepted friend request'))
       .catch(err => console.log(err));
+  }
 
+  showFriendRequests = () => {
+    this.setState({ showFriendRequests: !this.state.showFriendRequests })
   }
 
   button = () => {
@@ -129,12 +127,17 @@ class Profile extends Component {
     console.log(this.props);
   }
 
-  showFriendRequests = () => {
-    this.setState({ showFriendRequests: !this.state.showFriendRequests })
-  }
-
   render() {
-    let { username, level, wins, losses, showFriendRequests, friendRequests, friends, areFriends, alreadyAPendingRequest } = this.state;
+    let { 
+      username, 
+      level, 
+      wins, 
+      losses, 
+      friends, 
+      areFriends, 
+      showFriendRequests, 
+      friendRequests, 
+      alreadyAPendingRequest } = this.state;
     const { userData } = this.props;
 
     return (
@@ -183,7 +186,7 @@ class Profile extends Component {
                 {friendRequests.map((request, index) => 
                   <div key={index}>
                     {request.username} 
-                    <button type="button" onClick={() => this.addFriend(request, index)}>accept</button>
+                    <button type="button" onClick={() => this.acceptFriendRequest(request, index)}>accept</button>
                   </div>)}
               </div>
             }   
