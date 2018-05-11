@@ -11,6 +11,7 @@ class Profile extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      id: 0,
       username: '',
       level: '',
       wins: 0,
@@ -24,6 +25,22 @@ class Profile extends Component {
   }
 
   componentDidMount() {
+    this.updateState();
+  }
+
+  shouldComponentUpdate() {
+    let { id } = this.props.location.state.user;
+    return id === this.state.id;
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    let { id } = this.props.location.state.user;
+    if (id !== prevState.id) {
+      this.updateState();
+    }
+  }
+
+  updateState = () => {
     const { state } = this.props.location;
     const { friends, userData, pendingFriendRequests } = this.props;
 
@@ -36,8 +53,8 @@ class Profile extends Component {
     axios
       .get('/api/user/profile', options)
       .then( async ({ data }) => {
-        const { username, level, wins, losses } = data;
-        await this.setState({ username, level, wins, losses });
+        const { id, username, level, wins, losses } = data;
+        await this.setState({ id, username, level, wins, losses });
 
         if (username === userData.username) {
           await this.setState({ areFriends: true });
