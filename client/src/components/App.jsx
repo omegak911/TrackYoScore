@@ -17,7 +17,7 @@ const App = () => {
             <Nav />
             <Switch>
               <Route exact path='/' component={Landing} />
-              <Route path='history' component={History} />
+              <Route path='/history' component={History} />
               <Route path='/home' component={Home} />
               <Route path='/profile' component={Profile} />
               <Route path='/userSearchResults' component={UserSearchResults} />
