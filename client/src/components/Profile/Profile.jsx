@@ -22,6 +22,7 @@ class Profile extends Component {
       showFriendList: false,
       friendRequests: [],
       alreadyAPendingRequest: false,
+      account: false,
     };
   }
 
@@ -124,6 +125,11 @@ class Profile extends Component {
     this.setState({ [stateKey]: !this.state[stateKey] })
   }
 
+  showStoreAndState = () => {
+    console.log(this.props);
+    console.log(this.state);
+  }
+
   render() {
     let { 
       username, 
@@ -143,6 +149,7 @@ class Profile extends Component {
         <div className="container">
           <div className="profileImage">
             Profile Image
+            <button type="button" onClick={this.showStoreAndState}>****</button>
           </div>
         </div>
 
@@ -174,30 +181,43 @@ class Profile extends Component {
 
         {userData.username === username && 
           <div>
-            <button type="button" name="showFriendRequests" onClick={e => this.showList(e)}>
-              friend requests
-            </button>
-            {showFriendRequests && 
-              <div>
-                {friendRequests.map((request, index) => 
-                  <div key={index}>
-                    {request.username} 
-                    <button type="button" onClick={() => this.acceptFriendRequest(request, index)}>accept</button>
-                  </div>)}
-              </div>
-            }
-            <button type="button" name="showFriendList" onClick={e => this.showList(e)}>
-              friends
-            </button>
-            {showFriendList &&
-              <div>
-                {friends.map((friend, index) =>
-                  <div key={index}>
-                    {friend.username}
-                  </div>
-                )}
-              </div>
-            }   
+
+            <div>
+              <button type="button" name="showFriendRequests" onClick={e => this.showList(e)}>
+                friend requests
+              </button>
+              {showFriendRequests && 
+                <div>
+                  {friendRequests.map((request, index) => 
+                    <div key={index}>
+                      {request.username} 
+                      <button type="button" onClick={() => this.acceptFriendRequest(request, index)}>accept</button>
+                    </div>)}
+                </div>
+              }
+            </div>
+
+            <br/>
+
+            <div>
+              <button type="button" name="showFriendList" onClick={e => this.showList(e)}>
+                friends
+              </button>
+              {showFriendList &&
+                <div>
+                  {friends.map((friend, index) =>
+                    <div key={index}>
+                      {friend.username}
+                    </div>
+                  )}
+                </div>
+              }   
+            </div>
+
+            <div>
+              <button type="button" name="account" onClick={e => this.showList(e)}>Account</button>
+            </div>
+
           </div>
         }
       </div>

@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import axios from 'axios';
 
-import { updateUserData } from '../../redux/actions'; 
+import { updateUserData, updatePendingFriendRequests, updatePendingHistConfirmations, updateFriendList } from '../../redux/actions'; 
 
 import './Landing.scss';
 
@@ -33,6 +33,7 @@ class Landing extends Component {
   }
 
   login = () => {
+    const { updateUserData, updatePendingFriendRequests, updatePendingHistConfirmations, updateFriendList } = this.props;
     const { username, password } = this.state;
     const options = {
       params: {
@@ -49,7 +50,10 @@ class Landing extends Component {
           this.setState({ invalid: true });
           setTimeout( () => this.setState({ invalid: false }), 5000);
         } else if (data.username) {
-          this.props.updateUserData(data);
+          updateUserData(data);
+          updateFriendList(data.friendsList);
+          updatePendingFriendRequests(data.friendRequests);
+          updatePendingHistConfirmations(data.confirmationNeeded);
           this.props.history.push('/home');
         }
       })
@@ -108,7 +112,7 @@ class Landing extends Component {
 }
 
 const matchDispatchToProps = (dispatch) => {
-  return bindActionCreators({ updateUserData }, dispatch);
+  return bindActionCreators({ updateUserData, updateFriendList, updatePendingHistConfirmations, updatePendingFriendRequests }, dispatch);
 }
 
 export default connect(null, matchDispatchToProps)(Landing);
