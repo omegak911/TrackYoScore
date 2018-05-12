@@ -18,4 +18,9 @@ const updateFriendList = data => ({
   payload: data,
 });
 
-export { searchedUsers, updateUserData, updatePendingFriendRequests, updateFriendList };
+const updatePendingHistConfirmations = data => ({
+  type: 'NEW_HISTCONFIRMATION',
+  payload: data,
+});
+
+export { searchedUsers, updateUserData, updatePendingFriendRequests, updateFriendList, updatePendingHistConfirmations };

@@ -15,9 +15,6 @@ const userData = (state = null, action) => {
 
 const pendingFriendRequests = (state = [], action) => {
   switch(action.type) {
-    case 'USER_DATA': 
-      return action.payload.friendRequests;
-      break;
     case 'NEW_FRIEND_REQUESTS':
       return action.payload;
       break;
@@ -27,9 +24,6 @@ const pendingFriendRequests = (state = [], action) => {
 
 const friends = (state = [], action) => {
   switch(action.type) {
-    case 'USER_DATA': 
-      return action.payload.friendsList;
-      break;
     case 'NEW_FRIENDLIST':
       return action.payload;
       break;
@@ -53,4 +47,12 @@ const listOfUsers = (state = [], action) => {
   return state;
 }
 
-export { friends, userData, listOfUsers, pendingConfirmations, pendingFriendRequests };
+const historyConfirmations = (state = [], action) => {
+  switch(action.type) {
+    case 'NEW_HISTCONFIRMATION':
+    return action.payload;
+  }
+  return state;
+}
+
+export { friends, historyConfirmations, userData, listOfUsers, pendingConfirmations, pendingFriendRequests };
