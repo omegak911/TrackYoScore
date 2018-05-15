@@ -4,6 +4,8 @@ import { bindActionCreators } from 'redux';
 
 import { updateUserData } from '../../redux/actions';
 
+import './AccountModal.scss';
+
 class AccountModal extends Component {
   constructor(props) {
     super(props);
@@ -13,7 +15,7 @@ class AccountModal extends Component {
 
   render() {
     return (
-      <div>
+      <div className="accountDetails">
         Omg a modal!!
       </div>
     )
