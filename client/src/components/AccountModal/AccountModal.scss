@@ -1,4 +1,22 @@
 .accountDetails {
-  padding-top: 25%;
-  padding-left: 50%;
+  background-color: white;
+  position: absolute;
+  top: 25%;
+  left: 30%;
+  width: 40%;
+  text-align: center;
+}
+
+.accountDetails {
+  input {
+    font-size: 20px;
+    height: 20px;
+    width: 200px;
+    margin-bottom: 10px;
+  }
+}
+
+.veilOfDarkness {
+  height: 100%;
+  background-color: rgba(150,150,150,0.6);
 }

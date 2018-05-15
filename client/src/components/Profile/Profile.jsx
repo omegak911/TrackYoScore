@@ -124,6 +124,7 @@ class Profile extends Component {
 
   showList = (e) => {
     const stateKey = e.target.name;
+    console.log(stateKey);
     this.setState({ [stateKey]: !this.state[stateKey] })
   }
 
@@ -223,9 +224,7 @@ class Profile extends Component {
               </div>
               {account &&
                 <div className="modal">
-                  <div className="veilOfDarkness">
-                    <AccountModal />
-                  </div>
+                    <AccountModal showList={this.showList} />
                 </div>
               }
             </div>
