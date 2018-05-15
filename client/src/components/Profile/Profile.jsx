@@ -5,6 +5,8 @@ import axios from 'axios';
 
 import { updateUserData, updatePendingFriendRequests, updateFriendList } from '../../redux/actions';
 
+import AccountModal from '../AccountModal/AccountModal';
+
 import './Profile.scss';
 
 class Profile extends Component {
@@ -141,7 +143,8 @@ class Profile extends Component {
       showFriendRequests, 
       showFriendList,
       friendRequests, 
-      alreadyAPendingRequest } = this.state;
+      alreadyAPendingRequest,
+      account } = this.state;
     const { userData } = this.props;
 
     return (
@@ -213,9 +216,18 @@ class Profile extends Component {
                 </div>
               }   
             </div>
-
+            
             <div>
-              <button type="button" name="account" onClick={e => this.showList(e)}>Account</button>
+              <div>
+                <button type="button" name="account" onClick={e => this.showList(e)}>Account</button>
+              </div>
+              {account &&
+                <div className="modal">
+                  <div className="veilOfDarkness">
+                    <AccountModal />
+                  </div>
+                </div>
+              }
             </div>
 
           </div>

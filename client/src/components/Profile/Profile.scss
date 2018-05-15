@@ -4,6 +4,13 @@ $border: 1px solid black;
   display: flex;
 }
 
+.modal {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+}
+
 .profileImage {
   border: $border;
   width: 100%;
@@ -17,4 +24,9 @@ $border: 1px solid black;
 
 .profileBio {
   border: $border;
+}
+
+.veilOfDarkness {
+  height: 100%;
+  background-color: rgba(150,150,150,0.5);
 }
