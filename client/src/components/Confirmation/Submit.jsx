@@ -7,38 +7,43 @@ class Submit extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      player1: '',
-      player1Score: 0,
-      player2: '',
-      player2Score: 0,
-      player3: '',
-      player3Score: 0,
-      player4: '',
-      player4Score: 0,
-      player5: '',
-      player5Score: 0,
-      player6: '',
-      player6Score: 0,
-      totalPlayers: [1,1],
+      userId: 0,
+      username: '',
+      score: 0,
+      totalPlayers: [],
       maxPlayersReached: false,
     }
   }
 
   morePlayers = () => {
-    let totalCopy = this.state.totalPlayers.slice();
-    if (totalCopy.length <= 5) {
-      totalCopy.push(1);
-      this.setState({ totalPlayers: totalCopy });
-    } else {
-      this.setState({ maxPlayersReached: true });
-    }
+    // let totalCopy = this.state.totalPlayers.slice();
+    // if (totalCopy.length <= 5) {
+    //   totalCopy.push(1);
+    //   this.setState({ totalPlayers: totalCopy });
+    // } else {
+    //   this.setState({ maxPlayersReached: true });
+    // }
+    console.log(this.state);
   }
 
-  queryFriend = (e) => {
-    let query = e.target.value;
+  selectPlayer = (e) => {
+    let userId = Number(e.target.value);
+    const { friends } = this.props;
+    let username = '';
 
-    console.log(query);
-    console.log(this.props.friends);
+    for (var i = 0; i < friends.length; i++) {
+      if (friends[i].id === userId) {
+        username = friends[i].username;
+      }
+    }
+
+    this.setState({ userId, username });
+  }
+
+  selectScore = (e) => {
+    let score = e.target.value === 'Win' ? 10 : 5;
+
+    this.setState({ score })
   }
 
   render() {
@@ -47,31 +52,26 @@ class Submit extends Component {
 
     return (
       <div className="submitForm">
-        <form action="">
+        <div>
         
-        {totalPlayers.map( (player, index) => 
-          <div key={index}>
-            <select name="player">
-              <option value="select">select player</option>
-              {friends.map((user, index) =>
-                <option key={index} value={user.username}>
-                  {user.username}
-                </option>
-              )}
-            </select>
-            <select name="" id="">
-              <option value="result">result</option>
-              <option value="win">Win</option>  
-              <option value="loss">Loss</option>
-            </select>
-          </div>
-        )}
-        <input type="text" onChange={e => this.queryFriend(e)} />
+          <select name="player" onChange={this.selectPlayer}>
+            <option value="select">select player</option>
+            {friends.map((user, index) =>
+              <option key={index} value={user.id}>
+                {user.username}
+              </option>
+            )}
+          </select>
+          <select name="" id="" onChange={this.selectScore}>
+            <option value="result">result</option>
+            <option value="win">Win</option>  
+            <option value="loss">Loss</option>
+          </select>
+
+        </div>
 
         {maxPlayersReached && <div>You have reached the maximum number of players</div>}
-        <button type="button" onClick={this.morePlayers}>More Players</button>
-
-        </form>
+        <button type="button" onClick={this.morePlayers}>Add Score</button>
             
       </div>
     )
