@@ -20,13 +20,18 @@ class Submit extends Component {
       player6: '',
       player6Score: 0,
       totalPlayers: [1,1],
+      maxPlayersReached: false,
     }
   }
 
   morePlayers = () => {
     let totalCopy = this.state.totalPlayers.slice();
-    totalCopy.push(1);
-    this.setState({ totalPlayers: totalCopy })
+    if (totalCopy.length <= 5) {
+      totalCopy.push(1);
+      this.setState({ totalPlayers: totalCopy });
+    } else {
+      this.setState({ maxPlayersReached: true });
+    }
   }
 
   queryFriend = (e) => {
@@ -38,27 +43,36 @@ class Submit extends Component {
 
   render() {
     const { friends } = this.props;
-    let { totalPlayers } = this.state;
+    let { maxPlayersReached, totalPlayers } = this.state;
 
     return (
       <div className="submitForm">
         <form action="">
         
         {totalPlayers.map( (player, index) => 
-          <select name="player" key={index}>
-            {friends.map((user, index) =>
-              <option key={index} value="">
-                {user.username}
-              </option>
-            )}
-          </select>
+          <div key={index}>
+            <select name="player">
+              <option value="select">select player</option>
+              {friends.map((user, index) =>
+                <option key={index} value={user.username}>
+                  {user.username}
+                </option>
+              )}
+            </select>
+            <select name="" id="">
+              <option value="result">result</option>
+              <option value="win">Win</option>  
+              <option value="loss">Loss</option>
+            </select>
+          </div>
         )}
         <input type="text" onChange={e => this.queryFriend(e)} />
-        <button type="button" onClick={this.morePlayers}>More Player</button>
-        
+
+        {maxPlayersReached && <div>You have reached the maximum number of players</div>}
+        <button type="button" onClick={this.morePlayers}>More Players</button>
+
         </form>
-      
-      
+            
       </div>
     )
   }
