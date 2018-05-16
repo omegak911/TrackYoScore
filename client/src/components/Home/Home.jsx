@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
+import SubmitScore from '../Confirmation/Submit';
 import Search from '../Search/Search';
 
 class Home extends Component {
@@ -20,7 +21,10 @@ class Home extends Component {
     return (
       <div>
         <button type="button" onClick={this.showTreasure}>**********</button>
-        submit new scores here
+        submit score
+        <SubmitScore />
+        <br/>
+        find new friends
         <Search history={this.props.history}/>
       </div>
     )
