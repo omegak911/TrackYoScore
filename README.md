@@ -92,3 +92,5 @@ Level   EXP increment per level
 81-90   2400
 91-100  2800
 
+
+have a worker that runs every week on confirmation and removes any > 1 week pending
