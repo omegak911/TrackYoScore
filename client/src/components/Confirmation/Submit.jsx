@@ -17,14 +17,18 @@ class Submit extends Component {
       maxPlayersReached: false,
       scoreNotEven: false,
       dropDownSelectPlayer: "select player",
-      dropDownSelectScore: "result"
+      dropDownSelectScore: "result",
+      noPlayerSelected: false,
     }
   }
 
   addPlayer = () => {
-    let { userId, username, score, totalPlayers, playerHist } = this.state;
+    let { userId, username, score, totalPlayers, playerHist, noPlayerSelected } = this.state;
 
-    if (playerHist[username]) {
+    if (userId === null) {
+      this.setState({ noPlayerSelected: true});
+      setTimeout(()=> this.setState({ noPlayerSelected: false }), 5000);
+    } else if (playerHist[username]) {
       this.setState({ alreadySelectedPlayer: true });
       setTimeout(() => this.setState({ alreadySelectedPlayer: false}), 5000);
     } else if (totalPlayers.length <= 5) {
@@ -81,10 +85,12 @@ class Submit extends Component {
     }
 
     if (wins === loss) {
-
+      //send axios request
+      //provide confirmation message
+      //invoke clear all
     } else {
       this.setState({ scoreNotEven: true });
-      setTimeout(() => this.setState({ scoreNotEven: false }));
+      setTimeout(() => this.setState({ scoreNotEven: false }), 5000);
     }
     
   }
@@ -98,6 +104,7 @@ class Submit extends Component {
     const { friends } = this.props;
     let { 
       alreadySelectedPlayer, 
+      noPlayerSelected,
       maxPlayersReached, 
       totalPlayers, 
       scoreNotEven, 
@@ -133,6 +140,7 @@ class Submit extends Component {
 
         {alreadySelectedPlayer && <div>Player has already been added</div>}
         {maxPlayersReached && <div>You have reached the maximum number of players</div>}
+        {noPlayerSelected && <div>Please enter player and score</div>}
         <button type="button" onClick={this.addPlayer}>Add Score</button>
         <br/>
         {scoreNotEven && <div>scores are not even, please resubmit</div>}
