@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import axios from 'axios';
 
 import './Submit.scss';
 
@@ -7,13 +8,16 @@ class Submit extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      userId: 0,
+      userId: null,
       username: '',
-      score: 0,
+      score: null,
       totalPlayers: [],
       playerHist: {},
       alreadySelectedPlayer: false,
       maxPlayersReached: false,
+      scoreNotEven: false,
+      dropDownSelectPlayer: "select player",
+      dropDownSelectScore: "result"
     }
   }
 
@@ -27,10 +31,21 @@ class Submit extends Component {
       let totalCopy = totalPlayers.slice();
       totalCopy.push({ userId, username, score });
       playerHist[username] = true;
-      this.setState({ playerHist, totalPlayers: totalCopy, userId: 0, username: '', score: 0 });
+      this.setState({ 
+        playerHist, 
+        totalPlayers: totalCopy, 
+        userId: null, 
+        username: '', 
+        score: null,
+        dropDownSelectPlayer: "select player", 
+        dropDownSelectScore: "result" });
     } else {
       this.setState({ maxPlayersReached: true });
     }
+  }
+
+  clearAll = () => {
+    this.setState({ totalPlayers: [], playerHist: {}, dropDownSelectPlayer: "select player", dropDownSelectScore: "result" })
   }
 
   selectPlayer = (e) => {
@@ -43,39 +58,72 @@ class Submit extends Component {
         username = friends[i].username;
       }
     }
-
-    this.setState({ userId, username });
+    this.setState({ userId, username, dropDownSelectPlayer: userId });
+    console.log('reached selectPlayer function')
   }
 
   selectScore = (e) => {
-    let score = e.target.value === 'Win' ? 10 : 5;
+    let score = e.target.value === 'win' ? 10 : 5;
+    this.setState({ score, dropDownSelectScore: e.target.value })
+  }
 
-    this.setState({ score })
+  submitConfirmation = () => {
+    const { totalPlayers } = this.state;
+    
+    let wins = 0;
+    let loss = 0;
+    for (let i = 0; i < totalPlayers.length; i++) {
+      if (totalPlayers[i].score === 10) {
+        wins += 1;
+      } else {
+        loss += 1;
+      }
+    }
+
+    if (wins === loss) {
+
+    } else {
+      this.setState({ scoreNotEven: true });
+      setTimeout(() => this.setState({ scoreNotEven: false }));
+    }
+    
+  }
+
+
+  showState = () => {
+    console.log(this.state)
   }
 
   render() {
     const { friends } = this.props;
-    let { alreadySelectedPlayer, maxPlayersReached, totalPlayers } = this.state;
+    let { 
+      alreadySelectedPlayer, 
+      maxPlayersReached, 
+      totalPlayers, 
+      scoreNotEven, 
+      dropDownSelectPlayer, 
+      dropDownSelectScore } = this.state;
 
     return (
       <div className="submitForm">
+        <button onClick={this.showState}>showState</button>
         <div>
           {totalPlayers.map(player =>
             <div key={player.userId}>
-              {player.username}
+              {player.username + ' - '}
               {player.score === 10 ? 'Win' : 'Loss'}
             </div>
           )}
         
-          <select name="player" onChange={this.selectPlayer}>
-            <option value="select">select player</option>
+          <select name="player" onChange={this.selectPlayer} value={dropDownSelectPlayer}>
+            <option value="select player">select player</option>
             {friends.map((user, index) =>
               <option key={index} value={user.id}>
                 {user.username}
               </option>
             )}
           </select>
-          <select name="" id="" onChange={this.selectScore}>
+          <select name="" id="" onChange={this.selectScore} value={dropDownSelectScore}>
             <option value="result">result</option>
             <option value="win">Win</option>  
             <option value="loss">Loss</option>
@@ -86,6 +134,12 @@ class Submit extends Component {
         {alreadySelectedPlayer && <div>Player has already been added</div>}
         {maxPlayersReached && <div>You have reached the maximum number of players</div>}
         <button type="button" onClick={this.addPlayer}>Add Score</button>
+        <br/>
+        {scoreNotEven && <div>scores are not even, please resubmit</div>}
+        <button onClick={this.submitConfirmation}>Submit Result</button>
+
+        <br/>
+        <button onClick={this.clearAll}>Clear All</button>
             
       </div>
     )
