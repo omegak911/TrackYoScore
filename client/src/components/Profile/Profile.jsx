@@ -29,30 +29,38 @@ class Profile extends Component {
   }
 
   componentDidMount() {
-    this.updateState();
+    setTimeout(() => this.updateState(), 0);
   }
 
   //if we're navigated to a different profile, allow componentDidUpdate()
   shouldComponentUpdate() {
-    let { id } = this.props.location.state.user;
+    let { state } = this.props.location;
+    let id = state ? state.user.id : Infinity;
     return id === this.state.id;
   }
   componentDidUpdate(prevProps, prevState) {
-    let { id } = this.props.location.state.user;
+    let { state } = this.props.location;
+    let id = state ? state.user.id : Infinity;
     if (id !== prevState.id) {
-      this.updateState();
+    setTimeout(() => this.updateState(), 0);
     }
+    console.log('reached CDU')
   }
 
   updateState = () => {
+    console.log('updateState')
+    console.log(this.props);
     const { state } = this.props.location;
     const { friends, userData, pendingFriendRequests } = this.props;
+    const { id } = this.state;
 
-    let options = { params: { id: state.user.id }}
+    let options = { params: { id: state ? state.user.id : userData ? userData.id : id }}
     
     axios
       .get('/api/user/profile', options)
       .then( async ({ data }) => {
+        console.log('profile data')
+        console.log(data)
         const { id, username, level, wins, losses } = data;
         await this.setState({ id, username, level, wins, losses });
 
@@ -183,7 +191,7 @@ class Profile extends Component {
           <div>Request already exists, go check your profile to accept their request.</div>
         }
 
-        {userData.username === username && 
+        {userData && userData.username === username && 
           <div>
 
             <div>

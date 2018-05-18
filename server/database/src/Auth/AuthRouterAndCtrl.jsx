@@ -58,4 +58,13 @@ router.route('/login')
   }
   );
 
+router.route('/isLoggedin')
+  .get((req, res) => {
+    if (req.isAuthenticated()) {
+      res.status(200).send(req.user);
+    } else {
+      res.status(200).send('404: Forbidden')
+    }
+  });
+
 export default router;

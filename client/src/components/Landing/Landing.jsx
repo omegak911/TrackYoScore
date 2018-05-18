@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { Redirect } from 'react-router-dom';
 import axios from 'axios';
 
 import { updateUserData, updatePendingFriendRequests, updatePendingHistConfirmations, updateFriendList } from '../../redux/actions'; 
@@ -54,7 +53,6 @@ class Landing extends Component {
           this.props.history.push('/home');
         } else {
           this.setState({ invalid: data });
-          setTimeout( () => this.setState({ invalid: '' }), 5000);
         }
       })
       .catch(err => console.log(err));
