@@ -4,6 +4,7 @@ const SQL_database = new Sequelize('trackyoscore', 'root', '', { //set username 
   host: 'localhost',
   dialect: 'postgres',
   operatorsAliases: false,
+  logging: false,
 
   pool: {
     max: 5,

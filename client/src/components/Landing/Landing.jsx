@@ -16,7 +16,7 @@ class Landing extends Component {
       username: '',
       password: '',
       email: '',
-      invalid: false,
+      invalid: '',
     }
   }
 
@@ -46,15 +46,15 @@ class Landing extends Component {
       .get('/api/auth/login', options)
       .then(({ data }) => {
         console.log('login data: ', data)
-        if (data === 'invalid') {
-          this.setState({ invalid: true });
-          setTimeout( () => this.setState({ invalid: false }), 5000);
-        } else if (data.username) {
+        if (data.username) {
           updateUserData(data);
           updateFriendList(data.friendsList);
           updatePendingFriendRequests(data.friendRequests);
           updatePendingHistConfirmations(data.confirmationNeeded);
           this.props.history.push('/home');
+        } else {
+          this.setState({ invalid: data });
+          setTimeout( () => this.setState({ invalid: '' }), 5000);
         }
       })
       .catch(err => console.log(err));
@@ -97,9 +97,9 @@ class Landing extends Component {
             }
             <input type="password" name="password" placeholder="password" onChange={e => this.handleEntry(e)}/>
             <br/>
-            {invalid &&
+            {invalid.length > 0 &&
               <div>
-                <span className="invalidLandingInput">Invalid username and/or password</span>
+                <span className="invalidLandingInput">{invalid}</span>
               </div>
             }
             <button>{login ? 'Login' : 'SignUp'}</button>

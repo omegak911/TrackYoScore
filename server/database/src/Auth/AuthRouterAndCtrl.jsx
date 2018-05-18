@@ -13,12 +13,15 @@ passport.use(new LocalStrategy({
     validateUserHelper(username, (err, user) => {
       if (err) { return done(err); }
       if (!user) {
-        return done(null, false, { message: 'Incorrect username.' });
+        console.log('invalid user')
+        req.message = 'invalid username';
+        return done(null, false);
       }
       if (user.dataValues.password !== password) {
-        return done(null, false, { message: 'Incorrect password' });
+        console.log('invalid password')
+        req.message = 'invalid password'
+        return done(null, false);
       }
-      // res.user = user;
       delete user.dataValues.password;
       return done(null, user.dataValues);
     })
@@ -48,8 +51,11 @@ const createUser = (req, res) => {
 //   ));
 
 router.route('/login')
-  .get(passport.authenticate('local'), (req, res, next) =>
+  .get(passport.authenticate('local', { failWithError: true }), (req, res, next) => {
     res.status(200).send(req.user)
+  }, (err, req, res, next) => {
+    res.status(200).send(req.message)
+  }
   );
 
 export default router;
