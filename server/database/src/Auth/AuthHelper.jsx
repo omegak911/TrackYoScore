@@ -16,9 +16,9 @@ const createUserHelper = ({ username, password }, callback) =>
     console.log(err);
   });
 
-const validateUserHelper = ({ username, password }, callback) => 
+const validateUserHelper = (username, callback) => 
   Users.findOne({
-    where: { username, password },
+    where: { username },
     include: [{
         model: HistoryConfirmation,
         as: 'confirmationNeeded',
@@ -33,9 +33,9 @@ const validateUserHelper = ({ username, password }, callback) =>
         attributes: ['id', 'username'],
       },
     ],
-    attributes: { exclude: [ 'password', 'updatedAt'] }
+    attributes: { exclude: ['updatedAt'] }
   })
-  .then(result => callback(result))
-  .catch(err => console.log(err));
+  .then((result) => callback(null, result))
+  .catch(err => callback(err, null));
 
 export { createUserHelper, validateUserHelper };
