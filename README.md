@@ -94,3 +94,12 @@ Level   EXP increment per level
 
 
 have a worker that runs every week on confirmation and removes any > 1 week pending
+
+
+Auth goals
+- rate limiting (prevent more than 3 tries in the last hour)
+- OAuth (via google, facebook, etc)
+- OAuth with email confirmation
+- requiring security questions on password reset
+- expiring tokens/sessions
+- secure + encrypted data
