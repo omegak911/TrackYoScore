@@ -43,7 +43,7 @@ class Landing extends Component {
     }
 
     axios
-      .get('/api/user/login', options)
+      .get('/api/auth/login', options)
       .then(({ data }) => {
         console.log('login data: ', data)
         if (data === 'invalid') {
@@ -69,7 +69,7 @@ class Landing extends Component {
     }
 
     axios
-      .post('/api/user/signup', options)
+      .post('/api/auth/signup', options)
       .then(({ data }) => {
         this.props.userData(data);
         this.props.history.push('/home');

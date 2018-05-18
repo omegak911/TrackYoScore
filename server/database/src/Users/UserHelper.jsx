@@ -5,22 +5,6 @@ import Sequelize from 'sequelize';
 
 const Op = Sequelize.Op;
 
-//add user
-const createUserHelper = ({ username, password }, callback) => 
-  Users.create({
-    username,
-    password,
-    level: 1,
-    currentEXP: 0,
-    nextLevelEXP: 100,
-    wins: 0,
-    losses: 0,
-  })
-  .then((result) => callback(result))
-  .catch(err => { 
-    console.log(err);
-  });
-
 const searchUsersHelper = ({ username }, callback) =>
   Users.findAll({
     attributes: ['username', 'id'],
@@ -64,26 +48,4 @@ const userProfileHelper = ({ id }, callback) =>
   .then(result => callback(result))
   .catch(err => console.log(err));
 
-const validateUserHelper = ({ username, password }, callback) => 
-  Users.findOne({
-    where: { username, password },
-    include: [{
-        model: HistoryConfirmation,
-        as: 'confirmationNeeded',
-      }, {
-        model: Users,
-        as: 'friendRequests',
-        attributes: ['id', 'username'],
-      },
-      {
-        model: Users,
-        as: 'friendsList',
-        attributes: ['id', 'username'],
-      },
-    ],
-    attributes: { exclude: [ 'password', 'updatedAt'] }
-  })
-  .then(result => callback(result))
-  .catch(err => console.log(err));
-
-export { createUserHelper, searchUsersHelper, updateUserHelper, userProfileHelper, validateUserHelper };
+export { searchUsersHelper, updateUserHelper, userProfileHelper };

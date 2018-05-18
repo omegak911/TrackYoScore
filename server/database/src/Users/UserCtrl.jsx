@@ -1,19 +1,5 @@
-import { createUserHelper, searchUsersHelper, userProfileHelper, validateUserHelper } from './UserHelper';
+import { searchUsersHelper, userProfileHelper } from './UserHelper';
 import levelHelper from './LevelHelper'; 
-
-const createUser = (req, res) => {
-  //req.body should contain username and password
-
-  createUserHelper(req.body, (result) => {
-    console.log('create User result: ', result);
-    // if (result.password) {
-    //   delete result.password;
-    // }
-    // res.status(201).send(result);
-
-    res.status(201).send('result');
-  })
-}
 
 const searchUsers = (req, res) => {
   //check if user is logged in
@@ -39,14 +25,4 @@ const userProfile = (req, res) => {
   })
 }
 
-const validateUser = (req, res) => {
-  //req.body should contain username and password
-
-  validateUserHelper(req.query, (result) => {
-    //null if not found
-    const data  = result === null ? 'invalid' : result
-    res.status(200).send(data);
-  });
-};
-
-export { createUser, searchUsers, updateUsername, userProfile, validateUser };
+export { searchUsers, updateUsername, userProfile };
