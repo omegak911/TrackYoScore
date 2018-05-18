@@ -9,6 +9,7 @@ const port = process.env.port || 3666;
 
 app.use(...middleware);
 
+app.use(express.static(path.join(__dirname, '../client/dist'))),
 app.use('/api', routes);
 app.use('*', (req, res) => res.sendFile(path.resolve(__dirname, '../client/dist/index.html')));
 

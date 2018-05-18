@@ -1,13 +1,19 @@
-import express from 'express';
-import path from 'path';
 import bodyParser from 'body-parser';
-import helmet from 'helmet';
 import cors from 'cors';
+import express from 'express';
+import helmet from 'helmet';
 import passport from 'passport';
+import path from 'path';
+import session from 'express-session'
 
 const corsOptions = {
   origin: `http://localhost:3666`,
   methods: 'GET,POST,PUT,DELETE'
+}
+
+const sessionOptions = {
+  secret: 'track-enabled-now',
+  cookie: { maxAge: 60000 }  //one minute
 }
 
 const middleware = [
@@ -15,7 +21,7 @@ const middleware = [
   cors(corsOptions),
   bodyParser.json(),
   bodyParser.urlencoded({ extended: true }),
-  express.static(path.join(__dirname, '../../client/dist')),
+  session(sessionOptions)
   // passport.initialize(),
   // passport.session()
 ]
