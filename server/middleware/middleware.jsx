@@ -21,9 +21,9 @@ const middleware = [
   cors(corsOptions),
   bodyParser.json(),
   bodyParser.urlencoded({ extended: true }),
-  session(sessionOptions)
-  // passport.initialize(),
-  // passport.session()
+  session(sessionOptions),
+  passport.initialize(),
+  passport.session()
 ]
 
 export default middleware;

@@ -1,6 +1,6 @@
 import express from 'express';
 
-import authRouter from './database/src/Auth/AuthRouter';
+import authRouter from './database/src/Auth/AuthRouterAndCtrl';
 import userRouter from './database/src/Users/UserRouter';
 import gameRouter from './database/src/Games/GameRouter';
 // import perkRouter from './database/src/Perks/PerkRouter';
