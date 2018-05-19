@@ -15,7 +15,7 @@ class Profile extends Component {
     this.state = {
       id: 0,
       username: '',
-      level: '',
+      level: null,
       wins: 0,
       losses: 0,
       friends: [],
@@ -36,20 +36,22 @@ class Profile extends Component {
   shouldComponentUpdate() {
     let { state } = this.props.location;
     let id = state ? state.user.id : Infinity;
-    return id === this.state.id;
+    return id !== this.state.id;
   }
   componentDidUpdate(prevProps, prevState) {
+    let { throttle } = this.state;
     let { state } = this.props.location;
-    let id = state ? state.user.id : Infinity;
-    if (id !== prevState.id) {
-    setTimeout(() => this.updateState(), 0);
+    if (state === undefined) {
+      this.props.history.push('/home');
+    } else {
+      let { id } = state.user.id;
+      if (id !== prevState.id) {
+        this.updateState();
+      }
     }
-    console.log('reached CDU')
   }
 
   updateState = () => {
-    console.log('updateState')
-    console.log(this.props);
     const { state } = this.props.location;
     const { friends, userData, pendingFriendRequests } = this.props;
     const { id } = this.state;
@@ -59,11 +61,8 @@ class Profile extends Component {
     axios
       .get('/api/user/profile', options)
       .then( async ({ data }) => {
-        console.log('profile data')
-        console.log(data)
         const { id, username, level, wins, losses } = data;
         await this.setState({ id, username, level, wins, losses });
-
         //determine if it's the user's profile.  If not, are they already friends
         if (username === userData.username) {
           await this.setState({ areFriends: true });
