@@ -1,6 +1,7 @@
 import express from 'express';
 
 import authRouter from './database/src/Auth/AuthRouterAndCtrl';
+import gateway from './middleware/gateway';
 import userRouter from './database/src/Users/UserRouter';
 import gameRouter from './database/src/Games/GameRouter';
 // import perkRouter from './database/src/Perks/PerkRouter';
@@ -11,7 +12,7 @@ const router = express.Router();
 
 router
   .use('/auth', authRouter)
-  //need gateway after auth to confirm if user session authenticated
+  .use(gateway)
   .use('/user', userRouter)
   .use('/game', gameRouter)
   .use('/friend', friendRouter)
