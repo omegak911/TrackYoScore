@@ -13,7 +13,9 @@ const corsOptions = {
 
 const sessionOptions = {
   secret: 'track-enabled-now',
-  cookie: { maxAge: 60000 }  //one minute
+  cookie: { maxAge: 300000 },  //five minute
+  resave: false,
+  saveUninitialized: false,
 }
 
 const middleware = [

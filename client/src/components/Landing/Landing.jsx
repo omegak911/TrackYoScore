@@ -85,7 +85,7 @@ class Landing extends Component {
     return (
       <div>
         <div className="login">
-          <form name={login ? "login" : "signup"} onSubmit={e => this.handleButton(e)}>
+          <form name={login ? "login" : "signup"} autoComplete="on" onSubmit={e => this.handleButton(e)}>
             <input type="text" name="username" placeholder="username" onChange={e => this.handleEntry(e)}/>
             <br/>
             {!login && 
@@ -93,7 +93,7 @@ class Landing extends Component {
                 <input type="text" name="email" placeholder="email" onChange={e => this.handleEntry(e)}/>
               </div>
             }
-            <input type="password" name="password" placeholder="password" onChange={e => this.handleEntry(e)}/>
+            <input type="password" name="password" placeholder="password" autoComplete="off" onChange={e => this.handleEntry(e)}/>
             <br/>
             {invalid.length > 0 &&
               <div>
