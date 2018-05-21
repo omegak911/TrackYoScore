@@ -23,4 +23,8 @@ const updatePendingHistConfirmations = data => ({
   payload: data,
 });
 
-export { searchedUsers, updateUserData, updatePendingFriendRequests, updateFriendList, updatePendingHistConfirmations };
+const logout = () => ({
+  type: 'LOGOUT'
+})
+
+export { logout, searchedUsers, updateUserData, updatePendingFriendRequests, updateFriendList, updatePendingHistConfirmations };

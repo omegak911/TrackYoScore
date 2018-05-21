@@ -9,6 +9,8 @@ const userData = (state = null, action) => {
         wins: action.payload.wins,
         losses: action.payload.losses,
       }
+    case 'LOGOUT':
+      return null;
   }
   return state;
 }
@@ -17,7 +19,8 @@ const pendingFriendRequests = (state = [], action) => {
   switch(action.type) {
     case 'NEW_FRIEND_REQUESTS':
       return action.payload;
-      break;
+    case 'LOGOUT':
+      return [];
   }
   return state;
 }
@@ -26,7 +29,8 @@ const friends = (state = [], action) => {
   switch(action.type) {
     case 'NEW_FRIENDLIST':
       return action.payload;
-      break;
+    case 'LOGOUT':
+      return [];
   }
   return state;
 }
@@ -35,6 +39,8 @@ const pendingConfirmations = (state = [], action) => {
   switch(action.type) {
     case 'USER_DATA':
       return action.payload.confirmationNeeded;
+    case 'LOGOUT':
+      return [];
   }
   return state;
 }
@@ -43,6 +49,8 @@ const listOfUsers = (state = [], action) => {
   switch(action.type) {
     case 'USER_LIST': 
       return action.payload;
+    case 'LOGOUT':
+      return [];
   }
   return state;
 }
@@ -50,7 +58,9 @@ const listOfUsers = (state = [], action) => {
 const historyConfirmations = (state = [], action) => {
   switch(action.type) {
     case 'NEW_HISTCONFIRMATION':
-    return action.payload;
+      return action.payload;
+    case 'LOGOUT':
+      return [];
   }
   return state;
 }
