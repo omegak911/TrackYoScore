@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import axios from 'axios';
@@ -14,6 +14,12 @@ import UserSearchResults  from './Search/UserSearchResult';
 import { updateUserData, updatePendingFriendRequests, updatePendingHistConfirmations, updateFriendList } from '../redux/actions'; 
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      redirect: false,
+    }
+  }
 
   componentDidMount() {
     const { updateUserData, updatePendingFriendRequests, updatePendingHistConfirmations, updateFriendList } = this.props;
@@ -28,9 +34,8 @@ class App extends Component {
           updateFriendList(data.friendsList);
           updatePendingFriendRequests(data.friendRequests);
           updatePendingHistConfirmations(data.confirmationNeeded);
-        } else {
-//somehow send to login?
-          console.log('no data')
+        } else if (window.location.pathname !== '/') {
+          this.setState({ redirect: true });
         }
       })
       .catch(err => {
@@ -52,6 +57,7 @@ class App extends Component {
                 <Route path='/profile' component={Profile} />
                 <Route path='/userSearchResults' component={UserSearchResults} />
               </Switch>
+              {this.state.redirect && <Redirect to="/" />}
             </div>
         </BrowserRouter>
       </div>
