@@ -1,12 +1,24 @@
 import React, { Component } from 'react';
+import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
+
+import { logout } from '../../redux/actions';
 
 import './Nav.scss';
 
 class Nav extends Component {
   constructor(props) {
     super(props);
+  }
+
+  logout = () => {
+    axios
+      .post('/api/auth/logout')
+      .then(() => this.props.logout())
+      .catch(err => console.log(err))
+    console.log('hmmmmm')
   }
 
   render() {
@@ -26,7 +38,7 @@ class Nav extends Component {
             <Link to="/history" >History</Link>
           </div>
           <div className="linkContainer">
-            Logout
+            <Link to="/" onClick={this.logout}>Logout</Link>
           </div>
         </div>
       }
@@ -41,4 +53,8 @@ const mapStateToProps = state => {
   }
 }
 
-export default connect(mapStateToProps)(Nav);
+const matchDispatchToProps = dispatch => {
+  return bindActionCreators({ logout }, dispatch);
+}
+
+export default connect(mapStateToProps, matchDispatchToProps)(Nav);

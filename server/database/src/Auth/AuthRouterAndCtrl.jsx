@@ -33,7 +33,7 @@ passport.deserializeUser((user, done) => done(null, user));
 
 const createUser = (req, res) => {
   //req.body should contain username and password
-
+  console.log(req.body)
   createUserHelper(req.body, (result) => {
     console.log('create User result: ', result);
     // if (result.password) {
@@ -45,18 +45,21 @@ const createUser = (req, res) => {
   })
 }
 
-// router.route('/signup')
-//   .post(passport.authenticate('local', (err, req, res, next) => 
-//     res.status(201).send(req)
-//   ));
+router.route('/signup')
+  .post(createUser);
 
 router.route('/login')
   .get(passport.authenticate('local', { failWithError: true }), (req, res, next) => {
     res.status(200).send(req.user)
   }, (err, req, res, next) => {
     res.status(200).send(req.message)
-  }
-  );
+  });
+
+router.route('/logout')
+  .post((req, res) => {
+    req.logout();
+    res.status(201).redirect('/');
+  })
 
 router.route('/isLoggedin')
   .get((req, res) => {
