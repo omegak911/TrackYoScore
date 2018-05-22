@@ -1,3 +1,4 @@
+import bcrypt from 'bcryptjs';
 import passport from 'passport';
 import passportLocal from 'passport-local';
 import express from 'express';
@@ -13,17 +14,19 @@ passport.use(new LocalStrategy({
     validateUserHelper(username, (err, user) => {
       if (err) { return done(err); }
       if (!user) {
-        console.log('invalid user')
         req.message = 'invalid username';
         return done(null, false);
       }
-      if (user.dataValues.password !== password) {
-        console.log('invalid password')
-        req.message = 'invalid password'
-        return done(null, false);
-      }
-      delete user.dataValues.password;
-      return done(null, user.dataValues);
+      bcrypt.compare(password, user.dataValues.password, (err, isMatch) => {
+        if (err) {
+          req.message = 'invalid password';
+          return done(null, false);
+        } 
+        if (isMatch) {
+          delete user.dataValues.password;
+          return done(null, user.dataValues);
+        }
+      })
     })
   }
 ))
@@ -32,16 +35,17 @@ passport.serializeUser((user, done) => done(null, user));
 passport.deserializeUser((user, done) => done(null, user));
 
 const createUser = (req, res) => {
-  //req.body should contain username and password
-  console.log(req.body)
-  createUserHelper(req.body, (result) => {
-    console.log('create User result: ', result);
-    // if (result.password) {
-    //   delete result.password;
-    // }
-    // res.status(201).send(result);
-
-    res.status(201).send('result');
+  bcrypt.genSalt(10, (err, salt) => {
+    bcrypt.hash(req.body.password, salt, (err, hash) => {
+      if (err) console.log(err);
+      req.body.password = hash;
+      createUserHelper(req.body, (result) => {
+        if (result.password) {
+          delete result.password;
+        }
+        res.status(201).send(result);
+      })
+    })
   })
 }
 

@@ -1,7 +1,7 @@
 import { Users, HistoryConfirmation } from '../../SQL/index';
 import Sequelize from 'sequelize';
 
-const createUserHelper = ({ username, password }, callback) => 
+const createUserHelper = ({ username, password }, callback) =>
   Users.create({
     username,
     password,
@@ -11,9 +11,9 @@ const createUserHelper = ({ username, password }, callback) =>
     wins: 0,
     losses: 0,
   })
-  .then((result) => callback(result))
+  .then(({ dataValues }) => callback(dataValues))
   .catch(err => { 
-    console.log(err);
+    callback('invalid username');
   });
 
 const validateUserHelper = (username, callback) => 
