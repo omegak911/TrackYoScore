@@ -4,6 +4,7 @@ import { updateUserHelper } from '../src/Users/UserHelper';
 import { createUserHelper, validateUserHelper } from '../src/Auth/AuthHelper';
 import { addGameHelper, fetchGameHelper } from '../src/Games/GameHelper';
 import { addFriendHelper, friendRequestHelper } from '../src/Friends/FriendHelper';
+import axios from "axios";
 
 import { 
   addHistoryHelper, 
@@ -280,7 +281,11 @@ const seedFriends = [
 
 const createUsers = async () => {
   for (let i = 0; i < seedUsers.length; i++) {
-    await createUserHelper(seedUsers[i], (result) => console.log(seedUsers[i].username, ' added to DB'));
+    await axios.post('http://localhost:3666/api/auth/signup/', seedUsers[i])
+    
+    
+    
+    // createUserHelper(seedUsers[i], (result) => console.log(seedUsers[i].username, ' added to DB'));
   };
 };
 

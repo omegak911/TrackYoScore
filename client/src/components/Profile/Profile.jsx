@@ -235,7 +235,7 @@ const mapStateToProps = state => {
   return {
     userData: state.userData,
     friends: state.friends,
-    pendingConfirmations: state.pendingConfirmations,
+    historyConfirmations: state.historyConfirmations,
     pendingFriendRequests: state.pendingFriendRequests
   }
 }
