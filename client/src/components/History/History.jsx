@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Redirect } from 'react-router-dom';
 import axios from 'axios';
 
 import './History.scss';
@@ -27,7 +26,10 @@ class History extends Component {
   
       axios
         .get('/api/history/history', options)
-        .then(({ data }) => this.setState({ challengeHist: data }))
+        .then(({ data }) => {
+          console.log('history data: ', data)
+          this.setState({ challengeHist: data })
+        })
         .catch(err => console.log(err));
     }
     }, 100);

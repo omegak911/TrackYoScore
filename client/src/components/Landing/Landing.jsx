@@ -32,7 +32,6 @@ class Landing extends Component {
   }
 
   login = () => {
-    const { updateUserData, updatePendingFriendRequests, updatePendingHistConfirmations, updateFriendList } = this.props;
     const { username, password } = this.state;
     const options = {
       params: {
@@ -45,15 +44,7 @@ class Landing extends Component {
       .get('/api/auth/login', options)
       .then(({ data }) => {
         console.log('login data: ', data)
-        if (data.username) {
-          updateUserData(data);
-          updateFriendList(data.friendsList);
-          updatePendingFriendRequests(data.friendRequests);
-          updatePendingHistConfirmations(data.confirmationNeeded);
-          this.props.history.push('/home');
-        } else {
-          this.setState({ invalid: data });
-        }
+        this.handleData(data);
       })
       .catch(err => console.log(err));
   }
@@ -61,7 +52,7 @@ class Landing extends Component {
   signup = () => {
     const { email, username, password } = this.state;
     const options = {
-      email,
+      // email,
       username,
       password,
     }
@@ -69,10 +60,22 @@ class Landing extends Component {
     axios
       .post('/api/auth/signup', options)
       .then(({ data }) => {
-        this.props.userData(data);
-        this.props.history.push('/home');
+        this.login();
       })
       .catch(err => console.log(err));
+  }
+
+  handleData = (data) => {
+    const { updateUserData, updatePendingFriendRequests, updatePendingHistConfirmations, updateFriendList } = this.props;
+    if (data.username) {
+      updateUserData(data);
+      updateFriendList(data.friendsList || []);
+      updatePendingFriendRequests(data.friendRequests || []);
+      updatePendingHistConfirmations(data.confirmationNeeded || []);
+      this.props.history.push('/home');
+    } else {
+      this.setState({ invalid: data });
+    }
   }
 
   switch = () => {
