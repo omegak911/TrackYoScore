@@ -25,30 +25,18 @@ class Profile extends Component {
       friendRequests: [],
       alreadyAPendingRequest: false,
       account: false,
+      throttle: false
     };
   }
 
   componentDidMount() {
-    setTimeout(() => this.updateState(), 0);
-  }
-
-  //if we're navigated to a different profile, allow componentDidUpdate()
-  shouldComponentUpdate() {
-    let { state } = this.props.location;
-    let id = state ? state.user.id : Infinity;
-    return id !== this.state.id;
-  }
-  componentDidUpdate(prevProps, prevState) {
-    let { throttle } = this.state;
-    let { state } = this.props.location;
-    if (state === undefined) {
-      this.props.history.push('/home');
-    } else {
-      let { id } = state.user.id;
-      if (id !== prevState.id) {
-        this.updateState();
+    setTimeout( () => {
+      if (!this.props.userData) {
+        this.props.history.push('/')
+      } else {
+        setTimeout(() => this.updateState(), 0);
       }
-    }
+    }, 100);
   }
 
   updateState = () => {
@@ -69,7 +57,7 @@ class Profile extends Component {
         } else {
           for (let i = 0; i < friends.length; i++) {
             if (friends[i].username === username) {
-              this.setState({ areFriends: true });
+              await this.setState({ areFriends: true });
             }
           }
         }
@@ -141,7 +129,7 @@ class Profile extends Component {
   }
 
   render() {
-    let { 
+    let {
       username, 
       level, 
       wins, 
@@ -183,7 +171,7 @@ class Profile extends Component {
         </div>
         
         {!areFriends &&
-        <button type="button" onClick={this.friendRequest}>Add Friend</button>
+          <button type="button" onClick={this.friendRequest}>Add Friend</button>
         }
 
         {alreadyAPendingRequest &&
