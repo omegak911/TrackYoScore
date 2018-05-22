@@ -35,15 +35,15 @@ const friends = (state = [], action) => {
   return state;
 }
 
-const pendingConfirmations = (state = [], action) => {
-  switch(action.type) {
-    case 'USER_DATA':
-      return action.payload.confirmationNeeded;
-    case 'LOGOUT':
-      return [];
-  }
-  return state;
-}
+// const pendingConfirmations = (state = [], action) => {
+//   switch(action.type) {
+//     case 'USER_DATA':
+//       return action.payload.confirmationNeeded;
+//     case 'LOGOUT':
+//       return [];
+//   }
+//   return state;
+// }
 
 const listOfUsers = (state = [], action) => {
   switch(action.type) {
@@ -65,4 +65,4 @@ const historyConfirmations = (state = [], action) => {
   return state;
 }
 
-export { friends, historyConfirmations, userData, listOfUsers, pendingConfirmations, pendingFriendRequests };
+export { friends, historyConfirmations, userData, listOfUsers, pendingFriendRequests };
