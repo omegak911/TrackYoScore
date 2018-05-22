@@ -12,6 +12,13 @@ class Home extends Component {
     }
   }
 
+  componentDidMount() {
+    setTimeout(() => {
+      if (!this.props.userData) {
+      this.props.history.push('/');
+    }}, 100);
+  }
+
   showTreasure = () => {
     console.log(this.state);
     console.log(this.props);

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 import axios from 'axios';
 
 import './History.scss';
@@ -8,24 +9,28 @@ class History extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      challengeHist: [],
+      challengeHist: []
     }
   }
 
   componentDidMount() {
-    const { id } = this.props.userData;
-    console.log('history user id: ', id);
-
-    let options = {
-      params: {
-        id,
+    setTimeout(() => {
+      if (!this.props.userData) {
+      this.props.history.push('/');
+      } else {
+      let { id } = this.props.userData;
+      let options = {
+        params: {
+          id,
+        }
       }
+  
+      axios
+        .get('/api/history/history', options)
+        .then(({ data }) => this.setState({ challengeHist: data }))
+        .catch(err => console.log(err));
     }
-
-    axios
-      .get('/api/history/history', options)
-      .then(({ data }) => this.setState({ challengeHist: data }))
-      .catch(err => console.log(err));
+    }, 100);
   }
 
   render() {
@@ -33,7 +38,6 @@ class History extends Component {
 
     return (
       <div>
-        Hello from history
         {challengeHist.map((match, index) =>
           <div key={index} className="historyResult">
             {match.playerScore.map((player, index) => 
