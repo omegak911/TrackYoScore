@@ -39,12 +39,11 @@ const createUser = (req, res) => {
     bcrypt.hash(req.body.password, salt, (err, hash) => {
       if (err) console.log(err);
       req.body.password = hash;
-      createUserHelper(req.body, (result) => {
-        if (result.password) {
-          delete result.password;
-        }
-        res.status(201).send(result);
-      })
+      createUserHelper(req.body, () =>
+        // if (result.password) {
+        //   delete result.password;
+        // }
+        res.status(201).send('success'))
     })
   })
 }

@@ -60,6 +60,7 @@ class Landing extends Component {
     axios
       .post('/api/auth/signup', options)
       .then(({ data }) => {
+        console.log('signup data: ', data)
         this.login();
       })
       .catch(err => console.log(err));
