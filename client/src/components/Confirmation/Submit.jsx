@@ -11,19 +11,21 @@ class Submit extends Component {
       userId: null,
       username: '',
       score: null,
-      totalPlayers: [],
+      totalScore: {},
       playerHist: {},
       alreadySelectedPlayer: false,
       maxPlayersReached: false,
       scoreNotEven: false,
-      dropDownSelectPlayer: "select player",
-      dropDownSelectScore: "result",
+      dropDownSelectPlayer: 'select player',
+      dropDownSelectScore: 'result',
+      dropDownSelectUserScore: 'result',
+      displayUserScoreDropdown: true,
       noPlayerSelected: false,
     }
   }
 
   addPlayer = () => {
-    let { userId, username, score, totalPlayers, playerHist, noPlayerSelected } = this.state;
+    let { userId, username, score, totalScore, playerHist, noPlayerSelected } = this.state;
 
     if (userId === null) {
       this.setState({ noPlayerSelected: true});
@@ -31,13 +33,13 @@ class Submit extends Component {
     } else if (playerHist[username]) {
       this.setState({ alreadySelectedPlayer: true });
       setTimeout(() => this.setState({ alreadySelectedPlayer: false}), 5000);
-    } else if (totalPlayers.length <= 5) {
-      let totalCopy = totalPlayers.slice();
-      totalCopy.push({ userId, username, score });
+    } else if (Object.keys(totalScore).length <= 5) {
+      // let totalCopy = totalScore.slice();
+      totalScore[userId] = { username, score };
       playerHist[username] = true;
       this.setState({ 
         playerHist, 
-        totalPlayers: totalCopy, 
+        totalScore, 
         userId: null, 
         username: '', 
         score: null,
@@ -49,7 +51,7 @@ class Submit extends Component {
   }
 
   clearAll = () => {
-    this.setState({ totalPlayers: [], playerHist: {}, dropDownSelectPlayer: "select player", dropDownSelectScore: "result" })
+    this.setState({ totalScore: [], playerHist: {}, dropDownSelectPlayer: "select player", dropDownSelectScore: "result" })
   }
 
   selectPlayer = (e) => {
@@ -63,7 +65,6 @@ class Submit extends Component {
       }
     }
     this.setState({ userId, username, dropDownSelectPlayer: userId });
-    console.log('reached selectPlayer function')
   }
 
   selectScore = (e) => {
@@ -71,13 +72,21 @@ class Submit extends Component {
     this.setState({ score, dropDownSelectScore: e.target.value })
   }
 
+  selectUserScore = async (e) => {
+    const { id, username } = this.props.userData;
+    let score = e.target.value === 'win' ? 10 : 5;
+    console.log(`id: ${id}, username: ${username}, score: ${e.target.value}`)
+    await this.setState({ userId: id, username, score, dropDownSelectUserScore: e.target.value, displayUserScoreDropdown: false });
+    await this.addPlayer();
+  }
+
   submitConfirmation = () => {
-    const { totalPlayers } = this.state;
+    const { totalScore } = this.state;
     
     let wins = 0;
     let loss = 0;
-    for (let i = 0; i < totalPlayers.length; i++) {
-      if (totalPlayers[i].score === 10) {
+    for (let i = 0; i < totalScore.length; i++) {
+      if (totalScore[i].score === 10) {
         wins += 1;
       } else {
         loss += 1;
@@ -92,9 +101,7 @@ class Submit extends Component {
       this.setState({ scoreNotEven: true });
       setTimeout(() => this.setState({ scoreNotEven: false }), 5000);
     }
-    
   }
-
 
   showState = () => {
     console.log(this.state)
@@ -106,36 +113,49 @@ class Submit extends Component {
       alreadySelectedPlayer, 
       noPlayerSelected,
       maxPlayersReached, 
-      totalPlayers, 
+      totalScore, 
       scoreNotEven, 
       dropDownSelectPlayer, 
-      dropDownSelectScore } = this.state;
+      dropDownSelectScore,
+      displayUserScoreDropdown } = this.state;
 
     return (
       <div className="submitForm">
         <button onClick={this.showState}>showState</button>
         <div>
-          {totalPlayers.map(player =>
-            <div key={player.userId}>
-              {player.username + ' - '}
-              {player.score === 10 ? 'Win' : 'Loss'}
+          {Object.keys(totalScore).map(userId =>
+            <div key={userId}>
+              {totalScore[userId].username + ' - '}
+              {totalScore[userId].score === 10 ? 'Win' : 'Loss'}
             </div>
           )}
-        
-          <select name="player" onChange={this.selectPlayer} value={dropDownSelectPlayer}>
-            <option value="select player">select player</option>
-            {friends.map((user, index) =>
-              <option key={index} value={user.id}>
-                {user.username}
-              </option>
-            )}
-          </select>
-          <select name="" id="" onChange={this.selectScore} value={dropDownSelectScore}>
-            <option value="result">result</option>
-            <option value="win">Win</option>  
-            <option value="loss">Loss</option>
-          </select>
 
+          {displayUserScoreDropdown &&
+            <div>
+              Your Score 
+              <select name="" id="" onChange={this.selectUserScore} value={dropDownSelectScore}>
+                <option value="result">result</option>
+                <option value="win">Win</option>  
+                <option value="loss">Loss</option>
+              </select>
+            </div>}
+        
+          {!displayUserScoreDropdown && 
+            <div>
+              <select name="player" onChange={this.selectPlayer} value={dropDownSelectPlayer}>
+              <option value="select player">select player</option>
+              {friends.map((user, index) =>
+                <option key={index} value={user.id}>
+                  {user.username}
+                </option>
+              )}
+              </select>
+              <select name="" id="" onChange={this.selectScore} value={dropDownSelectScore}>
+                <option value="result">result</option>
+                <option value="win">Win</option>  
+                <option value="loss">Loss</option>
+              </select>
+            </div>}
         </div>
 
         {alreadySelectedPlayer && <div>Player has already been added</div>}
@@ -156,7 +176,8 @@ class Submit extends Component {
 
 const mapStateToProps = state => {
   return {
-    friends: state.friends
+    friends: state.friends,
+    userData: state.userData
   }
 }
 
