@@ -112,127 +112,111 @@ const seedGames = [
 const seedConfirmationHistories = [
   {
     gameId: 2,
-    playerScore: [
-      {
-        userId: 2,
-        score: 10,
-      },
-      {
-        userId: 3,
-        score: 10,
-      },
-      {
-        userId: 4,
-        score: 5,
-      },
-      {
-        userId: 6,
-        score: 5,
-      },
-    ]
-  },
-  {
-    gameId: 2,
-    playerScore: [
-      {
-        userId: 2,
-        username: 'pikachu',
-        score: 5,
-      },
-      {
-        userId: 3,
-        username: 'squirtle',
-        score: 5,
-      },
-      {
-        userId: 4,
-        username: 'bulbasaur',
-        score: 10,
-      },
-      {
-        userId: 6,
-        username: 'charizard',
-        score: 10,
-      },
-    ]
-  },
-  {
-    gameId: 2,
-    playerScore: [
-      {
-        userId: 2,
+    playerScore: {
+      2: {
         username: 'pikachu',
         score: 10,
       },
-      {
-        userId: 3,
+      3: {
         username: 'squirtle',
-        score: 5,
-      },
-      {
-        userId: 4,
-        username: 'bulbasaur',
         score: 10,
       },
-      {
-        userId: 6,
+      4: {
+        username: 'bulbasaur',
+        score: 5,
+      },
+      6: {
         username: 'charizard',
         score: 5,
       },
-    ]
+    }
+  },
+  {
+    gameId: 2,
+    playerScore: {
+      2: {
+        username: 'pikachu',
+        score: 5,
+      },
+      3: {
+        username: 'squirtle',
+        score: 5,
+      },
+      4: {
+        username: 'bulbasaur',
+        score: 10,
+      },
+      6: {
+        username: 'charizard',
+        score: 10,
+      },
+    }
+  },
+  {
+    gameId: 2,
+    playerScore: {
+      2: {
+        username: 'pikachu',
+        score: 10,
+      },
+      3: {
+        username: 'squirtle',
+        score: 5,
+      },
+      4: {
+        username: 'bulbasaur',
+        score: 10,
+      },
+      6: {
+        username: 'charizard',
+        score: 5,
+      },
+    }
   },
 ];
 
 const seedHistories = [
   {
     gameId: 2,
-    playerScore: [
-      {
-        userId: 2,
+    playerScore: {
+      2: {
         username: 'pikachu',
         score: 10,
       },
-      {
-        userId: 3,
+      3: {
         username: 'squirtle',
         score: 5,
       },
-      {
-        userId: 4,
+      4: {
         username: 'bulbasaur',
         score: 10,
       },
-      {
-        userId: 6,
+      6: {
         username: 'charizard',
         score: 5,
       },
-    ]
+    }
   },
   {
     gameId: 2,
-    playerScore: [
-      {
-        userId: 2,
+    playerScore: {
+      2: {
         username: 'pikachu',
         score: 10,
       },
-      {
-        userId: 3,
+      3: {
         username: 'squirtle',
         score: 5,
       },
-      {
-        userId: 4,
+      4: {
         username: 'bulbasaur',
         score: 10,
       },
-      {
-        userId: 6,
+      6: {
         username: 'charizard',
         score: 5,
       },
-    ]
+    }
   },
 ];
 
@@ -306,11 +290,9 @@ const createConfirmation = async () => {
     await addConfirmationHelper(seedConfirmationHistories[i], async (result) => {
       let scores = result.dataValues.playerScore;
       let confirmationId = result.dataValues.id;
-
-      for (let k = 0; k < scores.length; k++) {
-        scores[k].confirmationId = confirmationId;
-        await addUserConfirmationHelper(scores[k]);
-      };
+        for(let key in scores) {
+          await addUserConfirmationHelper(key, confirmationId);
+        }
     });
   };
 };
@@ -320,11 +302,10 @@ const createHistory = async () => {
     await addHistoryHelper(seedHistories[i], async (result) => {
       let scores = result.dataValues.playerScore;
       let historyId = result.dataValues.id;
-
-      for (let k = 0; k < scores.length; k++) {
-        scores[k].historyId = historyId;
-        await addUserHistoryHelper(scores[k]);
-      };
+      
+      for (let key in scores) {
+        await addUserHistoryHelper(key, historyId);
+      }
     })
   }
 }

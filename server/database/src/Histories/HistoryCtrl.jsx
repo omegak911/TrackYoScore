@@ -27,7 +27,7 @@ const addConfirmation = (req,res) => {
 };
 
 const validateConfirmation = (req, res) => {
-  //check if user is logged in
+  // const { id } = req.session.passport.user;
   validateConfirmationHelper(req.body, async (result) => {  //accepts confirmationId and validation - 1
     const { userId } = req.body;
     const confirmationId = req.body.id
@@ -92,16 +92,16 @@ const addHistory = (data) => {  /* input data from validateConfirmation */
 };
 
 const doesConfirmationExist = (req,res) => {
-//check if user is logged in
-  doesConfirmationExistHelper(req.body, (result) => { /* userID */
+  const { id } = req.session.passport.user;
+  doesConfirmationExistHelper(id, (result) => {
     console.log('doesConfirmationExist result: ', result);
     res.status(201).send('success');
   });
 };
 
 const fetchHistory = (req, res) => {
-  //check if user is logged in
-  fetchHistoryHelper(req.query, (result) => {
+  const { id } = req.session.passport.user;
+  fetchHistoryHelper(id, (result) => {
     res.status(201).send(result);
   });
 };

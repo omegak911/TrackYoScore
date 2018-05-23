@@ -10,7 +10,7 @@ const addConfirmationHelper = ({ gameId, playerScore, validation = Object.keys(p
     callback(result)})
   .catch(err => console.log(err));
 
-const addUserConfirmationHelper = ({ userId, confirmationId }) =>
+const addUserConfirmationHelper = (userId, confirmationId) =>
   UserHistoryConfirmations.create({
     userId,
     confirmationId,
@@ -28,7 +28,7 @@ const removeUserConfirmationHelper = ({ userId, confirmationId }) =>
   .then(result => console.log(result))
   .catch(err => console.log(err));
 
-const doesConfirmationExistHelper = ({ userID }, callback) => 
+const doesConfirmationExistHelper = (userID, callback) => 
   UserHistoryConfirmations.findAll({
     where: {
       userID,
@@ -66,7 +66,7 @@ const addHistoryHelper = ({ gameId, playerScore }, callback) =>
     callback(result)})
   .catch(err => console.log(err));
 
-const addUserHistoryHelper = ({ userId, historyId }) =>
+const addUserHistoryHelper = (userId, historyId) =>
   UserHistories.create({
     userId,
     historyId,
@@ -74,7 +74,7 @@ const addUserHistoryHelper = ({ userId, historyId }) =>
   .then(() => console.log('success'))
   .catch(err => console.log(err));
 
-const fetchHistoryHelper = ({ id }, callback) =>
+const fetchHistoryHelper = (id, callback) =>
   Users.findOne({
     where: { id },
     attributes: ['username'],
