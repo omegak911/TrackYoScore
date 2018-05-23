@@ -16,13 +16,13 @@ const addFriendHelper = ({ friendId, userId }, callback) => {
   .catch(err => console.log(err));
 }
 
-const friendRequestHelper = ({ friendId, userId }, callback) =>
+const friendRequestHelper = (friendId, userId, callback) =>
   FriendRequests.create({
     friendId,
     userId,
   })
-  .then(result => callback(result))
-  .catch(err => console.log(err));
+  .then(result => callback(null, 'success'))
+  .catch(err => callback('fail', null));
 
 const removeFriendRequest = ({ id }, callback) =>
   FriendRequests.findOne({

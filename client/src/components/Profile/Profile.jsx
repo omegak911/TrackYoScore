@@ -67,8 +67,7 @@ class Profile extends Component {
   }
 
   friendRequest = () => {
-    let { userData } = this.props;
-    let { friendRequests, username } = this.state;
+    let { friendRequests, id } = this.state;
 
     //if there's already a pending request, tell the user
     let alreadyAPendingRequest = false;
@@ -82,13 +81,17 @@ class Profile extends Component {
       this.setState({ alreadyAPendingRequest });
     } else {
       let options = {
-        requestorId: userData.id,
-        requesteeId: username
+        requesteeId: id
       }
-
+      console.log('sending friend request')
       axios
         .post('api/friend/friendRequest', options)
-        .then(({ data }) => console.log('friendRequest data: ', data))
+        .then(({ data }) => {
+          console.log('friendRequest data: ', data)
+          if (data === 'fail') {
+            this.setState({ alreadyAPendingRequest })
+          }
+        })
         .catch(err => console.log(err));
     }
   }
