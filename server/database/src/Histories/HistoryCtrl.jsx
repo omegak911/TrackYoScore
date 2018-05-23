@@ -14,15 +14,19 @@ import { updateUserHelper } from '../Users/UserHelper';
 import levelHelper from '../Users/LevelHelper';
 
 const addConfirmation = (req,res) => {
-  //check if user is logged in
-  addConfirmationHelper(req.body, (result) => {
+  const { id } = req.session.passport.user;
+  if (id) {
+    addConfirmationHelper(req.body, (result) => {
+    res.status(201).send('success')
+    })
+  } else {
+    res.status(201).send('Forbidden')
+  }
     //for each user, add to temp hist join table for confirmation
     // const players = Object.keys(/* players */);
     // for (let i = 0; i < players.length; i++) {
     //   addUserConfirmationHelper(/* object.userID, object.historyConfirmationID*/)
     // }
-    res.status(201).send('success')
-  });
   //on success, client side should update user notification just for that user
 };
 

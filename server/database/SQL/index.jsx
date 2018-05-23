@@ -26,7 +26,7 @@ const Perks = db.define('perks', {
 });
 
 const Users = db.define('users', {
-  username: { type: Sequelize.STRING(15), unique: true, allowNull: false },
+  username: { type: Sequelize.STRING(15), unique: true, allowNull: false, len: [2,50] },
   password: { type: Sequelize.STRING(), allowNull: false },
   //eventually add email
   level: Sequelize.INTEGER,
