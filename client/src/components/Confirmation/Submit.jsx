@@ -21,6 +21,8 @@ class Submit extends Component {
       dropDownSelectScore: 'result',
       dropDownSelectUserScore: 'result',
       displayUserScoreDropdown: true,
+      selectedGame: {},
+      selectedGameId: null,
       noPlayerSelected: false,
     }
   }
@@ -80,6 +82,7 @@ class Submit extends Component {
     let id = e.target.value;
 
     console.log(games[id])
+    this.setState({ selectedGame: games[id], selectedGameId: id })
     //setState to render title and image, also setstate id to be sent if submitted
   }
 
@@ -139,12 +142,20 @@ class Submit extends Component {
       scoreNotEven, 
       dropDownSelectPlayer, 
       dropDownSelectScore,
-      displayUserScoreDropdown } = this.state;
+      displayUserScoreDropdown,
+      selectedGame } = this.state;
 
     return (
       <div className="submitForm">
         <button onClick={this.showState}>showState</button>
         <div>
+          {selectedGame.title && 
+            <div>
+              <img src={selectedGame.image} alt="game image"/>
+              <div>{selectedGame.title}</div>
+            </div>
+          }
+
           {Object.keys(totalScore).map(userId =>
             <div key={userId}>
               {totalScore[userId].username + ' - '}
