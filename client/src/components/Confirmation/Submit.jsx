@@ -8,6 +8,7 @@ class Submit extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      games: {},
       userId: null,
       username: '',
       score: null,
@@ -27,7 +28,7 @@ class Submit extends Component {
   componentDidMount () {
     axios
       .get('/api/game/fetch')
-      .then(({ data }) => console.log('fetch game info: ', data))
+      .then(({ data }) => this.setState({ games: data }))
       .catch(err => console.log(err))
   }
 
@@ -72,6 +73,14 @@ class Submit extends Component {
       }
     }
     this.setState({ userId, username, dropDownSelectPlayer: userId });
+  }
+
+  selectGame = (e) => {
+    let { games } = this.state;
+    let id = e.target.value;
+
+    console.log(games[id])
+    //setState to render title and image, also setstate id to be sent if submitted
   }
 
   selectScore = (e) => {
@@ -123,6 +132,7 @@ class Submit extends Component {
     const { friends } = this.props;
     let { 
       alreadySelectedPlayer, 
+      games,
       noPlayerSelected,
       maxPlayersReached, 
       totalScore, 
@@ -141,6 +151,13 @@ class Submit extends Component {
               {totalScore[userId].score === 10 ? 'Win' : 'Loss'}
             </div>
           )}
+
+          <select name="" id="" onChange={this.selectGame} value={dropDownSelectScore}>
+            <option value="result">result</option>
+            {Object.keys(games).map(id =>
+              <option key={id} value={id}>{games[id].title}</option>
+            )}
+          </select>
 
           {displayUserScoreDropdown &&
             <div>
