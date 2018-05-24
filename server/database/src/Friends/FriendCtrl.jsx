@@ -14,8 +14,6 @@ const denyFriendRequest = (req, res) => {
 const friendRequest = (req, res) => {
   const { id } = req.session.passport.user;
   if (id) {
-    console.log(id)
-    console.log(req.body.requesteeId)
     friendRequestHelper(id, req.body.requesteeId, (err, result) => {
       if (err) {
         res.status(201).send(err);

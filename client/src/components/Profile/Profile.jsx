@@ -83,7 +83,7 @@ class Profile extends Component {
       let options = {
         requesteeId: id
       }
-      console.log('sending friend request')
+      
       axios
         .post('api/friend/friendRequest', options)
         .then(({ data }) => {
