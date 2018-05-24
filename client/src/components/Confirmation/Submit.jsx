@@ -24,10 +24,17 @@ class Submit extends Component {
     }
   }
 
+  componentDidMount () {
+    axios
+      .get('/api/game/fetch')
+      .then(({ data }) => console.log('fetch game info: ', data))
+      .catch(err => console.log(err))
+  }
+
   addPlayer = () => {
     let { userId, username, score, totalScore, playerHist, noPlayerSelected } = this.state;
 
-    if (userId === null) {
+    if (userId === null || score === null) {
       this.setState({ noPlayerSelected: true});
       setTimeout(()=> this.setState({ noPlayerSelected: false }), 5000);
     } else if (playerHist[username]) {
@@ -82,11 +89,11 @@ class Submit extends Component {
 
   submitConfirmation = () => {
     const { totalScore } = this.state;
-    
     let wins = 0;
     let loss = 0;
-    for (let i = 0; i < totalScore.length; i++) {
-      if (totalScore[i].score === 10) {
+    
+    for (let key in totalScore) {
+      if (totalScore[key].score === 10) {
         wins += 1;
       } else {
         loss += 1;
@@ -94,9 +101,14 @@ class Submit extends Component {
     }
 
     if (wins === loss) {
+      console.log('equal scores')
+
       //send axios request
       //provide confirmation message
       //invoke clear all
+      // axios
+      //   .post('/api/history/confirmation')
+
     } else {
       this.setState({ scoreNotEven: true });
       setTimeout(() => this.setState({ scoreNotEven: false }), 5000);
