@@ -15,7 +15,7 @@ const Histories = db.define('histories', {
   playerScore: Sequelize.JSON,
 });
 
-const HistoryConfirmation = db.define('confirmation', {
+const HistoryConfirmation = db.define('confirmations', {
   gameId: Sequelize.INTEGER,
   playerScore: Sequelize.JSON,
   validation: Sequelize.INTEGER,
@@ -56,7 +56,9 @@ Histories.belongsToMany(Users, { through: UserHistories });
 const UserHistoryConfirmations = db.define('user_confirmations', {});
 Users.belongsToMany(HistoryConfirmation, { through: UserHistoryConfirmations, as: 'confirmationNeeded' });
 HistoryConfirmation.belongsToMany(Users, { through: UserHistoryConfirmations });
-HistoryConfirmation.hasMany(Games);
+UserHistoryConfirmations.belongsTo(HistoryConfirmation);
+Games.hasMany(HistoryConfirmation);
+HistoryConfirmation.belongsTo(Games)
 
 const Friends = db.define('friends', {
   id: { type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true },

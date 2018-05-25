@@ -14,7 +14,6 @@ const fetchGame = (req, res) => {
   const { id } = req.session.passport.user;
   if (id) {
     fetchGameHelper( async result => {
-      console.log('fetchGame result: ', result)
       let games = {};
       for (let i = 0; i < result.length; i++) {
         games[result[i].id] = { title: result[i].title, image: result[i].image }
