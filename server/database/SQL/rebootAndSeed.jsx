@@ -266,9 +266,6 @@ const seedFriends = [
 const createUsers = async () => {
   for (let i = 0; i < seedUsers.length; i++) {
     await axios.post('http://localhost:3666/api/auth/signup/', seedUsers[i])
-    
-    
-    
     // createUserHelper(seedUsers[i], (result) => console.log(seedUsers[i].username, ' added to DB'));
   };
 };
@@ -287,24 +284,21 @@ const createGames = async () => {
 
 const createConfirmation = async () => {
   for (let i = 0; i < seedConfirmationHistories.length; i++) {
-    await addConfirmationHelper(seedConfirmationHistories[i], async (result) => {
-      let scores = result.dataValues.playerScore;
-      let confirmationId = result.dataValues.id;
-        for(let key in scores) {
-          await addUserConfirmationHelper(key, confirmationId);
-        }
+    await addConfirmationHelper(seedConfirmationHistories[i], async ({dataValues}) => {
+      const { playerScore } = dataValues;
+      for (let key in playerScore) {
+        await addUserConfirmationHelper(Number(key), dataValues.id)
+      }
     });
   };
 };
 
 const createHistory = async () => {
   for (let i = 0; i < seedHistories.length; i++) {
-    await addHistoryHelper(seedHistories[i], async (result) => {
-      let scores = result.dataValues.playerScore;
-      let historyId = result.dataValues.id;
-      
-      for (let key in scores) {
-        await addUserHistoryHelper(key, historyId);
+    await addHistoryHelper(seedHistories[i], async ({ dataValues }) => {
+      const { id, playerScore } = dataValues
+      for (let key in playerScore) {
+        await addUserHistoryHelper(key, id);
       }
     })
   }
@@ -312,7 +306,7 @@ const createHistory = async () => {
 
 const createFriendRequest = async () => {
   for (let i = 0; i < seedFriendRequests.length; i++) {
-    await friendRequestHelper(seedFriendRequests[i], () => console.log(seedFriendRequests[i], ' added createFriendRequest'))
+    await friendRequestHelper(seedFriendRequests[i].friendId, seedFriendRequests[i].userId, () => console.log(seedFriendRequests[i], ' added createFriendRequest'))
   }
 }
 

@@ -16,10 +16,10 @@ import levelHelper from '../Users/LevelHelper';
 const addConfirmation = (req,res) => {
   const { id } = req.session.passport.user;
   if (id) {
-    addConfirmationHelper(req.body, ({ dataValues }) => {
+    addConfirmationHelper(req.body, async ({ dataValues }) => {
       const { playerScore } = dataValues;
       for (let key in playerScore) {
-        addUserConfirmationHelper(Number(key), dataValues.id)
+        await addUserConfirmationHelper(Number(key), dataValues.id)
       }
       res.status(201).send('Success')
     })

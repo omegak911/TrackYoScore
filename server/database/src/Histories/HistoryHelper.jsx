@@ -15,7 +15,7 @@ const addUserConfirmationHelper = (userId, confirmationId) =>
     userId,
     confirmationId,
   })
-  .then(result => console.log(`userID: ${userId} entry submitted to user_history_confirmation table`))
+  .then(result => console.log(`userID: ${userId} entry submitted to user_confirmation table`))
   .catch(err => console.log(err));
 
 const removeUserConfirmationHelper = ({ userId, confirmationId }) =>
