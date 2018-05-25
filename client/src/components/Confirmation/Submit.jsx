@@ -24,6 +24,7 @@ class Submit extends Component {
       selectedGame: {},
       selectedGameId: null,
       noPlayerSelected: false,
+      confirmationSubmitted: false,
     }
   }
 
@@ -61,7 +62,18 @@ class Submit extends Component {
   }
 
   clearAll = () => {
-    this.setState({ totalScore: [], playerHist: {}, dropDownSelectPlayer: "select player", dropDownSelectScore: "result" })
+    this.setState({
+      userId: null,
+      username: '',
+      score: null,
+      totalScore: [], 
+      playerHist: {}, 
+      dropDownSelectPlayer: "select player", 
+      dropDownSelectScore: "result",
+      dropDownSelectUserScore: 'result',
+      displayUserScoreDropdown: true,
+      selectedGame: {},
+      selectedGameId: null })
   }
 
   selectPlayer = (e) => {
@@ -100,7 +112,7 @@ class Submit extends Component {
   }
 
   submitConfirmation = () => {
-    const { totalScore } = this.state;
+    const { totalScore, selectedGameId } = this.state;
     let wins = 0;
     let loss = 0;
     
@@ -113,13 +125,14 @@ class Submit extends Component {
     }
 
     if (wins === loss) {
-      console.log('equal scores')
-
-      //send axios request
-      //provide confirmation message
-      //invoke clear all
-      // axios
-      //   .post('/api/history/confirmation')
+      axios
+        .post('/api/history/confirmation', { playerScore: totalScore, gameId: selectedGameId })
+        .then(({ data }) => {
+          this.setState({ confirmationSubmitted: true })
+          setTimeout( () => this.setState({ confirmationSubmitted: false }), 5000)
+          this.clearAll();
+        })
+        .catch(err => console.log(err))
 
     } else {
       this.setState({ scoreNotEven: true });
@@ -143,12 +156,15 @@ class Submit extends Component {
       dropDownSelectPlayer, 
       dropDownSelectScore,
       displayUserScoreDropdown,
-      selectedGame } = this.state;
+      selectedGame,
+      confirmationSubmitted } = this.state;
 
     return (
       <div className="submitForm">
         <button onClick={this.showState}>showState</button>
         <div>
+          {confirmationSubmitted && <div>Score Submitted</div>}
+
           {selectedGame.title && 
             <div>
               <img src={selectedGame.image} alt="game image"/>
@@ -164,7 +180,7 @@ class Submit extends Component {
           )}
 
           <select name="" id="" onChange={this.selectGame} value={dropDownSelectScore}>
-            <option value="result">result</option>
+            <option value="result">Game</option>
             {Object.keys(games).map(id =>
               <option key={id} value={id}>{games[id].title}</option>
             )}

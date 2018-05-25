@@ -17,10 +17,10 @@ const addConfirmation = (req,res) => {
   const { id } = req.session.passport.user;
   if (id) {
     addConfirmationHelper(req.body, (result) => {
-    res.status(201).send('success')
+    res.status(201).send('Success')
     })
   } else {
-    res.status(201).send('Forbidden')
+    res.redirect('/')
   }
     //for each user, add to temp hist join table for confirmation
     // const players = Object.keys(/* players */);
