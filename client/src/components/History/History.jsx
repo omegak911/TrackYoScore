@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import axios from 'axios';
 
+import HistoryConfirmation from './HistoryConfirmation';
 import './History.scss';
 
 class History extends Component {
@@ -40,6 +41,7 @@ class History extends Component {
 
     return (
       <div>
+        <HistoryConfirmation />
         {challengeHist.map((match, index) =>
           <div key={index} className="historyResult">
             {Object.keys(match.playerScore).map((key, index) => 
