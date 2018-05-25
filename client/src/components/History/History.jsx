@@ -45,7 +45,7 @@ class History extends Component {
         {challengeHist.map((match, index) =>
           <div key={index} className="historyResult">
             {Object.keys(match.playerScore).map((key, index) => 
-              <span key={index} className="historyResultScores">{match.playerScore[key].username} {match.playerScore[key].score === 10 ? 'Win' : 'Lose'}</span>)}
+              <span key={index} className="historyResultScores">{match.playerScore[key].username} {match.playerScore[key].score === 10 ? 'Win' : 'Loss'}</span>)}
           </div>)}
       </div>
     )
