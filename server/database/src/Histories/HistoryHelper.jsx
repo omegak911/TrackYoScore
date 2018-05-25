@@ -6,7 +6,7 @@ const addConfirmationHelper = ({ gameId, playerScore, validation = Object.keys(p
     playerScore,
     validation,
   })
-  .then(result => { 
+  .then(result => {
     callback(result)})
   .catch(err => console.log(err));
 

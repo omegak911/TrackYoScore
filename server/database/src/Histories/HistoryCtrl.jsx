@@ -16,18 +16,14 @@ import levelHelper from '../Users/LevelHelper';
 const addConfirmation = (req,res) => {
   const { id } = req.session.passport.user;
   if (id) {
-    addConfirmationHelper(req.body, (result) => {
-    res.status(201).send('Success')
+    addConfirmationHelper(req.body, ({ dataValues }) => {
+      const { playerScore } = dataValues;
+      for (let key in playerScore) {
+        addUserConfirmationHelper(Number(key), dataValues.id)
+      }
+      res.status(201).send('Success')
     })
-  } else {
-    res.redirect('/')
   }
-    //for each user, add to temp hist join table for confirmation
-    // const players = Object.keys(/* players */);
-    // for (let i = 0; i < players.length; i++) {
-    //   addUserConfirmationHelper(/* object.userID, object.historyConfirmationID*/)
-    // }
-  //on success, client side should update user notification just for that user
 };
 
 const validateConfirmation = (req, res) => {
