@@ -9,17 +9,17 @@ class Submit extends Component {
     super(props);
     this.state = {
       games: {},
+      totalScore: {},
+      playerHist: {},
+      selectedGame: {},
+      selectedGameId: null,
       userId: null,
       username: '',
       score: null,
-      totalScore: {},
-      playerHist: {},
       dropDownSelectPlayer: 'select player',
       dropDownSelectScore: 'result',
       dropDownSelectUserScore: 'result',
       displayUserScoreDropdown: true,
-      selectedGame: {},
-      selectedGameId: null,
       message: '',
     }
   }
@@ -29,6 +29,37 @@ class Submit extends Component {
       .get('/api/game/fetch')
       .then(({ data }) => this.setState({ games: data }))
       .catch(err => console.log(err))
+  }
+
+  selectGame = (e) => {
+    let { games } = this.state;
+    let id = e.target.value;
+    this.setState({ selectedGame: games[id], selectedGameId: id })
+  }
+
+  selectUserScore = async (e) => {
+    const { id, username } = this.props.userData;
+    let score = e.target.value === 'win' ? 10 : 5;
+    await this.setState({ userId: id, username, score, dropDownSelectUserScore: e.target.value, displayUserScoreDropdown: false });
+    await this.addPlayer();
+  }
+
+  selectPlayer = (e) => {
+    let userId = Number(e.target.value);
+    const { friends } = this.props;
+    let username = '';
+
+    for (var i = 0; i < friends.length; i++) {
+      if (friends[i].id === userId) {
+        username = friends[i].username;
+      }
+    }
+    this.setState({ userId, username, dropDownSelectPlayer: userId });
+  }
+
+  selectScore = (e) => {
+    let score = e.target.value === 'win' ? 10 : 5;
+    this.setState({ score, dropDownSelectScore: e.target.value })
   }
 
   addPlayer = () => {
@@ -55,56 +86,6 @@ class Submit extends Component {
       this.setState({ message: 'You have entered the maximum number of players' });
       this.restoreMessage();
     }
-  }
-
-  restoreMessage = () => {
-    setTimeout(()=> this.setState({ message: '' }), 5000);
-  }
-
-  clearAll = () => {
-    this.setState({
-      userId: null,
-      username: '',
-      score: null,
-      totalScore: [], 
-      playerHist: {}, 
-      dropDownSelectPlayer: "select player", 
-      dropDownSelectScore: "result",
-      dropDownSelectUserScore: 'result',
-      displayUserScoreDropdown: true,
-      selectedGame: {},
-      selectedGameId: null })
-  }
-
-  selectPlayer = (e) => {
-    let userId = Number(e.target.value);
-    const { friends } = this.props;
-    let username = '';
-
-    for (var i = 0; i < friends.length; i++) {
-      if (friends[i].id === userId) {
-        username = friends[i].username;
-      }
-    }
-    this.setState({ userId, username, dropDownSelectPlayer: userId });
-  }
-
-  selectGame = (e) => {
-    let { games } = this.state;
-    let id = e.target.value;
-    this.setState({ selectedGame: games[id], selectedGameId: id })
-  }
-
-  selectScore = (e) => {
-    let score = e.target.value === 'win' ? 10 : 5;
-    this.setState({ score, dropDownSelectScore: e.target.value })
-  }
-
-  selectUserScore = async (e) => {
-    const { id, username } = this.props.userData;
-    let score = e.target.value === 'win' ? 10 : 5;
-    await this.setState({ userId: id, username, score, dropDownSelectUserScore: e.target.value, displayUserScoreDropdown: false });
-    await this.addPlayer();
   }
 
   submitConfirmation = () => {
@@ -134,6 +115,25 @@ class Submit extends Component {
       this.setState({ message: 'scores are not even, please resubmit' });
       this.restoreMessage();
     }
+  }
+
+  restoreMessage = () => {
+    setTimeout(()=> this.setState({ message: '' }), 5000);
+  }
+
+  clearAll = () => {
+    this.setState({
+      totalScore: {},
+      playerHist: {},
+      selectedGame: {},
+      selectedGameId: null,
+      userId: null,
+      username: '',
+      score: null,
+      dropDownSelectPlayer: 'select player',
+      dropDownSelectScore: 'result',
+      dropDownSelectUserScore: 'result',
+      displayUserScoreDropdown: true })
   }
 
   render() {
