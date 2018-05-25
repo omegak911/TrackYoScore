@@ -28,10 +28,10 @@ const removeUserConfirmationHelper = ({ userId, confirmationId }) =>
   .then(result => console.log(result))
   .catch(err => console.log(err));
 
-const doesConfirmationExistHelper = (userID, callback) => 
+const fetchConfirmationHelper = (userId, callback) => 
   UserHistoryConfirmations.findAll({
     where: {
-      userID,
+      userId,
     }
   })
   .then(result => callback(result))
@@ -94,7 +94,7 @@ export {
   addConfirmationHelper, 
   removeUserConfirmationHelper,
   addUserConfirmationHelper, 
-  doesConfirmationExistHelper, 
+  fetchConfirmationHelper, 
   removeConfirmationHelper,
   fetchHistoryHelper, 
   validateConfirmationHelper

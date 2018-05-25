@@ -4,7 +4,7 @@ import {
   addConfirmationHelper, 
   removeUserConfirmationHelper,
   addUserConfirmationHelper, 
-  doesConfirmationExistHelper, 
+  fetchConfirmationHelper, 
   removeConfirmationHelper,
   fetchHistoryHelper, 
   validateConfirmationHelper }
@@ -91,10 +91,10 @@ const addHistory = (data) => {  /* input data from validateConfirmation */
   });
 };
 
-const doesConfirmationExist = (req,res) => {
+const fetchConfirmation = (req,res) => {
   const { id } = req.session.passport.user;
-  doesConfirmationExistHelper(id, (result) => {
-    console.log('doesConfirmationExist result: ', result);
+  fetchConfirmationHelper(id, (result) => {
+    console.log('fetchConfirmation result: ', result);
     res.status(201).send('success');
   });
 };
@@ -109,6 +109,6 @@ const fetchHistory = (req, res) => {
 export { 
   addConfirmation, 
   validateConfirmation, 
-  doesConfirmationExist, 
+  fetchConfirmation, 
   fetchHistory 
 };

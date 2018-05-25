@@ -3,14 +3,14 @@ import express from 'express';
 import { 
   addConfirmation, 
   validateConfirmation, 
-  doesConfirmationExist, 
+  fetchConfirmation, 
   fetchHistory 
 } from './HistoryCtrl';
 
 const router = express.Router();
 
 router.route('/confirmation')
-  .get(doesConfirmationExist)
+  .get(fetchConfirmation)
   .post(addConfirmation)
   .put(validateConfirmation);
 
