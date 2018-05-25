@@ -18,13 +18,6 @@ const fetchGame = (req, res) => {
       for (let i = 0; i < result.length; i++) {
         games[result[i].id] = { title: result[i].title, image: result[i].image }
       }
-      // const filteredResult = result.map(game => {
-      //   return { 
-      //     id: game.id,
-      //     title: game.title, 
-      //     image: game.image 
-      //   }
-      // })
       await res.status(200).send(games);
     });
   } else {
