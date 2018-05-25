@@ -19,12 +19,14 @@ passport.use(new LocalStrategy({
       }
       bcrypt.compare(password, user.dataValues.password, (err, isMatch) => {
         if (err) {
-          req.message = 'invalid password';
-          return done(null, false);
+          return done(err);
         } 
         if (isMatch) {
           delete user.dataValues.password;
           return done(null, user.dataValues);
+        } else {
+          req.message = 'invalid password';
+          return done(null, false);
         }
       })
     })
@@ -53,8 +55,10 @@ router.route('/signup')
 
 router.route('/login')
   .get(passport.authenticate('local', { failWithError: true }), (req, res, next) => {
+    console.log('passed')
     res.status(200).send(req.user)
   }, (err, req, res, next) => {
+    console.log('failed')
     res.status(200).send(req.message)
   });
 
