@@ -18,7 +18,7 @@ const addUserConfirmationHelper = (userId, confirmationId) =>
   .then(result => console.log(`userID: ${userId} entry submitted to user_confirmation table`))
   .catch(err => console.log(err));
 
-const removeUserConfirmationHelper = ({ userId, confirmationId }) =>
+const removeUserConfirmationHelper = (userId, confirmationId) =>
   UserHistoryConfirmations.destroy({
     where: {
       userId,
@@ -33,7 +33,7 @@ const fetchConfirmationHelper = (userId, callback) =>
     where: {
       userId,
     },
-    attributes: ['userId'],
+    attributes: [],
     include: [{
       model: HistoryConfirmation,
       attributes: ['id', 'playerScore', 'validation'],
@@ -46,23 +46,21 @@ const fetchConfirmationHelper = (userId, callback) =>
   .then(result => callback(result))
   .catch(err => console.log(err));
 
-const removeConfirmationHelper = ({ id }) => 
+const removeConfirmationHelper = (id) => 
   HistoryConfirmation.destroy({
     where: { id }
   })
-  .then(result => console.log(result))
+  .then(result => console.log('destroyed confirmation id: ', id))
   .catch(err => console.log(err));
 
-const validateConfirmationHelper = ({ id, validation }, callback) =>
-  HistoryConfirmation.update(
-    { validation },
+const validateConfirmationHelper = ({ id }, callback) =>
+  HistoryConfirmation.decrement(
+    'validation',
     { where: { id },  //id of confirmation, taken from user_history_confirmations
     returning: true,
     raw: true
     })
-    .then(result => {
-      callback(result);
-    })
+    .then(result => callback(result[0][0]))
     .catch(err => console.log(err));
 
 const addHistoryHelper = ({ gameId, playerScore }, callback) =>
@@ -71,7 +69,6 @@ const addHistoryHelper = ({ gameId, playerScore }, callback) =>
     playerScore,
   })
   .then(result => {
-    //for each user, add to history join table
     callback(result)})
   .catch(err => console.log(err));
 

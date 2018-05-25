@@ -43,7 +43,6 @@ const FriendRequests = db.define('friend_requests', {
 })
 Users.belongsToMany(Users, { through: FriendRequests, as: 'friendRequests', foreignKey: 'userId' });
 Users.belongsToMany(Users, { through: FriendRequests, as: 'requestee', foreignKey: 'friendId' });
-//join tables
 
 const UserPerks = db.define('user_perks', {});
 Users.belongsToMany(Perks, { through: UserPerks, as: 'perk' });

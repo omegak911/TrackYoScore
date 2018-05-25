@@ -27,25 +27,13 @@ const addConfirmation = (req,res) => {
 };
 
 const validateConfirmation = (req, res) => {
-  // const { id } = req.session.passport.user;
-  validateConfirmationHelper(req.body, async (result) => {  //accepts confirmationId and validation - 1
-    const { userId } = req.body;
-    const confirmationId = req.body.id
+  const { id } = req.session.passport.user;
+  validateConfirmationHelper(req.body, async (result) => {
+    await removeUserConfirmationHelper(id, result[0].id);
 
-    //remove user_confirmation from join table
-    await removeUserConfirmationHelper({ userId, confirmationId });
-
-    //take result, check if validation is 0
-    //if 0, send to History and remove join + confirmation
-    result = result[1][0];
-
-    //if validation === 0
-      //add to history
-      //remove from confirmation
-    const { playerScore } = result;
-    if (result.validation === 0) {
-      await addHistory(result);
-      await removeConfirmationHelper(result);
+    if (result[0].validation === 0) {
+      await addHistory(result[0]);
+      await removeConfirmationHelper(result[0].id);
     }
     
     res.status(201).send('success');
@@ -53,23 +41,20 @@ const validateConfirmation = (req, res) => {
 };
 
 const addHistory = (data) => {  /* input data from validateConfirmation */
-  //add validated confirmation to history
   addHistoryHelper(data, async ({ dataValues }) => { /* object.gameID + object.playerScore */
+      console.log('addHistHelper result: ', dataValues)
       const { id, playerScore } = dataValues;
       const historyId = id;
-      //for each user in playerScore
-      for (let i = 0; i < playerScore.length; i++) {
-        let { userId, score } = playerScore[i];
-      
-        //add to user_history
 
-        await addUserHistoryHelper({ userId, historyId });
-        //e.g. playerScore = [{ userId, score }, { userId, score }, { userId, score }, { userId, score }]
+      for (let key in playerScore) {
+        console.log('now working on userHistHelper for: ', playerScore[key].username)
+        console.log(id);
+        await addUserHistoryHelper(key, id);
+
         //****update user stats****//
+        let data = {};
+        let { score } = playerScore[key];
 
-        //if score is 10 - add to win
-        //if score is 5 - add to losses
-        let data = {}
         if (score === 10) {
           data.currentEXP = 10,
           data.wins = 1
@@ -78,12 +63,14 @@ const addHistory = (data) => {  /* input data from validateConfirmation */
           data.losses = 1
         }
 
-        await updateUserHelper(userId, data, async (result) => {
+        await updateUserHelper(key, data, async (result) => {
+          console.log('updateUserHelper result: ', result)
           let { id, currentEXP, level, nextLevelEXP } = result;
           //check currentEXP against nextLevelEXP and if bigger
           if (currentEXP >= nextLevelEXP) {
             nextLevelEXP = await levelHelper(level, nextLevelEXP);
             await updateUserHelper(id, { level: 1, nextLevelEXP }, (result) => {
+              console.log('2nd*** updateUserHelper result: ', result)
           })
           };
         })
