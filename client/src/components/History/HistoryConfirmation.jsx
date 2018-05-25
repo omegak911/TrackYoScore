@@ -6,27 +6,43 @@ class HistoryConfirmation extends Component {
     super(props)
     this.state = {
       histConfirmationsPending: [],
+      confirmationModal: false,
     }
   }
 
   componentDidMount() {
     axios
       .get('api/history/confirmation')
-      .then(({data})=>console.log(data))
-      // .then(({ data }) => this.setState({ histConfirmationsPending: data }))
+      .then(({ data }) => this.setState({ histConfirmationsPending: data }))
       .catch(err => console.log(err))
   }
 
+  showPendingConfirmations = () => {
+    this.setState({ confirmationModal: !this.state.confirmationModal })
+  }
+
+  stopPropagation = (e) => {
+    e.stopPropagation();
+  }
+
   render() {
+    let { confirmationModal } = this.state;
+
     return (
       <div>
-        display rows of history confirmations here and send axios request to confirm with id
-        {/* {histConfirmationsPending.map((confirmation, index) => 
-          <div key={index} index={index}>
-          
+        {confirmationModal &&
+          <div className="modal">
+            <div className="veilOfDarkness" onClick={this.showPendingConfirmations}>
+              <div className="confirmationsPending" onClick={this.stopPropagation}>
+
+                display rows of history confirmations here and send axios request to confirm with id
+              </div>
+            </div>
           </div>
-        
-        )} */}
+        }
+        <button type="button" onClick={this.showPendingConfirmations}>
+          Confirm Your Scores
+        </button>
       </div>
     )
   }
