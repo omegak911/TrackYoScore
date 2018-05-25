@@ -93,9 +93,8 @@ const addHistory = (data) => {  /* input data from validateConfirmation */
 
 const fetchConfirmation = (req,res) => {
   const { id } = req.session.passport.user;
-  fetchConfirmationHelper(id, (result) => {
-    console.log('fetchConfirmation result: ', result);
-    res.status(201).send('success');
+  fetchConfirmationHelper(id, (resultArray) => {
+    res.status(201).send(resultArray);
   });
 };
 

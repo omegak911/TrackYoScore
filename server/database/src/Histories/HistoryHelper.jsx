@@ -1,4 +1,4 @@
-import { Users, Histories, HistoryConfirmation, UserHistories, UserHistoryConfirmations } from '../../SQL/index';
+import { Games, Users, Histories, HistoryConfirmation, UserHistories, UserHistoryConfirmations } from '../../SQL/index';
 
 const addConfirmationHelper = ({ gameId, playerScore, validation = Object.keys(playerScore).length }, callback) =>
   HistoryConfirmation.create({
@@ -32,7 +32,16 @@ const fetchConfirmationHelper = (userId, callback) =>
   UserHistoryConfirmations.findAll({
     where: {
       userId,
-    }
+    },
+    attributes: ['userId'],
+    include: [{
+      model: HistoryConfirmation,
+      attributes: ['id', 'playerScore', 'validation'],
+      include: [{
+        model: Games,
+        attributes: ['id', 'title', 'image'],
+      }]
+    }]
   })
   .then(result => callback(result))
   .catch(err => console.log(err));
