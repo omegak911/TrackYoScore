@@ -14,17 +14,13 @@ class Submit extends Component {
       score: null,
       totalScore: {},
       playerHist: {},
-      alreadySelectedPlayer: false,
-      maxPlayersReached: false,
-      scoreNotEven: false,
       dropDownSelectPlayer: 'select player',
       dropDownSelectScore: 'result',
       dropDownSelectUserScore: 'result',
       displayUserScoreDropdown: true,
       selectedGame: {},
       selectedGameId: null,
-      noPlayerSelected: false,
-      confirmationSubmitted: false,
+      message: '',
     }
   }
 
@@ -36,16 +32,15 @@ class Submit extends Component {
   }
 
   addPlayer = () => {
-    let { userId, username, score, totalScore, playerHist, noPlayerSelected } = this.state;
+    let { userId, username, score, totalScore, playerHist, message } = this.state;
 
     if (userId === null || score === null) {
-      this.setState({ noPlayerSelected: true});
-      setTimeout(()=> this.setState({ noPlayerSelected: false }), 5000);
+      this.setState({ message: 'Please enter player and score' })
+      this.restoreMessage();
     } else if (playerHist[username]) {
-      this.setState({ alreadySelectedPlayer: true });
-      setTimeout(() => this.setState({ alreadySelectedPlayer: false}), 5000);
+      this.setState({ message: 'Player has already been added' });
+      this.restoreMessage();
     } else if (Object.keys(totalScore).length <= 5) {
-      // let totalCopy = totalScore.slice();
       totalScore[userId] = { username, score };
       playerHist[username] = true;
       this.setState({ 
@@ -57,8 +52,13 @@ class Submit extends Component {
         dropDownSelectPlayer: "select player", 
         dropDownSelectScore: "result" });
     } else {
-      this.setState({ maxPlayersReached: true });
+      this.setState({ message: 'You have entered the maximum number of players' });
+      this.restoreMessage();
     }
+  }
+
+  restoreMessage = () => {
+    setTimeout(()=> this.setState({ message: '' }), 5000);
   }
 
   clearAll = () => {
@@ -92,10 +92,7 @@ class Submit extends Component {
   selectGame = (e) => {
     let { games } = this.state;
     let id = e.target.value;
-
-    console.log(games[id])
     this.setState({ selectedGame: games[id], selectedGameId: id })
-    //setState to render title and image, also setstate id to be sent if submitted
   }
 
   selectScore = (e) => {
@@ -106,7 +103,6 @@ class Submit extends Component {
   selectUserScore = async (e) => {
     const { id, username } = this.props.userData;
     let score = e.target.value === 'win' ? 10 : 5;
-    console.log(`id: ${id}, username: ${username}, score: ${e.target.value}`)
     await this.setState({ userId: id, username, score, dropDownSelectUserScore: e.target.value, displayUserScoreDropdown: false });
     await this.addPlayer();
   }
@@ -128,43 +124,33 @@ class Submit extends Component {
       axios
         .post('/api/history/confirmation', { playerScore: totalScore, gameId: selectedGameId })
         .then(({ data }) => {
-          this.setState({ confirmationSubmitted: true })
-          setTimeout( () => this.setState({ confirmationSubmitted: false }), 5000)
+          this.setState({ message: 'Score Submitted' })
+          this.restoreMessage();
           this.clearAll();
         })
         .catch(err => console.log(err))
 
     } else {
-      this.setState({ scoreNotEven: true });
-      setTimeout(() => this.setState({ scoreNotEven: false }), 5000);
+      this.setState({ message: 'scores are not even, please resubmit' });
+      this.restoreMessage();
     }
-  }
-
-  showState = () => {
-    console.log(this.state)
   }
 
   render() {
     const { friends } = this.props;
     let { 
-      alreadySelectedPlayer, 
       games,
-      noPlayerSelected,
-      maxPlayersReached, 
       totalScore, 
-      scoreNotEven, 
       dropDownSelectPlayer, 
       dropDownSelectScore,
       displayUserScoreDropdown,
       selectedGame,
-      confirmationSubmitted } = this.state;
+      message } = this.state;
 
     return (
       <div className="submitForm">
-        <button onClick={this.showState}>showState</button>
+        <h2>Submit A New Challenge Score</h2>
         <div>
-          {confirmationSubmitted && <div>Score Submitted</div>}
-
           {selectedGame.title && 
             <div>
               <img src={selectedGame.image} alt="game image"/>
@@ -214,12 +200,9 @@ class Submit extends Component {
             </div>}
         </div>
 
-        {alreadySelectedPlayer && <div>Player has already been added</div>}
-        {maxPlayersReached && <div>You have reached the maximum number of players</div>}
-        {noPlayerSelected && <div>Please enter player and score</div>}
+        <div>{message}</div>
         <button type="button" onClick={this.addPlayer}>Add Score</button>
         <br/>
-        {scoreNotEven && <div>scores are not even, please resubmit</div>}
         <button onClick={this.submitConfirmation}>Submit Result</button>
 
         <br/>
