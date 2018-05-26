@@ -84,6 +84,7 @@ const fetchConfirmation = (req,res) => {
 const fetchHistory = (req, res) => {
   const { id } = req.session.passport.user;
   fetchHistoryHelper(id, (result) => {
+    console.log('**** result: ', result)
     res.status(201).send(result);
   });
 };

@@ -80,18 +80,20 @@ const addUserHistoryHelper = (userId, historyId) =>
   .then(() => console.log('success'))
   .catch(err => console.log(err));
 
-const fetchHistoryHelper = (id, callback) =>
-  Users.findOne({
-    where: { id },
-    attributes: ['username'],
-    plain: true,
+const fetchHistoryHelper = (userId, callback) =>
+  UserHistories.findAll({
+    where: { userId },
+    attributes: [],
     include: [{
       model: Histories,
-      as: 'challengeHistory',
       attributes: ['playerScore'],
+      include: [{
+        model: Games,
+        attributes: ['title', 'image']
+      }]
     }]
   })
-  .then(({ dataValues }) => callback(dataValues.challengeHistory))
+  .then((result) => callback(result))
   .catch(err => console.log(err));
 
 export { 
