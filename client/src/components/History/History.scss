@@ -1,5 +1,7 @@
+$border: 1px solid black;
+
 .historyResult {
-  border: 1px solid black;
+  border: $border;
   margin-bottom: 10px;
 }
 
@@ -7,11 +9,53 @@
   margin-right: 10px;
 }
 
-.confirmationsPending {
+.confirmationsOuterContainer {
   background-color: white;
   position: absolute;
   top: 25%;
   left: 25%;
   width: 60%;
   text-align: center;
+  border: $border;
+  padding: 10px;
+}
+
+.confirmationsInnerContainer {
+  border: 1px solid red;
+}
+
+.gameImage {
+  width: 100%;
+  height: auto;
+}
+
+.match {
+  display: flex;
+}
+
+.matchGame {
+  border: $border;
+  width: 100px;
+  height: auto;
+}
+
+.matchScores {
+  position: relative;
+  width: 300px;
+  height: auto;
+}
+
+.confirmationStats {
+  position: relative;
+  text-align: left;
+}
+
+.confirmationsPlayername {
+  position: absolute;
+  left: 0;
+}
+
+.confirmationsPlayerscore {
+  position: absolute;
+  right: 0;
 }
