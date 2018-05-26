@@ -60,14 +60,24 @@ class HistoryConfirmation extends Component {
                     </div>
                     <div className="matchScores">
                       <div className="confirmationStats">
-                        <span>Player</span>
+                        <div className="confirmationPlayerName">
+                          <span>Player</span>
+                        </div>
+ 
                         {' '}
-                        <span className="confirmationsPlayerscore">Result</span>
+                        <div className="confirmationScore">
+                          <span className="confirmationsPlayerscore">Result</span>
+                        </div>
                       </div>
-                      <div className="confirmationStats">
+                      <div className="historyResultScores">
                         {Object.keys(match.confirmation.playerScore).map((user, i) => 
-                          <div className="historyResultScores" key={i}>
-                            <span>{match.confirmation.playerScore[user].username}</span> <span className="confirmationsPlayerscore">{match.confirmation.playerScore[user].score === 10 ? 'Win' : 'Loss'}</span>
+                          <div className="confirmationStats" key={i}>
+                            <div className="confirmationPlayerName">
+                              <span>{match.confirmation.playerScore[user].username}</span> 
+                            </div>
+                            <div className="confirmationScore">
+                              <span className="confirmationsPlayerscore">{match.confirmation.playerScore[user].score === 10 ? 'Win' : 'Loss'}</span>
+                            </div>
                           </div>
                         )}
                       </div>

@@ -13,7 +13,7 @@ $border: 1px solid black;
   background-color: white;
   position: absolute;
   top: 25%;
-  left: 25%;
+  left: 20%;
   width: 60%;
   text-align: center;
   border: $border;
@@ -35,7 +35,7 @@ $border: 1px solid black;
 
 .matchGame {
   border: $border;
-  width: 100px;
+  width: 120px;
   height: auto;
 }
 
@@ -50,9 +50,9 @@ $border: 1px solid black;
   text-align: left;
 }
 
-.confirmationsPlayername {
-  position: absolute;
-  left: 0;
+.confirmationPlayerName {
+  border: $border;
+  width: 80%
 }
 
 .confirmationsPlayerscore {
