@@ -19,7 +19,9 @@ const addConfirmation = (req,res) => {
     addConfirmationHelper(req.body, async ({ dataValues }) => {
       const { playerScore } = dataValues;
       for (let key in playerScore) {
-        await addUserConfirmationHelper(Number(key), dataValues.id)
+        if (Number(key) !== id) {
+          await addUserConfirmationHelper(Number(key), dataValues.id)
+        }
       }
       res.status(201).send('Success')
     })
@@ -42,13 +44,10 @@ const validateConfirmation = (req, res) => {
 
 const addHistory = (data) => {  /* input data from validateConfirmation */
   addHistoryHelper(data, async ({ dataValues }) => { /* object.gameID + object.playerScore */
-      console.log('addHistHelper result: ', dataValues)
       const { id, playerScore } = dataValues;
       const historyId = id;
 
       for (let key in playerScore) {
-        console.log('now working on userHistHelper for: ', playerScore[key].username)
-        console.log(id);
         await addUserHistoryHelper(key, id);
 
         //****update user stats****//
@@ -64,14 +63,11 @@ const addHistory = (data) => {  /* input data from validateConfirmation */
         }
 
         await updateUserHelper(key, data, async (result) => {
-          console.log('updateUserHelper result: ', result)
           let { id, currentEXP, level, nextLevelEXP } = result;
           //check currentEXP against nextLevelEXP and if bigger
           if (currentEXP >= nextLevelEXP) {
             nextLevelEXP = await levelHelper(level, nextLevelEXP);
-            await updateUserHelper(id, { level: 1, nextLevelEXP }, (result) => {
-              console.log('2nd*** updateUserHelper result: ', result)
-          })
+            await updateUserHelper(id, { level: 1, nextLevelEXP }, (result) => console.log('level up'))
           };
         })
       }
