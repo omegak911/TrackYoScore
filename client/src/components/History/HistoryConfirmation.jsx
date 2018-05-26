@@ -56,20 +56,18 @@ class HistoryConfirmation extends Component {
                   <div key={index} className="match">
                     <div className="matchGame">
                       <img className="gameImage" src={match.confirmation.game.image} />
-                      <div>{match.confirmation.game.title}</div>
+                      <div className="columnTitle">{match.confirmation.game.title}</div>
                     </div>
                     <div className="matchScores">
                       <div className="confirmationStats">
                         <div className="confirmationPlayerName">
-                          <span>Player</span>
+                          <span className="columnTitle">Player</span>
                         </div>
- 
-                        {' '}
                         <div className="confirmationScore">
-                          <span className="confirmationsPlayerscore">Result</span>
+                          <span className="confirmationsPlayerscore columnTitle">Result</span>
                         </div>
                       </div>
-                      <div className="historyResultScores">
+                      <div>
                         {Object.keys(match.confirmation.playerScore).map((user, i) => 
                           <div className="confirmationStats" key={i}>
                             <div className="confirmationPlayerName">
@@ -82,7 +80,9 @@ class HistoryConfirmation extends Component {
                         )}
                       </div>
                     </div>
-                    <button type="button" onClick={() => this.validateConfirmation(index)}>validate</button>
+                    <div className="confirmationButtonContainer">
+                      <button type="button" onClick={() => this.validateConfirmation(index)}>validate</button>
+                    </div>
                   </div>
                 )}
                 </div>
