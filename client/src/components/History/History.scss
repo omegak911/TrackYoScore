@@ -5,10 +5,6 @@ $border: 1px solid black;
   margin-bottom: 10px;
 }
 
-.historyResultScores {
-  margin-right: 10px;
-}
-
 .confirmationsOuterContainer {
   background-color: white;
   position: absolute;
@@ -35,7 +31,7 @@ $border: 1px solid black;
 
 .matchGame {
   border: $border;
-  width: 120px;
+  width: 130px;
   height: auto;
 }
 
@@ -46,6 +42,7 @@ $border: 1px solid black;
 }
 
 .confirmationStats {
+  display: flex;
   position: relative;
   text-align: left;
 }
@@ -55,7 +52,14 @@ $border: 1px solid black;
   width: 80%
 }
 
-.confirmationsPlayerscore {
-  position: absolute;
-  right: 0;
+.confirmationPlayerName {
+  span {
+    font-size: 20px;
+  }
+}
+
+.confirmationScore {
+  border: $border;
+  text-align: center;
+  width: 20%;
 }
