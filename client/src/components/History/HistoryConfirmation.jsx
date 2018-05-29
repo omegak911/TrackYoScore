@@ -12,7 +12,7 @@ class HistoryConfirmation extends Component {
 
   componentDidMount() {
     axios
-      .get('api/history/confirmation')
+      .get('/api/history/confirmation')
       .then(({ data }) => this.setState({ histConfirmationsPending: data }))
       .catch(err => console.log(err))
   }
