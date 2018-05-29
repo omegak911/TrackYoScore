@@ -31,12 +31,13 @@ class Profile extends Component {
 
   componentDidMount() {
     setTimeout( () => {
-      if (!this.props.userData) {
-        this.props.history.push('/')
+      const { state } = this.props.location;
+      if (state) {
+        this.updateState();
       } else {
-        setTimeout(() => this.updateState(), 0);
+        this.props.history.push('/welcome/home')
       }
-    }, 100);
+    }, 100)
   }
 
   updateState = () => {

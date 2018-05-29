@@ -17,7 +17,7 @@ class UserSearchResult extends Component {
           return (
             <div key={user.username}>
               <img src="" alt="profile pic goes here"/>
-              <Link to={{ pathname: "/profile", state: { user } }}>{user.username}</Link>
+              <Link to={{ pathname: "/welcome/profile", state: { user } }}>{user.username}</Link>
             </div>
           )
         })}

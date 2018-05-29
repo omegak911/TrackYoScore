@@ -4,12 +4,9 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import axios from 'axios';
 
-import History from './History/History';
-import Home from './Home/Home';
 import Landing from './Landing/Landing';
 import Nav from './Nav/Nav';
-import Profile from './Profile/Profile';
-import UserSearchResults  from './Search/UserSearchResult';
+import ProtectedRoutes from './ProtectedRoutes';
 
 import { updateUserData, updatePendingFriendRequests, updatePendingHistConfirmations, updateFriendList } from '../redux/actions'; 
 
@@ -21,13 +18,14 @@ class App extends Component {
     axios
       .get('/api/auth/isLoggedIn')
       .then(({ data }) => {
-        console.log('App CDM success')
-        console.log(data)
         if (data.username) {
           updateUserData(data);
           updateFriendList(data.friendsList);
           updatePendingFriendRequests(data.friendRequests);
           updatePendingHistConfirmations(data.confirmationNeeded);
+          if (window.location.pathname === '/') {
+            window.location = '/welcome/home'
+          }
         }
       })
       .catch(err => {
@@ -44,10 +42,11 @@ class App extends Component {
               <Nav />
               <Switch>
                 <Route exact path='/' component={Landing} />
-                <Route path='/history' component={History} />
+                <Route path='/welcome' component={ProtectedRoutes} />
+                {/* <Route path='/history' component={History} />
                 <Route path='/home' component={Home} />
                 <Route path='/profile' component={Profile} />
-                <Route path='/userSearchResults' component={UserSearchResults} />
+                <Route path='/userSearchResults' component={UserSearchResults} /> */}
               </Switch>
             </div>
         </BrowserRouter>

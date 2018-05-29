@@ -29,13 +29,13 @@ class Nav extends Component {
       {userData && 
         <div className="navContainer">
           <div className="linkContainer">
-            <Link to="/home" >Home</Link>
+            <Link to="/welcome/home" >Home</Link>
           </div>
           <div className="linkContainer">
-            <Link to={{ pathname: "/profile", state: { user: { id: userData.id }}}} >Profile</Link>
+            <Link to={{ pathname: "/welcome/profile", state: { user: { id: userData.id }}}} >Profile</Link>
           </div>
           <div className="linkContainer">
-            <Link to="/history" >History</Link>
+            <Link to="/welcome/history" >History</Link>
           </div>
           <div className="linkContainer">
             <Link to="/" onClick={this.logout}>Logout</Link>

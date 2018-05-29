@@ -32,7 +32,7 @@ class Search extends Component {
       .get('/api/user/search', options)
       .then(({ data }) => {
         this.props.searchedUsers(data);
-        this.props.history.push('/userSearchResults');
+        this.props.history.push('/welcome/userSearchResults');
       })
       .catch(err => console.log(err));
   }
