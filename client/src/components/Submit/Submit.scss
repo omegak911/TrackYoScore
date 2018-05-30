@@ -10,12 +10,24 @@ $border: 1px solid black;
 .submitGrid {
   border: $border;
   display: grid;
+  font-size: 18px;
   grid-template-areas:  "columnGameTitle columnPlayerName columnScore"
                         "gameImage playerName score"
                         "gameSelect playerSelect scoreSelect"
                         "scoreActions scoreActions emptySpace";
-  grid-template-rows:   22px 1fr 22px 22px;
+  grid-template-rows:   22px 1fr 22px 50px;
   grid-template-columns: 200px 400px 100px;
+
+  .gridGameColumn, 
+  .gridPlayerNameColumn, 
+  .gridScoreColumn,
+  .gridGameImage,
+  .gridPlayerName div .innerPlayerName,
+  .gridScore div {
+    border-bottom: $border;
+    border-right: $border;
+  }
+
 }
 
 .gridGameColumn {
@@ -24,25 +36,33 @@ $border: 1px solid black;
 
 .gridPlayerNameColumn {
   grid-area: columnPlayerName;
-  margin-left: 20px;
+  
+  span {
+    margin-left: 20px;
+  }
 }
 
 .gridScoreColumn {
   grid-area: columnScore;
+  text-align: center;
 }
 
 .gridGameImage {
   grid-area: gameImage;
-  height: 200px;
+  height: auto;
 }
 
 .gridPlayerName {
   grid-area: playerName;
-  margin-left: 20px;
+
+  span {
+    margin-left: 20px;
+  }
 }
 
 .gridScore {
   grid-area: score;
+  text-align: center;
 }
   
 .gridGameSelect {
@@ -56,4 +76,11 @@ $border: 1px solid black;
 
 .gridSubmit {
   grid-area: scoreActions;
+  display: flex;
+  margin-top: 20px;
+}
+
+.errorMsg {
+  color: red;
+  font-weight: bold;
 }

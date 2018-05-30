@@ -151,13 +151,12 @@ class Submit extends Component {
       <div className="submitForm">
         <h2>Submit A New Challenge Score</h2>
 
-        {/* test */}
         <div className="submitGrid">
           <div className="gridGameColumn">
-            Game
+            Game Title
           </div>
           <div className="gridPlayerNameColumn">
-            Player Name
+            <div className="innerPlayerName"><span>Player Name</span></div>
           </div>
           <div className="gridScoreColumn">
             Result
@@ -171,22 +170,20 @@ class Submit extends Component {
             }
           </div>
           
-          {/* <div className="innerScoreContainer"> */}
-            <div className="gridPlayerName">
-              {Object.keys(totalScore).map(userId =>
-                <div key={userId}>
-                  {totalScore[userId].username}
-                </div>
-              )}
-            </div>
-            <div className="gridScore">
-              {Object.keys(totalScore).map(userId =>
-                <div key={userId}>
-                  {totalScore[userId].score === 10 ? 'Win' : 'Loss'}
-                </div>
-              )}
-            </div>
-          {/* </div> */}
+          <div className="gridPlayerName">
+            {Object.keys(totalScore).map(userId =>
+              <div key={userId}>
+                <div className="innerPlayerName"><span>{totalScore[userId].username}</span></div>
+              </div>
+            )}
+          </div>
+          <div className="gridScore">
+            {Object.keys(totalScore).map(userId =>
+              <div key={userId}>
+                {totalScore[userId].score === 10 ? 'Win' : 'Loss'}
+              </div>
+            )}
+          </div>
 
           <div className="gridGameSelect">
             <select className="gameChoices" onChange={this.selectGame} value={dropDownSelectScore}>
@@ -196,7 +193,6 @@ class Submit extends Component {
               )}
             </select>
           </div>
-
           <div className="gridPlayerSelect">
             {displayUserScoreDropdown &&
               <div>
@@ -228,102 +224,11 @@ class Submit extends Component {
           </div>
 
           <div className="gridSubmit">
-            <div>{message}</div>
-            <br/>
+            <div className="errorMsg">{message}</div>
             <button onClick={this.submitConfirmation}>Submit Result</button>
-
-            <br/>
             <button onClick={this.clearAll}>Clear All</button>
           </div>
-        </div>
-
-
-
-        {/* test */}
-        <br/>
-        <span> ******************** </span>
-
-        {/* <div className="submitContainer"> */}
-          {/* <div className="displayGameContainer">
-            <div className="selectedGameContainer">
-              <div className="selectedColumnTitle">
-                Game
-              </div>
-              {selectedGame.title && 
-                <div className="selectedGame">
-                  <img src={selectedGame.image} alt="game image"/>
-                  <div>{selectedGame.title}</div>
-                </div>
-              }
-            </div>
-
-            <div className="displayScoreContainer">
-              <div className="innerScoreContainer">
-                <div className="innerUsername">
-                  Player Name
-                </div>
-                <div className="innerScore">
-                  Result
-                </div>
-              </div>
-              {Object.keys(totalScore).map(userId =>
-                <div key={userId} className="innerScoreContainer">
-                  <div className="innerUsername">
-                    {totalScore[userId].username}
-                  </div>
-                  <div className="innerScore">
-                    {totalScore[userId].score === 10 ? 'Win' : 'Loss'}
-                  </div>
-                </div>
-              )}
-            </div>
-          </div>
-
-          <div className="selectOptionsContainer">
-            <select className="gameChoices" onChange={this.selectGame} value={dropDownSelectScore}>
-              <option value="result">Game</option>
-              {Object.keys(games).map(id =>
-                <option key={id} value={id}>{games[id].title}</option>
-              )}
-            </select>
-
-            {displayUserScoreDropdown &&
-              <div>
-                Your Score 
-                <select name="" id="" onChange={this.selectUserScore} value={dropDownSelectScore}>
-                  <option value="result">result</option>
-                  <option value="win">Win</option>  
-                  <option value="loss">Loss</option>
-                </select>
-              </div>}
-          
-            {!displayUserScoreDropdown && 
-              <div>
-                <select name="player" onChange={this.selectPlayer} value={dropDownSelectPlayer}>
-                <option value="select player">select player</option>
-                {friends.map((user, index) =>
-                  <option key={index} value={user.id}>
-                    {user.username}
-                  </option>
-                )}
-                </select>
-                <select name="" id="" onChange={this.selectScore} value={dropDownSelectScore}>
-                  <option value="result">result</option>
-                  <option value="win">Win</option>  
-                  <option value="loss">Loss</option>
-                </select>
-                <button type="button" onClick={this.addPlayer}>Add Score</button>
-              </div>}
-          </div>
-        </div>
-
-        <div>{message}</div>
-        <br/>
-        <button onClick={this.submitConfirmation}>Submit Result</button>
-
-        <br/>
-        <button onClick={this.clearAll}>Clear All</button> */}
-            
+        </div>            
       </div>
     )
   }
