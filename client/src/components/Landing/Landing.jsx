@@ -88,7 +88,9 @@ class Landing extends Component {
 
     return (
       <div>
-        <div className="login">
+        <div className="landing">
+          <div>
+          {login ? <h1>Login</h1> : <h1>Signup</h1>}
           <form name={login ? "login" : "signup"} autoComplete="on" onSubmit={e => this.handleButton(e)}>
             <input type="text" name="username" placeholder="username" onChange={e => this.handleEntry(e)}/>
             <br/>
@@ -106,7 +108,8 @@ class Landing extends Component {
             }
             <button>{login ? 'Login' : 'SignUp'}</button>
           </form>
-          <button name="switch" type="button" onClick={e => this.handleButton(e)}>{login ? 'Go SignUp' : 'Go Login'}</button>
+          <button name="switch" type="button" onClick={e => this.handleButton(e)}>{login ? `Don't have an account?  Let's sign you up!` : 'Go Login'}</button>
+          </div>
         </div>
       </div>
     )
