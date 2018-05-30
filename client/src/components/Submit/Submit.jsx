@@ -151,7 +151,7 @@ class Submit extends Component {
       <div className="submitForm">
         <h2>Submit A New Challenge Score</h2>
         <div className="submitContainer">
-          <div>
+          <div className="displayGameContainer">
             {selectedGame.title && 
               <div className="selectedGame">
                 <img src={selectedGame.image} alt="game image"/>
@@ -159,23 +159,27 @@ class Submit extends Component {
               </div>
             }
 
-            <select name="" id="" onChange={this.selectGame} value={dropDownSelectScore}>
+            <div className="displayScoreContainer">
+              {Object.keys(totalScore).map(userId =>
+                <div key={userId} className="innerScoreContainer">
+                  <div className="innerUsername">
+                    {totalScore[userId].username}
+                  </div>
+                  <div className="innerScore">
+                    {totalScore[userId].score === 10 ? 'Win' : 'Loss'}
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+
+          <div className="selectOptionsContainer">
+            <select className="gameChoices" onChange={this.selectGame} value={dropDownSelectScore}>
               <option value="result">Game</option>
               {Object.keys(games).map(id =>
                 <option key={id} value={id}>{games[id].title}</option>
               )}
             </select>
-          </div>
-
-          <div className="resultsContainer">
-            <div>
-              {Object.keys(totalScore).map(userId =>
-                <div key={userId}>
-                  {totalScore[userId].username + ' - '}
-                  {totalScore[userId].score === 10 ? 'Win' : 'Loss'}
-                </div>
-              )}
-            </div>
 
             {displayUserScoreDropdown &&
               <div>

@@ -1,12 +1,48 @@
+$border: 1px solid black;
+
+.displayGameContainer {
+  display: flex;
+}
+
+.gameChoices {
+  margin-right: 50px;
+}
+
+.innerScoreContainer {
+  display: flex;
+  width: 500px;
+}
+
+.innerUsername, .innerScore {
+  border: $border;
+  font-size: 18px;
+}
+
+.innerScore {
+  text-align: center;
+  width: 20%;
+}
+
+.innerUsername {
+  width: 80%;
+}
+
 .selectedGame {
+  margin-right: 20px;
+
   img {
     height: auto;
     width: 160px;
   }
 }
 
+.selectOptionsContainer {
+  display: flex;
+}
+
 .submitContainer {
   display: flex;
+  flex-direction: column;
 }
 
 .submitForm {
