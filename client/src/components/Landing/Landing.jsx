@@ -108,7 +108,8 @@ class Landing extends Component {
             }
             <button>{login ? 'Login' : 'SignUp'}</button>
           </form>
-          <button name="switch" type="button" onClick={e => this.handleButton(e)}>{login ? `Don't have an account?  Let's sign you up!` : 'Go Login'}</button>
+          <br/>
+          <button name="switch" type="button" onClick={e => this.handleButton(e)}>{login ? `Don't have an account?  Let's sign you up!` : 'Go To Login'}</button>
           </div>
         </div>
       </div>

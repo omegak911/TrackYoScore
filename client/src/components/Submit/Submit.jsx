@@ -150,58 +150,64 @@ class Submit extends Component {
     return (
       <div className="submitForm">
         <h2>Submit A New Challenge Score</h2>
-        <div>
-          {selectedGame.title && 
-            <div>
-              <img src={selectedGame.image} alt="game image"/>
-              <div>{selectedGame.title}</div>
-            </div>
-          }
+        <div className="submitContainer">
+          <div>
+            {selectedGame.title && 
+              <div className="selectedGame">
+                <img src={selectedGame.image} alt="game image"/>
+                <div>{selectedGame.title}</div>
+              </div>
+            }
 
-          {Object.keys(totalScore).map(userId =>
-            <div key={userId}>
-              {totalScore[userId].username + ' - '}
-              {totalScore[userId].score === 10 ? 'Win' : 'Loss'}
-            </div>
-          )}
-
-          <select name="" id="" onChange={this.selectGame} value={dropDownSelectScore}>
-            <option value="result">Game</option>
-            {Object.keys(games).map(id =>
-              <option key={id} value={id}>{games[id].title}</option>
-            )}
-          </select>
-
-          {displayUserScoreDropdown &&
-            <div>
-              Your Score 
-              <select name="" id="" onChange={this.selectUserScore} value={dropDownSelectScore}>
-                <option value="result">result</option>
-                <option value="win">Win</option>  
-                <option value="loss">Loss</option>
-              </select>
-            </div>}
-        
-          {!displayUserScoreDropdown && 
-            <div>
-              <select name="player" onChange={this.selectPlayer} value={dropDownSelectPlayer}>
-              <option value="select player">select player</option>
-              {friends.map((user, index) =>
-                <option key={index} value={user.id}>
-                  {user.username}
-                </option>
+            <select name="" id="" onChange={this.selectGame} value={dropDownSelectScore}>
+              <option value="result">Game</option>
+              {Object.keys(games).map(id =>
+                <option key={id} value={id}>{games[id].title}</option>
               )}
-              </select>
-              <select name="" id="" onChange={this.selectScore} value={dropDownSelectScore}>
-                <option value="result">result</option>
-                <option value="win">Win</option>  
-                <option value="loss">Loss</option>
-              </select>
-            </div>}
+            </select>
+          </div>
+
+          <div className="resultsContainer">
+            <div>
+              {Object.keys(totalScore).map(userId =>
+                <div key={userId}>
+                  {totalScore[userId].username + ' - '}
+                  {totalScore[userId].score === 10 ? 'Win' : 'Loss'}
+                </div>
+              )}
+            </div>
+
+            {displayUserScoreDropdown &&
+              <div>
+                Your Score 
+                <select name="" id="" onChange={this.selectUserScore} value={dropDownSelectScore}>
+                  <option value="result">result</option>
+                  <option value="win">Win</option>  
+                  <option value="loss">Loss</option>
+                </select>
+              </div>}
+          
+            {!displayUserScoreDropdown && 
+              <div>
+                <select name="player" onChange={this.selectPlayer} value={dropDownSelectPlayer}>
+                <option value="select player">select player</option>
+                {friends.map((user, index) =>
+                  <option key={index} value={user.id}>
+                    {user.username}
+                  </option>
+                )}
+                </select>
+                <select name="" id="" onChange={this.selectScore} value={dropDownSelectScore}>
+                  <option value="result">result</option>
+                  <option value="win">Win</option>  
+                  <option value="loss">Loss</option>
+                </select>
+                <button type="button" onClick={this.addPlayer}>Add Score</button>
+              </div>}
+          </div>
         </div>
 
         <div>{message}</div>
-        <button type="button" onClick={this.addPlayer}>Add Score</button>
         <br/>
         <button onClick={this.submitConfirmation}>Submit Result</button>
 

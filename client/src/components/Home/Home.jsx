@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import SubmitScore from '../Confirmation/Submit';
+import SubmitScore from '../Submit/Submit';
 import Search from '../Search/Search';
 
 class Home extends Component {
