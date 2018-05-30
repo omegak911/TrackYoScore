@@ -5,7 +5,7 @@ $border: 1px solid black;
 }
 
 .gameChoices {
-  margin-right: 50px;
+  margin-right: 80px;
 }
 
 .innerScoreContainer {
@@ -27,13 +27,24 @@ $border: 1px solid black;
   width: 80%;
 }
 
+.selectedColumnTitle {
+  border: $border;
+  font-size: 18px;
+}
+
 .selectedGame {
-  margin-right: 20px;
+  width: 200px;
 
   img {
     height: auto;
-    width: 160px;
+    width: 100%;
   }
+}
+
+.selectedGameContainer {
+  display: flex;
+  flex-direction: column;
+  width: 200px;
 }
 
 .selectOptionsContainer {
@@ -46,5 +57,5 @@ $border: 1px solid black;
 }
 
 .submitForm {
-  border: 1px solid black;
+  border: $border;
 }

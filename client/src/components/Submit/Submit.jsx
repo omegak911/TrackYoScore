@@ -152,14 +152,27 @@ class Submit extends Component {
         <h2>Submit A New Challenge Score</h2>
         <div className="submitContainer">
           <div className="displayGameContainer">
-            {selectedGame.title && 
-              <div className="selectedGame">
-                <img src={selectedGame.image} alt="game image"/>
-                <div>{selectedGame.title}</div>
+            <div className="selectedGameContainer">
+              <div className="selectedColumnTitle">
+                Game
               </div>
-            }
+              {selectedGame.title && 
+                <div className="selectedGame">
+                  <img src={selectedGame.image} alt="game image"/>
+                  <div>{selectedGame.title}</div>
+                </div>
+              }
+            </div>
 
             <div className="displayScoreContainer">
+              <div className="innerScoreContainer">
+                <div className="innerUsername">
+                  Player Name
+                </div>
+                <div className="innerScore">
+                  Result
+                </div>
+              </div>
               {Object.keys(totalScore).map(userId =>
                 <div key={userId} className="innerScoreContainer">
                   <div className="innerUsername">
