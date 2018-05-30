@@ -59,3 +59,54 @@ $border: 1px solid black;
 .submitForm {
   border: $border;
 }
+
+
+.submitGrid {
+  display: grid;
+  grid-template-areas:  "columnGameTitle columnPlayerName columnScore"
+                        "gameImage playerName score"
+                        "gameSelect playerSelect scoreSelect"
+                        "scoreActions scoreActions emptySpace";
+  grid-template-rows:   22px 1fr 22px 22px;
+  grid-template-columns: 200px 400px 100px;
+  
+  div {
+    border: $border;
+  }
+}
+
+.gridGameColumn {
+  grid-area: columnGameTitle;
+}
+
+.gridPlayerNameColumn {
+  grid-area: columnPlayerName;
+}
+
+.gridScoreColumn {
+  grid-area: columnScore;
+}
+
+.gridGameImage {
+  grid-area: gameImage;
+}
+
+.gridPlayerName {
+  grid-area: playerName;
+}
+
+.gridScore {
+  grid-area: score;
+}
+  
+.gridGameSelect {
+  grid-area: gameSelect;
+}
+
+.gridPlayerSelect {
+  grid-area: playerSelect;
+}
+
+.gridSubmit {
+  grid-area: scoreActions;
+}

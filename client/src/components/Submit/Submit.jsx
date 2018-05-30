@@ -150,6 +150,48 @@ class Submit extends Component {
     return (
       <div className="submitForm">
         <h2>Submit A New Challenge Score</h2>
+
+        {/* test */}
+        <div className="submitGrid">
+          <div className="gridGameColumn">
+            Game
+          </div>
+          <div className="gridPlayerNameColumn">
+            Player Name
+          </div>
+          <div className="gridScoreColumn">
+            Result
+          </div>
+          <div className="gridGameImage">
+            <img src="" alt="image goes here"/>
+            <div>Game Title Goes Here</div>
+          </div>
+          <div className="gridPlayerName">
+            <div>Player 1</div>
+            <div>Player 2</div>
+          </div>
+          <div className="gridScore">
+            <div>score 1</div>
+            <div>score 2</div>
+          </div>
+          <div className="gridGameSelect">
+            Select Game
+          </div>
+          <div className="gridPlayerSelect">
+            Select Player
+            Select Result
+          </div>
+          <div className="gridSubmit">
+            Submit Score
+            Clear All
+          </div>
+        </div>
+
+
+
+        {/* test */}
+
+
         <div className="submitContainer">
           <div className="displayGameContainer">
             <div className="selectedGameContainer">
