@@ -21,12 +21,14 @@ $border: 1px solid black;
                         "scoreActions scoreActions emptySpace";
   grid-template-rows:   22px 1fr 22px 50px;
   grid-template-columns: 200px 400px 100px;
-  width: 750px;
+  width: 700px;
 
   .gridGameColumn, 
   .gridPlayerNameColumn, 
   .gridScoreColumn,
-  .gridGameImage {
+  .gridGameImage,
+  .gridPlayerName,
+  .gridScore {
     border-bottom: $border;
     border-right: $border;
   }
@@ -62,7 +64,6 @@ $border: 1px solid black;
 
 .gridPlayerName {
   grid-area: playerName;
-  border-right: $border;
 
   span {
     margin-left: 20px;
@@ -70,7 +71,6 @@ $border: 1px solid black;
 }
 
 .gridScore {
-  border-right: $border;
   grid-area: score;
   text-align: center;
 }
