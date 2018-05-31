@@ -36,7 +36,7 @@ class App extends Component {
 
   render() {
     return (
-      <div>
+      <div id="innerApp">
         <BrowserRouter>
             <div>
               <Nav />

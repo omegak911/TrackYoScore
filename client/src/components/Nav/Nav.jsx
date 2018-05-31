@@ -28,17 +28,21 @@ class Nav extends Component {
       <div>
       {userData && 
         <div className="navContainer">
-          <div className="linkContainer">
-            <Link to="/welcome/home" >Home</Link>
+          <div className="navLeft">
+            <div className="linkContainer">
+              <Link to="/welcome/home" >Home</Link>
+            </div>
+            <div className="linkContainer">
+              <Link to={{ pathname: "/welcome/profile", state: { user: { id: userData.id }}}} >Profile</Link>
+            </div>
+            <div className="linkContainer">
+              <Link to="/welcome/history" >History</Link>
+            </div>
           </div>
-          <div className="linkContainer">
-            <Link to={{ pathname: "/welcome/profile", state: { user: { id: userData.id }}}} >Profile</Link>
-          </div>
-          <div className="linkContainer">
-            <Link to="/welcome/history" >History</Link>
-          </div>
-          <div className="linkContainer">
-            <Link to="/" onClick={this.logout}>Logout</Link>
+          <div className="navRight">
+            <div className="linkContainer">
+              <Link to="/" onClick={this.logout}>Logout</Link>
+            </div>
           </div>
         </div>
       }
