@@ -9,6 +9,7 @@ $border: 1px solid black;
   border: $border;
   display: flex;
   flex-direction: row;
+  height: 6vh;
 }
 
 .navLeft {
@@ -33,13 +34,17 @@ $border: 1px solid black;
   margin-bottom: 5px;
   margin-left: 10px;
   padding: 3px;
-  width: 50px;
+  width: 60px;
   text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .linkContainer{
   a {
-    text-decoration: none;
     color: white;
+    font-size: 1.3em;
+    text-decoration: none;
   }
 }

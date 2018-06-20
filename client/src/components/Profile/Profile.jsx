@@ -148,7 +148,7 @@ class Profile extends Component {
     const { userData } = this.props;
 
     return (
-      <div>
+      <div className="profileTopContainer">
         <div className="container">
           <div className="profileImage">
             Profile Image
