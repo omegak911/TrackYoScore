@@ -35,11 +35,13 @@ class Home extends Component {
       <div 
         className="homeTopContainer"
         style={{ backgroundImage: `url(${homeBackgroundUrl ? homeBackgroundUrl : 'https://wallpapers.wallhaven.cc/wallpapers/full/wallhaven-654391.jpg' })`}}>
-        <div className="homeInnerContainer">
-          <SubmitScore games={this.state.games} />
-          <br/>
-          find new friends
-          <Search history={this.props.history}/>
+        <div className="homeMidContainer">
+          <div className="homeInnerContainer">
+            <SubmitScore games={this.state.games} />
+            <br/>
+            find new friends
+            <Search history={this.props.history}/>
+          </div>
         </div>
       </div>
     )

@@ -10,8 +10,16 @@
   width: 80%;
 }
 
-.homeInnerContainer {
-  background-color: rgba(250, 250, 250, 0.9);
+.homeMidContainer {
+  background-color: rgba(250, 250, 250, 0.95);
+  border: 2px solid black;
+  box-shadow: 5px 5px 5px grey;
+  display: flex;
   height: 90%;
+  justify-content: center;
   width: 90%;
+}
+
+.homeInnerContainer {
+  padding: 10px;
 }
