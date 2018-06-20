@@ -8,7 +8,7 @@ class Submit extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      games: {},
+      // games: {},
       totalScore: {},
       playerHist: {},
       selectedGame: {},
@@ -24,15 +24,16 @@ class Submit extends Component {
     }
   }
 
-  componentDidMount () {
-    axios
-      .get('/api/game/fetch')
-      .then(({ data }) => this.setState({ games: data }))
-      .catch(err => console.log(err))
-  }
+  // componentDidMount () {
+  //   axios
+  //     .get('/api/game/fetch')
+  //     .then(({ data }) => this.setState({ games: data }))
+  //     .catch(err => console.log(err))
+  // }
 
   selectGame = (e) => {
-    let { games } = this.state;
+    // let { games } = this.state;
+    let { games } = this.props;
     let id = e.target.value;
     this.setState({ selectedGame: games[id], selectedGameId: id })
   }
@@ -138,8 +139,9 @@ class Submit extends Component {
 
   render() {
     const { friends } = this.props;
+    let { games } = this.props;
     let { 
-      games,
+      // games,
       totalScore, 
       dropDownSelectPlayer, 
       dropDownSelectScore,
