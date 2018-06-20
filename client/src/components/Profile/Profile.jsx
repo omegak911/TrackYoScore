@@ -5,7 +5,7 @@ import axios from 'axios';
 
 import { updateUserData, updatePendingFriendRequests, updateFriendList } from '../../redux/actions';
 
-import AccountModal from '../AccountModal/AccountModal';
+import AccountModal from './AccountModal/AccountModal';
 
 import './Profile.scss';
 
