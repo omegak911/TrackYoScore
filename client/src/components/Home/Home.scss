@@ -1,0 +1,17 @@
+.homeTopContainer {
+  align-items: center;
+  background-size: contain;
+  border: 5px solid black;
+  display: flex;
+  height: 80vh;
+  justify-content: center;
+  padding-left: 10px;
+  padding-right: 10px;
+  width: 80%;
+}
+
+.homeInnerContainer {
+  background-color: rgba(250, 250, 250, 0.9);
+  height: 90%;
+  width: 90%;
+}

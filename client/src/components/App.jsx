@@ -38,17 +38,13 @@ class App extends Component {
     return (
       <div id="innerApp">
         <BrowserRouter>
-            <div>
-              <Nav />
-              <Switch>
-                <Route exact path='/' component={Landing} />
-                <Route path='/welcome' component={ProtectedRoutes} />
-                {/* <Route path='/history' component={History} />
-                <Route path='/home' component={Home} />
-                <Route path='/profile' component={Profile} />
-                <Route path='/userSearchResults' component={UserSearchResults} /> */}
-              </Switch>
-            </div>
+          <div>
+            <Nav />
+            <Switch>
+              <Route exact path='/' component={Landing} />
+              <Route path='/welcome' component={ProtectedRoutes} />
+            </Switch>
+          </div>
         </BrowserRouter>
       </div>
     );
