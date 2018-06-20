@@ -25,7 +25,7 @@ class Nav extends Component {
     const { userData } = this.props;
 
     return (
-      <div>
+      <div className="nav">
       {userData && 
         <div className="navContainer">
           <div className="navLeft">
