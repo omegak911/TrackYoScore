@@ -47,21 +47,10 @@ class AccountModal extends Component {
   }
 
   handleDrop = (file) => {
-    const formData = new FormData();
-    formData.append('file', file);
-    formData.append('tags', `codeinfuse, medium, gist`);
-    formData.append('upload_preset', 'a5d7bdux')
-    formData.append('api_key', toTheCloud);
-    formData.append('timestamp', (Date.now() / 1000) | 0);
-
     axios
-      // .post('https://api.cloudinary.com/v1_1/codeinfuse/image/upload', 
-      .post('URL',
-        formData, 
-        { headers: {'X-Requested-With': 'XMLHttpRequest'}})
+      .post('api/user/updatePhoto', file)
       .then(({ data }) => {
         console.log(data);
-        const photoUrl = data.secure_url;
       })
       .catch(err => console.log(err));
   }
