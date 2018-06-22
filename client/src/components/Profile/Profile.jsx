@@ -15,6 +15,7 @@ class Profile extends Component {
     this.state = {
       id: 0,
       username: '',
+      url: 'https://scontent-ort2-2.cdninstagram.com/vp/fd241f48afc0d7552ac99ea87b6a3835/5BC63862/t51.2885-15/s640x640/sh0.08/e35/22802663_448636875537575_8141256937888022528_n.jpg',
       level: null,
       wins: 0,
       losses: 0,
@@ -50,8 +51,8 @@ class Profile extends Component {
     axios
       .get('/api/user/profile', options)
       .then( async ({ data }) => {
-        const { id, username, level, wins, losses } = data;
-        await this.setState({ id, username, level, wins, losses });
+        const { id, username, level, wins, losses, url } = data;
+        await this.setState({ id, username, level, wins, losses, url });
         //determine if it's the user's profile.  If not, are they already friends
         if (username === userData.username) {
           await this.setState({ areFriends: true });
@@ -135,6 +136,7 @@ class Profile extends Component {
   render() {
     let {
       username, 
+      url,
       level, 
       wins, 
       losses, 
@@ -152,6 +154,7 @@ class Profile extends Component {
         <div className="container">
           <div className="profileImage">
             Profile Image
+            <img src={url} alt="profile pic"/>
             <button type="button" onClick={this.showStoreAndState}>****</button>
           </div>
         </div>

@@ -41,6 +41,10 @@ const seedUsers = [
     username: 'charizard',
     password: 'charizard',
   },
+  {
+    username: 'poop',
+    password: 'poop',
+  }
 ];
 
 const userUpdates = [
