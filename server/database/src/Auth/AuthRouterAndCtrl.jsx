@@ -12,7 +12,9 @@ passport.use(new LocalStrategy({
   passReqToCallback: true,
 }, (req, username, password, done) => {
     validateUserHelper(username, (err, user) => {
-      if (err) { return done(err); }
+      if (err) {
+        return done(err); 
+      }
       if (!user) {
         req.message = 'invalid username';
         return done(null, false);
@@ -55,11 +57,11 @@ router.route('/signup')
 
 router.route('/login')
   .get(passport.authenticate('local', { failWithError: true }), (req, res, next) => {
-    console.log('passed')
-    res.status(200).send(req.user)
+    console.log('login passed')
+    res.status(200).send(req.user);
   }, (err, req, res, next) => {
-    console.log('failed')
-    res.status(200).send(req.message)
+    console.log('login failed')
+    res.status(200).send(req.message);
   });
 
 router.route('/logout')

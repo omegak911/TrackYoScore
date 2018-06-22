@@ -8,6 +8,7 @@ const createUserHelper = ({ username, password }, callback) =>
     level: 1,
     currentEXP: 0,
     nextLevelEXP: 100,
+    url: 'https://scontent-ort2-2.cdninstagram.com/vp/fd241f48afc0d7552ac99ea87b6a3835/5BC63862/t51.2885-15/s640x640/sh0.08/e35/22802663_448636875537575_8141256937888022528_n.jpg',
     wins: 0,
     losses: 0,
   })
