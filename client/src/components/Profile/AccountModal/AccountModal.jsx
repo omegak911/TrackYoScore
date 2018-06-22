@@ -6,7 +6,10 @@ import axios from 'axios';
 
 import { updateUserData } from '../../../redux/actions';
 
+
 import './AccountModal.scss';
+
+import { TO_THE_CLOUD, PRESET_NAME, CLOUD_URL } from '../../../../../config';
 
 class AccountModal extends Component {
   constructor(props) {
@@ -47,12 +50,23 @@ class AccountModal extends Component {
   }
 
   handleDrop = (file) => {
+    const formData = new FormData();
+    formData.append('file', file[0]);
+    formData.append("upload_preset", PRESET_NAME);
+    formData.append("api_key", TO_THE_CLOUD);
+    formData.append("timestamp", (Date.now() / 1000) | 0);
+
     axios
-      .post('api/user/updatePhoto', file)
+      .post(CLOUD_URL, formData, {headers: { "X-Requested-With": "XMLHttpRequest" }})
       .then(({ data }) => {
-        console.log(data);
+        //on success, send axios put request
+        const url = data.secure_url;
+        axios
+          .put('/api/user/updatePhoto', { url })
+          .then(({ data }) => console.log('put data: ', data))
+          .catch(err => console.log(err));
       })
-      .catch(err => console.log(err));
+    .catch(err => console.log(err));
   }
 
   render() {
@@ -61,8 +75,9 @@ class AccountModal extends Component {
         <div className="accountDetails" onClick={e => this.stopPropagation(e)}>
           <Dropzone
             onDrop={this.handleDrop}
-            multiple                //let's check what this means
+            multiple={false}            //let's check what this means
             accept="image/*"
+            // maxSize={1000000}
             // style={}
             >
               <p>Upload image here</p>
