@@ -19,13 +19,27 @@ const searchUsersHelper = ({ username }, callback) =>
   .then(result => callback(result))
   .catch(err => console.log(err));
 
+const updatePhotoHelper = (id, url, callback) =>
+  Users.update(
+    url,
+    { where: { id },
+      returning: true }
+  )
+  .then(result => {
+    console.log('updatePhotoHelper success: ', result[0]);
+    callback('success');
+  })
+  .catch(err => {
+    console.log(err)
+    callback('success')
+  });
+
 //update
   // level: Sequelize.INTEGER,
   // currentEXP: Sequelize.INTEGER,
   // nextLevelEXP: Sequelize.INTEGER,
   // wins: Sequelize.INTEGER,
   // losses: Sequelize.INTEGER,
-
 const updateUserHelper = (id, data, callback) =>
   Users.increment(
     data,
@@ -48,4 +62,4 @@ const userProfileHelper = ({ id }, callback) =>
   .then(result => callback(result))
   .catch(err => console.log(err));
 
-export { searchUsersHelper, updateUserHelper, userProfileHelper };
+export { searchUsersHelper, updatePhotoHelper, updateUserHelper, userProfileHelper };
