@@ -7,7 +7,7 @@ const addGameHelper = ({ title, image }, callback) =>
       image,
     })
     .then(result => callback(result))
-    .catch(err => console.log('addGameHelper error'));
+    .catch(err => console.log('addGameHelper error: ', err.original.detail));
 
 const fetchGameHelper = (callback) =>
   Games

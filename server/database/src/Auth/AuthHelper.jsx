@@ -14,6 +14,7 @@ const createUserHelper = ({ username, password }, callback) =>
   })
   .then(({ dataValues }) => callback())
   .catch(err => { 
+    console.log(err);
     callback('invalid username');
   });
 
