@@ -32,15 +32,15 @@ const Perks = db.define('perks', {
 
 const Users = db.define('users', {
   id: { type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true },
-  username: { type: Sequelize.STRING(15), unique: true, allowNull: false, len: [2,50] },
+  username: { type: Sequelize.STRING(40), unique: true, allowNull: false, len: [2,50] },
   password: { type: Sequelize.STRING(), allowNull: false },
   //eventually add email
-  url: Sequelize.STRING,
-  level: Sequelize.INTEGER,
-  currentEXP: Sequelize.INTEGER,
-  nextLevelEXP: Sequelize.INTEGER,
-  wins: Sequelize.INTEGER,
-  losses: Sequelize.INTEGER,
+  url: { type: Sequelize.STRING, defaultValue: 'https://scontent-ort2-2.cdninstagram.com/vp/fd241f48afc0d7552ac99ea87b6a3835/5BC63862/t51.2885-15/s640x640/sh0.08/e35/22802663_448636875537575_8141256937888022528_n.jpg'},
+  level: { type: Sequelize.INTEGER, defaultValue: 1 },
+  currentEXP: { type: Sequelize.INTEGER, defaultValue: 0 },
+  nextLevelEXP: { type: Sequelize.INTEGER, defaultValue: 100 },
+  wins: { type: Sequelize.INTEGER, defaultValue: 0 },
+  losses: { type: Sequelize.INTEGER, defaultValue: 0 },
 });
 
 const FriendRequests = db.define('friend_requests', {
