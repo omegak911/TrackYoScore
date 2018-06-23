@@ -2,7 +2,7 @@ import faker from 'faker';
 import axios from "axios";
 
 import db from '../index';
-import { Friends, FriendRequests, Games, History, HistoryConfirmation, Perks, Users, UserPerks, UserHistories, TempUserHistories } from './index';
+import { Friends, FriendRequests, Games, History, HistoryConfirmation, Perks, Users, UserPerks, UserHistories, UserHistoryConfirmations } from './index';
 import { updateUserHelper } from '../src/Users/UserHelper';
 import { createUserHelper, validateUserHelper } from '../src/Auth/AuthHelper';
 import { addGameHelper, fetchGameHelper } from '../src/Games/GameHelper';
@@ -22,7 +22,6 @@ import {
 const entries = 100000;
 
 const createUsers = async (totalUsersCreated) => {
-  let hist = {}
   let histIdNames = {}
   let numUsersCreated = 0;
   let bulkArray = [];
@@ -32,27 +31,17 @@ const createUsers = async (totalUsersCreated) => {
       password: faker.random.word(),
     }
 
-    if (hist[User.username]) {
-      continue;
-    } else {
-      hist[User.username] = true;
-      histIdNames[i] = User.username;
-      numUsersCreated += 1;
-      // await axios.post('http://localhost:3666/api/auth/signup/', User);
-      // await createUserHelper(User, () => { return });
-      bulkArray.push(User);
-    }
+    histIdNames[i] = User.username;
+    numUsersCreated += 1;
+    // await axios.post('http://localhost:3666/api/auth/signup/', User);
+    bulkArray.push(User);
   };
   
   await Users.bulkCreate(bulkArray)
-          .then(() => console.log('success'))
-          .catch(err => {
-            console.log('why?: ', Object.keys(err.parent))
-            console.log(err.parent.name)
-            console.log(err.parent.detail)
-            console.log(err.parent.routine)
-            console.log(err.parent.file)
-          })
+    .then(() => console.log('success'))
+    .catch(err => {
+      console.log('why?: ', Object.keys(err.parent))
+    })
           
   return {
     histIdNames,
@@ -61,7 +50,8 @@ const createUsers = async (totalUsersCreated) => {
 };
 
 const updateUsers = async (totalUsersCreated) => {
-  for (let i = 1; i < entries; i++) {
+  let end = entries / 4;
+  for (let i = 1; i < end; i++) {
     let user_id = Math.floor(Math.random() * totalUsersCreated)  + 1;
     let level = Math.floor(Math.random() * 100);
     let currentEXP = Math.floor(Math.random() * 100) * level;
@@ -76,13 +66,11 @@ const updateUsers = async (totalUsersCreated) => {
       wins,
       losses,
     }
-
     await updateUserHelper( user_id, data, (result) => { return });
   };
 };
 
 const createGames = async () => {
-  let gameHist = {};
   let currentNumGames = 0;
   let bulkArray = [];
   for (let i = 0; i < entries; i++) {
@@ -92,24 +80,14 @@ const createGames = async () => {
       title,
       image
     }
-    if (gameHist[title]) {
-      continue;
-    } else {
-      currentNumGames += 1;
-      gameHist[title] = true;
-      // await addGameHelper(game, (result) => { return });
-      bulkArray.push(game);
-    }
+    currentNumGames += 1;
+    bulkArray.push(game);
   };
 
   await Games.bulkCreate(bulkArray)
     .then(() => console.log('success'))
     .catch(err => {
       console.log('why?: ', Object.keys(err.parent))
-      console.log(err.parent.name)
-      console.log(err.parent.detail)
-      console.log(err.parent.routine)
-      console.log(err.parent.file)
     })
   
   return currentNumGames;
@@ -150,7 +128,26 @@ const randomHist = (userObject, numUsersCreated, currentNumGames) => {
   return confirmation;
 }
 
-const createConfirmation = async ({ numUsersCreated, histIdNames }, currentNumGames) => {
+const createConfirmation = async ({ numUsersCreated, histIdNames }, currentNumGames, iteration) => {
+  let bulkArray = [];
+  for (let i = 0; i < entries; i++) {
+    bulkArray.push(randomHist(histIdNames, numUsersCreated, currentNumGames));
+  }
+
+  await HistoryConfirmation.bulkCreate(bulkArray)
+    .then( async () => {
+      let userConfirmationBulkArray = [];
+      for (let k = 0; k < bulkArray.length; k++) {
+        for (let key in bulkArray[k].playerScore) {
+          userConfirmationBulkArray.push({ userId: Number(key), confirmationId: 1 + entries * iteration })
+        }
+      }
+      await UserHistoryConfirmations.bulkCreate(userConfirmationBulkArray)
+    })
+    .catch(err => console.log('create confirmation error'))
+
+
+
   for (let i = 0; i < entries; i++) {
     let confirmation = randomHist(histIdNames, numUsersCreated, currentNumGames);
 
@@ -176,38 +173,60 @@ const createHistory = async ({ numUsersCreated, histIdNames }, currentNumGames) 
   }
 }
 
-const createFriendRequest = async (totalUsersCreated) => {
+const createFriendHelper = async (totalUsersCreated) => {
+  let bulkArray = [];
+  let bulkArrayReversed = [];
   for (let i = 0; i < entries; i++) {
     let friendId = Math.floor(Math.random() * totalUsersCreated) + 1;
     let userId = Math.floor(Math.random() * totalUsersCreated) + 1;
-    await friendRequestHelper(friendId, userId, () => { return });
+    bulkArray.push({ friendId, userId });
+    bulkArrayReversed.push({ friendId: userId, userId: friendId });
   }
+  return { bulkArray, bulkArrayReversed };
 }
+
+const createFriendRequest = async (totalUsersCreated) => {
+  let { bulkArray } = await createFriendHelper(totalUsersCreated);
+
+  await FriendRequests.bulkCreate(bulkArray)
+    .then(() => { return })
+    .catch(() => console.log('friend request error'))
+}
+
 //note that createFriendRequest isn't suppose to already exist in createFriend, but we'll worry about that later
 const createFriend = async (totalUsersCreated) => {
-  for (let i = 0; i < entries; i++) {
-    let friendId = Math.floor(Math.random() * totalUsersCreated) + 1;
-    let userId = Math.floor(Math.random() * totalUsersCreated) + 1;
-    await addFriendHelper({ friendId, userId }, () => { return });
-  }
+  let { bulkArray, bulkArrayReversed } = await createFriendHelper(totalUsersCreated);
+
+  await Friends.bulkCreate(bulkArray)
+    .then( async() => {
+      await Friends.bulkCreate(bulkArrayReversed)
+        .then(() => { return })
+        .catch(() => console.log('friend request error'))
+    })
+    .catch(() => console.log('friend request error'))
 }
 
-const bulkCreate = async () => {
+const setIterations = async () => {
   let totalUsersCreated = 0;
   let totalGamesCreated = 0;
-  for (var i = 0; i < 10; i++) {
+  for (var i = 0; i < 5; i++) {
     let { numUsersCreated, histIdNames }  = await createUsers(totalUsersCreated);
     totalUsersCreated += numUsersCreated;
-
     let currentNumGames = await createGames(totalGamesCreated);
     totalGamesCreated += currentNumGames;
-
     // await updateUsers(totalUsersCreated);
-    // await createConfirmation({ numUsersCreated, histIdNames }, totalGamesCreated);
+    // await createConfirmation({ numUsersCreated, histIdNames }, totalGamesCreated, i + 1);
     // await createHistory({ numUsersCreated, histIdNames }, totalGamesCreated);
-    // await createFriendRequest(totalUsersCreated);
-    // await createFriend(totalUsersCreated);
   }
+  // for (let k = 0; k < 1; k++) {
+  //   await createFriendRequest(totalUsersCreated);
+  //   await createFriend(totalUsersCreated);
+  // }
+  console.log(`created ${totalUsersCreated} new Users`)
+  console.log(`created ${totalGamesCreated} new Games`)
+  // console.log(`created ${entries/4} userUpdates`)
+  // console.log(`created ${entries * 10} friend requests`)
+  // console.log(`created ${entries * 10 * 2} friends`)
 }
 
 const seedData = async () => {
@@ -215,7 +234,7 @@ const seedData = async () => {
   // await db.sync({ force: false, logging: console.log })
   .then( async () => {
     console.log('db synced')
-    await bulkCreate();
+    await setIterations();
     await process.exit();
   })
   .catch(() => console.log('error syncing database'));
@@ -223,12 +242,12 @@ const seedData = async () => {
 
 seedData();
 
-
-//TIME  | TOTAL_ENTRIES | USERS   FRIENDS   FRIEND_REQUEST   GAMES   CONFIRMATION    USER_CONFIRMATION   HISTORIES   USER_HISTORIES
-//1610s   649247          3000                               3904    64295           256738              64353       256957
-//27mins
-
-
-//15.73   1181            100                                100     99              391                 100         391
-//15.14                   100     196                        100     98              380                 100         397
-//418.48  150000          9993    19978      9985            10000   10000           39971               9999        39962
+//TIME    |   PER_BULK   | ITERATIONS |   NOTES
+//534s        500000         2             looks like it's a lot slower than 100k, but that was before I removed histogram.
+//392s        1000000        10            with histogram
+//394s        1000000        10            with histogram
+//407s        1000000        10            w/o histogram
+//500s        2000000        5
+//530s        2200000        10
+//974s        3300000        15/5
+//3052        6000000        20/10
