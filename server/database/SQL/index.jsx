@@ -6,7 +6,9 @@ import Sequelize from 'sequelize';
 import db from '../index';
 
 const Games = db.define('games', {
+  id: { type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true },
   title: { type: Sequelize.STRING, unique: true, allowNull: false },
+  // title: { type: Sequelize.STRING, unique: true, allowNull: false },
   image: { type: Sequelize.STRING, allowNull: false },
 });
 
@@ -29,6 +31,7 @@ const Perks = db.define('perks', {
 });
 
 const Users = db.define('users', {
+  id: { type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true },
   username: { type: Sequelize.STRING(15), unique: true, allowNull: false, len: [2,50] },
   password: { type: Sequelize.STRING(), allowNull: false },
   //eventually add email

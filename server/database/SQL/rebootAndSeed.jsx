@@ -321,7 +321,7 @@ const createFriend = async () => {
 }
 
 const seedData = async () => {
-  await db.sync({ force: true, logging: console.log })
+  await db.sync({ force: true })
   .then( async () => console.log('db synced'))
   .catch(() => console.log('error syncing database'));
 
