@@ -19,15 +19,16 @@ import {
 } from '../src/Histories/HistoryHelper';
 
 //How many times do I want to try to create unique data per table?
-const entries = 10000;
+const entries = 100000;
 
 const createUsers = async (totalUsersCreated) => {
   let hist = {}
   let histIdNames = {}
   let numUsersCreated = 0;
+  let bulkArray = [];
   for (let i = totalUsersCreated; i < entries + totalUsersCreated; i++) {
     let User = {
-      username: faker.name.firstName() + faker.random.number(),
+      username: faker.name.firstName() + faker.random.number() + faker.name.lastName() + faker.random.number(),
       password: faker.random.word(),
     }
 
@@ -38,10 +39,21 @@ const createUsers = async (totalUsersCreated) => {
       histIdNames[i] = User.username;
       numUsersCreated += 1;
       // await axios.post('http://localhost:3666/api/auth/signup/', User);
-      await createUserHelper(User, () => { return });
+      // await createUserHelper(User, () => { return });
+      bulkArray.push(User);
     }
   };
-
+  
+  await Users.bulkCreate(bulkArray)
+          .then(() => console.log('success'))
+          .catch(err => {
+            console.log('why?: ', Object.keys(err.parent))
+            console.log(err.parent.name)
+            console.log(err.parent.detail)
+            console.log(err.parent.routine)
+            console.log(err.parent.file)
+          })
+          
   return {
     histIdNames,
     numUsersCreated
@@ -72,8 +84,9 @@ const updateUsers = async (totalUsersCreated) => {
 const createGames = async () => {
   let gameHist = {};
   let currentNumGames = 0;
+  let bulkArray = [];
   for (let i = 0; i < entries; i++) {
-    let title = faker.random.word() + faker.random.number();
+    let title = faker.random.word() + faker.random.number() + faker.random.word() + faker.random.number();
     let image = faker.image.imageUrl();
     let game = {
       title,
@@ -84,9 +97,21 @@ const createGames = async () => {
     } else {
       currentNumGames += 1;
       gameHist[title] = true;
-      await addGameHelper(game, (result) => { return });
+      // await addGameHelper(game, (result) => { return });
+      bulkArray.push(game);
     }
   };
+
+  await Games.bulkCreate(bulkArray)
+    .then(() => console.log('success'))
+    .catch(err => {
+      console.log('why?: ', Object.keys(err.parent))
+      console.log(err.parent.name)
+      console.log(err.parent.detail)
+      console.log(err.parent.routine)
+      console.log(err.parent.file)
+    })
+  
   return currentNumGames;
 };
 
@@ -170,18 +195,18 @@ const createFriend = async (totalUsersCreated) => {
 const bulkCreate = async () => {
   let totalUsersCreated = 0;
   let totalGamesCreated = 0;
-  for (var i = 0; i < 1; i++) {
+  for (var i = 0; i < 10; i++) {
     let { numUsersCreated, histIdNames }  = await createUsers(totalUsersCreated);
     totalUsersCreated += numUsersCreated;
 
     let currentNumGames = await createGames(totalGamesCreated);
     totalGamesCreated += currentNumGames;
 
-    await updateUsers(totalUsersCreated);
-    await createConfirmation({ numUsersCreated, histIdNames }, totalGamesCreated);
-    await createHistory({ numUsersCreated, histIdNames }, totalGamesCreated);
-    await createFriendRequest(totalUsersCreated);
-    await createFriend(totalUsersCreated);
+    // await updateUsers(totalUsersCreated);
+    // await createConfirmation({ numUsersCreated, histIdNames }, totalGamesCreated);
+    // await createHistory({ numUsersCreated, histIdNames }, totalGamesCreated);
+    // await createFriendRequest(totalUsersCreated);
+    // await createFriend(totalUsersCreated);
   }
 }
 
