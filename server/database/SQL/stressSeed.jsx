@@ -19,7 +19,7 @@ import {
 } from '../src/Histories/HistoryHelper';
 
 //How many times do I want to try to create unique data per table?
-const entries = 100;
+const entries = 10000;
 
 const createUsers = async (totalUsersCreated) => {
   let hist = {}
@@ -199,9 +199,11 @@ const seedData = async () => {
 seedData();
 
 
-//TIME  | ENTRIES | USERS   GAMES   CONFIRMATION    USER_CONFIRMATION   HISTORIES   USER_HISTORIES
-//1610s   649247    3000    3904    64295           256738              64353       256957
+//TIME  | TOTAL_ENTRIES | USERS   FRIENDS   FRIEND_REQUEST   GAMES   CONFIRMATION    USER_CONFIRMATION   HISTORIES   USER_HISTORIES
+//1610s   649247          3000                               3904    64295           256738              64353       256957
 //27mins
 
 
-//
+//15.73   1181            100                                100     99              391                 100         391
+//15.14                   100     196                        100     98              380                 100         397
+//418.48  150000          9993    19978      9985            10000   10000           39971               9999        39962
