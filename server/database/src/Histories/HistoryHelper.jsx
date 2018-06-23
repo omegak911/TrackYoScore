@@ -8,7 +8,7 @@ const addConfirmationHelper = ({ gameId, playerScore, validation = Object.keys(p
   })
   .then(result => {
     callback(result)})
-  .catch(err => console.log(err));
+  .catch(err => console.log('addConfirmationHelper error'));
 
 const addUserConfirmationHelper = (userId, confirmationId) =>
   UserHistoryConfirmations.create({
@@ -16,7 +16,7 @@ const addUserConfirmationHelper = (userId, confirmationId) =>
     confirmationId,
   })
   .then(result => console.log(`userID: ${userId} entry submitted to user_confirmation table`))
-  .catch(err => console.log(err));
+  .catch(err => console.log('addUserConfirmationHelper error: ', err));
 
 const removeUserConfirmationHelper = (userId, confirmationId) =>
   UserHistoryConfirmations.destroy({
@@ -26,7 +26,7 @@ const removeUserConfirmationHelper = (userId, confirmationId) =>
     }
   })
   .then(result => console.log(result))
-  .catch(err => console.log(err));
+  .catch(err => console.log('removeUserConfirmationHelper error'));
 
 const fetchConfirmationHelper = (userId, callback) => 
   UserHistoryConfirmations.findAll({
@@ -44,14 +44,14 @@ const fetchConfirmationHelper = (userId, callback) =>
     }]
   })
   .then(result => callback(result))
-  .catch(err => console.log(err));
+  .catch(err => console.log('fetchConfirmationHelper error'));
 
 const removeConfirmationHelper = (id) => 
   HistoryConfirmation.destroy({
     where: { id }
   })
   .then(result => console.log('destroyed confirmation id: ', id))
-  .catch(err => console.log(err));
+  .catch(err => console.log('removeConfirmationHelper error'));
 
 const validateConfirmationHelper = ({ id }, callback) =>
   HistoryConfirmation.decrement(
@@ -61,7 +61,7 @@ const validateConfirmationHelper = ({ id }, callback) =>
     raw: true
     })
     .then(result => callback(result[0][0]))
-    .catch(err => console.log(err));
+    .catch(err => console.log('validateConfirmationHelper error'));
 
 const addHistoryHelper = ({ gameId, playerScore }, callback) =>
   Histories.create({
@@ -70,7 +70,7 @@ const addHistoryHelper = ({ gameId, playerScore }, callback) =>
   })
   .then(result => {
     callback(result)})
-  .catch(err => console.log(err));
+  .catch(err => console.log('addHistoryHelper error'));
 
 const addUserHistoryHelper = (userId, historyId) =>
   UserHistories.create({
@@ -78,7 +78,7 @@ const addUserHistoryHelper = (userId, historyId) =>
     historyId,
   })
   .then(() => console.log('success'))
-  .catch(err => console.log(err));
+  .catch(err => console.log('addUserHistoryHelper error'));
 
 const fetchHistoryHelper = (userId, callback) =>
   UserHistories.findAll({
@@ -94,7 +94,7 @@ const fetchHistoryHelper = (userId, callback) =>
     }]
   })
   .then((result) => callback(result))
-  .catch(err => console.log(err));
+  .catch(err => console.log('fetchHistoryHelper error'));
 
 export { 
   addHistoryHelper, 

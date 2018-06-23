@@ -4,3 +4,4 @@ yarn*
 *.env
 
 config.js
+test.jsx

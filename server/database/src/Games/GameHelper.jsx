@@ -7,12 +7,12 @@ const addGameHelper = ({ title, image }, callback) =>
       image,
     })
     .then(result => callback(result))
-    .catch(err => console.log(err));
+    .catch(err => console.log('addGameHelper error'));
 
 const fetchGameHelper = (callback) =>
   Games
     .findAll({})
     .then(result => callback(result))
-    .catch(err => console.log(err));
+    .catch(err => console.log('fetchGameHelper error'));
 
 export { addGameHelper, fetchGameHelper };

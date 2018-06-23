@@ -51,7 +51,7 @@ const updateUserHelper = (id, data, callback) =>
     }
   )
   .then(result => callback(result[0][0]))
-  .catch(err => console.log(err))
+  .catch(err => console.log('updateUserHelper error'))
 
 const userProfileHelper = ({ id }, callback) =>
   Users.findOne({
@@ -60,6 +60,6 @@ const userProfileHelper = ({ id }, callback) =>
     plain: true,
   })
   .then(result => callback(result))
-  .catch(err => console.log(err));
+  .catch(err => console.log('userProfileHelper error'));
 
 export { searchUsersHelper, updatePhotoHelper, updateUserHelper, userProfileHelper };
