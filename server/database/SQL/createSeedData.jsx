@@ -136,16 +136,16 @@ const createSeedData = async () => {
       let end = new Date();
       await console.log(`deleting data from tables took ${Math.floor((end - start)/1000)} seconds`);  
     })
-    .then( async () => {
-      //fill up tables (order is important)
-      let start = new Date();
-      await createGames();
-      await createUsersConfirmationsAndHistories();
-      await createFriendRequests();
-      await createFriends();
-      let end = new Date();
-      await console.log(`generating data took ${Math.floor((end - start)/1000)} seconds`);
-    })
+    // .then( async () => {
+    //   //fill up tables (order is important)
+    //   let start = new Date();
+    //   await createGames();
+    //   await createUsersConfirmationsAndHistories();
+    //   await createFriendRequests();
+    //   await createFriends();
+    //   let end = new Date();
+    //   await console.log(`generating data took ${Math.floor((end - start)/1000)} seconds`);
+    // })
     .then( async () => {
       let start = new Date();
       await db.query(`COPY games (title, image) FROM '${path.join(__dirname, '/seedData/games.csv')}' DELIMITER '\t' CSV`);
