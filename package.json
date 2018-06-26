@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "setup:seed": "node ./server/database/bin/createDataEntry.js",
+    "setup:createSeed": "node ./server/database/bin/createDataEntry.js",
+    "setup:seed": "node ./server/database/bin/seedDataEntry.js",
     "start": "nodemon ./server/bin/entry.js",
     "build": "webpack -w"
   },
