@@ -11,7 +11,9 @@ const addGameHelper = ({ title, image }, callback) =>
 
 const fetchGameHelper = (callback) =>
   Games
-    .findAll({})
+    .findAll({
+      limit: 500
+    })
     .then(result => callback(result))
     .catch(err => console.log('fetchGameHelper error'));
 
