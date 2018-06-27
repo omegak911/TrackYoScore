@@ -2,9 +2,6 @@ import fs from 'fs';
 import faker from 'faker';
 import path from 'path';
 
-import { Friends, FriendRequests, Games, Histories, HistoryConfirmation, Perks, Users, UserPerks, UserHistories, UserHistoryConfirmations } from './index';
-import db from '../index';
-
 const seedUsers = fs.createWriteStream('./server/database/SQL/seedData/users.csv');
 const seedConfirmations = fs.createWriteStream('./server/database/SQL/seedData/confirmations.csv');
 const seedUserConfirmations = fs.createWriteStream('./server/database/SQL/seedData/userConfirmations.csv');
@@ -120,51 +117,14 @@ const createFriends = async () => {
 }
 
 const createSeedData = async () => {
-  await db.sync()
-    .then( async () => {
-      console.log('db synced')
-      //clean out all tables (order is important)
-      let start = new Date();
-      await UserHistories.truncate({ restartIdentity: true, cascade: true });
-      await UserHistoryConfirmations.truncate({ restartIdentity: true, cascade: true });
-      await HistoryConfirmation.truncate({ restartIdentity: true, cascade: true });
-      await Histories.truncate({ restartIdentity: true, cascade: true });
-      await Friends.truncate({ restartIdentity: true, cascade: true });
-      await FriendRequests.truncate({ restartIdentity: true, cascade: true });
-      await Games.truncate({ restartIdentity: true, cascade: true });
-      await Users.truncate({ restartIdentity: true, cascade: true });
-      let end = new Date();
-      await console.log(`deleting data from tables took ${Math.floor((end - start)/1000)} seconds`);  
-    })
-    // .then( async () => {
-    //   //fill up tables (order is important)
-    //   let start = new Date();
-    //   await createGames();
-    //   await createUsersConfirmationsAndHistories();
-    //   await createFriendRequests();
-    //   await createFriends();
-    //   let end = new Date();
-    //   await console.log(`generating data took ${Math.floor((end - start)/1000)} seconds`);
-    // })
-    .then( async () => {
-      let start = new Date();
-      await db.query(`COPY games (title, image) FROM '${path.join(__dirname, '/seedData/games.csv')}' DELIMITER '\t' CSV`);
-      await db.query(`COPY users (username, password) FROM '${path.join(__dirname, '/seedData/users.csv')}' DELIMITER '\t' CSV`);
-      await db.query(`COPY confirmations ("gameId", "playerScore", validation) FROM '${path.join(__dirname, '/seedData/confirmations.csv')}' DELIMITER '\t' CSV`);
-      await db.query(`COPY user_confirmations ("confirmationId", "userId") FROM '${path.join(__dirname, './seedData/userConfirmations.csv')}' DELIMITER '\t' CSV`);
-      let mid1 = new Date();
-      await console.log(`copying user_confirmations took ${Math.floor(((mid1 - start)/1000)/60)} minutes`);
-      await db.query(`COPY histories ("gameId", "playerScore") FROM '${path.join(__dirname, '/seedData/histories.csv')}' DELIMITER '\t' CSV`);
-      await db.query(`COPY user_histories ("historyId", "userId") FROM '${path.join(__dirname, './seedData/userHistories.csv')}' DELIMITER '\t' CSV`);
-      let mid2 = new Date();
-      await console.log(`copying user_histories took ${Math.floor(((mid2 - start)/1000)/60)} minutes`);
-      await db.query(`COPY friend_requests ("friendId", "userId") FROM '${path.join(__dirname, '/seedData/friendRequests.csv')}' DELIMITER '\t' CSV`);
-      await db.query(`COPY friends ("friendId", "userId") FROM '${path.join(__dirname, './seedData/friends.csv')}' DELIMITER '\t' CSV`);
-      let end = new Date();
-      await console.log(`seeding data took ${Math.floor(((end - start)/1000)/60)} minutes`);
-      await process.exit();
-    })
-    .catch((err) => console.log('error syncing database: ', err));
+  let start = new Date();
+  await createGames();
+  await createUsersConfirmationsAndHistories();
+  await createFriendRequests();
+  await createFriends();
+  let end = new Date();
+  await console.log(`generating data took ${Math.floor((end - start)/1000)} seconds`);
+  await process.exit();
 };
 
 createSeedData();
