@@ -47,6 +47,16 @@ class AccountModal extends Component {
     //send axios request and if failed, it means username is already taken
     //otherwise, update redux with new username
 
+    const data = {}
+
+    console.log('gonna send request to updateUser')
+    axios
+      .put('/api/user/updateUser', data)
+      .then((result) => {
+        //probably update the store and current profile state
+        console.log(result)
+      })
+      .catch(err => console.log(err))
   }
 
   handleDrop = (file) => {

@@ -41,13 +41,13 @@ const updatePhotoHelper = (id, url, callback) =>
   // wins: Sequelize.INTEGER,
   // losses: Sequelize.INTEGER,
 const updateUserHelper = (id, data, callback) =>
-  Users.increment(
+  Users.update(
     data,
     {
       where: { id },
       returning: true,
-      plain: true,
-      // attributes: { exclude: [ 'password', 'createdAt', 'updatedAt'] }
+      // plain: true,
+      // attributes: { exclude: [ 'password', 'createdAt'] }
     }
   )
   .then(result => callback(result[0][0]))
@@ -56,7 +56,7 @@ const updateUserHelper = (id, data, callback) =>
 const userProfileHelper = ({ id }, callback) =>
   Users.findOne({
     where: { id },
-    attributes: { exclude: ['password', 'createdAt', 'updatedAt', 'currentEXP', 'nextLevelEXP']},
+    attributes: { exclude: ['password', 'createdAt', 'currentEXP', 'nextLevelEXP']},
     plain: true,
   })
   .then(result => callback(result))
