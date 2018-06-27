@@ -15,7 +15,7 @@ class Profile extends Component {
     this.state = {
       id: 0,
       username: '',
-      url: 'https://scontent-ort2-2.cdninstagram.com/vp/fd241f48afc0d7552ac99ea87b6a3835/5BC63862/t51.2885-15/s640x640/sh0.08/e35/22802663_448636875537575_8141256937888022528_n.jpg',
+      url: '',
       level: null,
       wins: 0,
       losses: 0,

@@ -6,7 +6,7 @@ const addFriendHelper = ({ friendId, userId }, callback) => {
     friendId: userId
   })
   .then(() => console.log('created friend'))
-  .catch(err => console.log(err));
+  .catch(err => console.log('addFriendHelper error'));
 
   return Friends.create({
     userId,
@@ -35,6 +35,6 @@ const removeFriendRequest = ({ id }, callback) =>
     })
     .then(() => callback(result))
     .catch(err => console.log(err)))
-  .catch(err => console.log(err));
+  .catch(err => console.log('removeFriendRequest error'));
 
 export { addFriendHelper, friendRequestHelper, removeFriendRequest };

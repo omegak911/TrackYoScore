@@ -23,6 +23,7 @@ class Home extends Component {
         let games = Object.keys(data);
 
         let randomIndex = Math.ceil(Math.random() * games.length);
+        console.log(data)
         console.log(data[randomIndex]);
         this.setState({ games: data, homeBackgroundUrl: data[randomIndex].image });
       })

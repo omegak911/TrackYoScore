@@ -1,5 +1,9 @@
-import { searchUsersHelper, userProfileHelper, updatePhotoHelper } from './UserHelper';
+import { searchUsersHelper, userProfileHelper, updatePhotoHelper, updateUserHelper } from './UserHelper';
 import levelHelper from './LevelHelper'; 
+
+import bcrypt from 'bcryptjs';
+
+
 
 const searchUsers = (req, res) => {
   //check if user is logged in
@@ -18,7 +22,27 @@ const updatePhoto = (req, res) => {
   }
 }
 
-const updateUsername = async (req, res) => {
+const updateUser = async (req, res) => {
+  //probably iterate thru req.body and add to a data object if it's not ''
+  console.log('reached in here')
+  const { id } = req.session.passport.user;
+
+  // updateUserHelper(id, , (result) => {
+  //   console.log('updateUserHelper result: ', result)
+  //   res.status(201).send('success');
+  // });
+
+  //will need this if they're updating passwords
+  //update function to dynamically update necessary fields
+  // bcrypt.genSalt(10, (err, salt) => {
+  //   bcrypt.hash(req.body.password, salt, (err, hash) => {
+  //     if (err) console.log(err);
+  //     let password = hash;
+
+  //   })
+  // })
+
+  
   //need passport for req.user
   //req.user should contain username + password
   //req.body should contain new username
@@ -36,4 +60,4 @@ const userProfile = (req, res) => {
   })
 }
 
-export { searchUsers, updateUsername, updatePhoto, userProfile };
+export { searchUsers, updateUser, updatePhoto, userProfile };

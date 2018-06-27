@@ -1,11 +1,11 @@
 import express from 'express';
 
-import { searchUsers, updatePhoto, updateUsername, userProfile } from './UserCtrl';
+import { searchUsers, updatePhoto, updateUser, userProfile } from './UserCtrl';
 
 const router = express.Router();
 
-router.route('/updateUsername')
-  .put(updateUsername);
+router.route('/updateUser')
+  .put(updateUser);
 
 router.route('/updatePhoto')
   .put(updatePhoto);
