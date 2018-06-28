@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import axios from 'axios';
 
+import { Image, Video, Transformation, CloudinaryContext } from 'cloudinary-react';
+
 import { updateUserData, updatePendingFriendRequests, updateFriendList } from '../../redux/actions';
 
 import AccountModal from './AccountModal/AccountModal';
@@ -152,11 +154,14 @@ class Profile extends Component {
     return (
       <div className="profileTopContainer">
         <div className="container">
-          <div className="profileImage">
+          {/* <div className="profileImage">
             Profile Image
             <img src={url} alt="profile pic"/>
             <button type="button" onClick={this.showStoreAndState}>****</button>
-          </div>
+          </div> */}
+          <Image cloudName={cloudName} publicId="Blastoise_Art.png" >
+            <Transformation aspectRatio="1:1" background="#262c35" border="5px_solid_rgb:FFFFFF" gravity="auto" radius="max" crop="fill" />
+          </Image>
         </div>
 
         <div className="container">
