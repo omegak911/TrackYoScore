@@ -33,19 +33,18 @@ const createUsersConfirmationsAndHistories = async () => {
       let username = faker.name.firstName() + faker.random.number() + faker.name.lastName() + faker.random.number();
       let password = faker.random.word();
   
-      histIdNames[i] = username;
+      histIdNames[totalNumUsers + i] = username;
       users += `${username}\t${password}\n`;
     };
 
     //create confirmations
     let confirmations = '';
     let userConfirmations = '';
-    totalNumUsers += entries;   //we only create userIds within how many users have been created
     for (let m = 0; m < entries/50; m++) {
-      let randomId1 = Math.floor(Math.random() * totalNumUsers) + 1;
-      let randomId2 = Math.floor(Math.random() * totalNumUsers) + 1;
-      let randomId3 = Math.floor(Math.random() * totalNumUsers) + 1;
-      let randomId4 = Math.floor(Math.random() * totalNumUsers) + 1;
+      let randomId1 = Math.floor(totalNumUsers + Math.random() * entries) + 1;
+      let randomId2 = Math.floor(totalNumUsers + Math.random() * entries) + 1;
+      let randomId3 = Math.floor(totalNumUsers + Math.random() * entries) + 1;
+      let randomId4 = Math.floor(totalNumUsers + Math.random() * entries) + 1;
       let randomGame = Math.floor(Math.random() * totalNumGames) + 1;
       totalConfirmations += 1;
       confirmations += `${randomGame}\t"{""${randomId1}"": {""username"":""${histIdNames[randomId1]}"",""score"":10},""${randomId2}"":{""username"":""${histIdNames[randomId2]}"",""score"":5},""${randomId3}"":{""username"":""${histIdNames[randomId3]}"",""score"":10},""${randomId4}"":{""username"":""${histIdNames[randomId4]}"",""score"":5}}"\t3\n`
@@ -55,16 +54,18 @@ const createUsersConfirmationsAndHistories = async () => {
     //create histories
     let histories = '';
     let userHistories = '';
-    for (let m = 0; m < entries/20; m++) {
-      let randomId1 = Math.floor(Math.random() * totalNumUsers) + 1;
-      let randomId2 = Math.floor(Math.random() * totalNumUsers) + 1;
-      let randomId3 = Math.floor(Math.random() * totalNumUsers) + 1;
-      let randomId4 = Math.floor(Math.random() * totalNumUsers) + 1;
+    for (let m = 0; m < entries/10; m++) {
+      let randomId1 = Math.floor(totalNumUsers + Math.random() * entries) + 1;
+      let randomId2 = Math.floor(totalNumUsers + Math.random() * entries) + 1;
+      let randomId3 = Math.floor(totalNumUsers + Math.random() * entries) + 1;
+      let randomId4 = Math.floor(totalNumUsers + Math.random() * entries) + 1;
       let randomGame = Math.floor(Math.random() * totalNumGames) + 1;
       totalHistories += 1;
       histories += `${randomGame}\t"{""${randomId1}"": {""username"":""${histIdNames[randomId1]}"",""score"":10},""${randomId2}"":{""username"":""${histIdNames[randomId2]}"",""score"":5},""${randomId3}"":{""username"":""${histIdNames[randomId3]}"",""score"":10},""${randomId4}"":{""username"":""${histIdNames[randomId4]}"",""score"":5}}"\n`
       userHistories += `${totalHistories}\t${randomId1}\n${totalHistories}\t${randomId2}\n${totalHistories}\t${randomId3}\n${totalHistories}\t${randomId4}\n`;
     }
+
+    totalNumUsers += entries;   //we only create userIds within how many users have been created
 
     await seedUsers.write(users);
     await seedConfirmations.write(confirmations);
