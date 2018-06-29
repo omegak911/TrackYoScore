@@ -5,6 +5,9 @@
 import Sequelize from 'sequelize';
 import db from '../index';
 
+const defaultPics = ['Eevee', 'Charizard', 'Magicarp', 'Pikachu', 'Gastly', 'Caterpie', 'Venusaur', 'Snorlax', 'Blastoise']
+const numberOfDefaultPics = defaultPics.length;
+
 const Games = db.define('games', {
   id: { type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true },
   title: { type: Sequelize.STRING, unique: true, allowNull: false },
@@ -44,7 +47,7 @@ const Users = db.define('users', {
   username: { type: Sequelize.STRING(40), unique: true, allowNull: false, len: [2,50] },
   password: { type: Sequelize.STRING(), allowNull: false },
   //eventually add email
-  url: { type: Sequelize.STRING, defaultValue: 'https://scontent-ort2-2.cdninstagram.com/vp/fd241f48afc0d7552ac99ea87b6a3835/5BC63862/t51.2885-15/s640x640/sh0.08/e35/22802663_448636875537575_8141256937888022528_n.jpg'},
+  url: { type: Sequelize.STRING, defaultValue: `${defaultPics[Math.floor(Math.random() * numberOfDefaultPics)]}_Art` },
   level: { type: Sequelize.INTEGER, defaultValue: 1 },
   currentEXP: { type: Sequelize.INTEGER, defaultValue: 0 },
   nextLevelEXP: { type: Sequelize.INTEGER, defaultValue: 100 },
