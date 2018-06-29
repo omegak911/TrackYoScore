@@ -20,6 +20,19 @@ const seedData = async () => {
       let end = new Date();
       await console.log(`deleting data from tables took ${Math.floor((end - start)/1000)} seconds`);  
     })
+    .then( async () => { //this duplicate add foreign key eliminates any possible constraint errors from the drop after
+      let start = new Date();
+      await db.query(`ALTER TABLE user_confirmations ADD FOREIGN KEY ("confirmationId") REFERENCES confirmations`);
+      await db.query(`ALTER TABLE user_confirmations ADD FOREIGN KEY ("userId") REFERENCES users`);
+      await db.query(`ALTER TABLE user_histories ADD FOREIGN KEY ("historyId") REFERENCES histories`);
+      await db.query(`ALTER TABLE user_histories ADD FOREIGN KEY ("userId") REFERENCES users`);
+      await db.query(`ALTER TABLE friend_requests ADD FOREIGN KEY ("friendId") REFERENCES users`);
+      await db.query(`ALTER TABLE friend_requests ADD FOREIGN KEY ("userId") REFERENCES users`);
+      await db.query(`ALTER TABLE friends ADD FOREIGN KEY ("friendId") REFERENCES users`);
+      await db.query(`ALTER TABLE friends ADD FOREIGN KEY ("userId") REFERENCES users`);
+      let end = new Date();
+      await console.log(`intial constraints restore took ${Math.floor((end - start)/1000)} seconds`);
+    })
     .then( async () => {
       let start = new Date();
       await db.query(`ALTER TABLE user_confirmations DROP CONSTRAINT "user_confirmations_confirmationId_fkey"`);
