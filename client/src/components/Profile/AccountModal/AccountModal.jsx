@@ -71,8 +71,10 @@ class AccountModal extends Component {
       .then(({ data }) => {
         //on success, send axios put request
         const url = data.secure_url;
+        const urlArr = url.split('/');
+        const photoName = urlArr[urlArr.length - 1].split('.')[0]
         axios
-          .put('/api/user/updatePhoto', { url })
+          .put('/api/user/updatePhoto', { url: photoName })
           .then(({ data }) => console.log('put data: ', data))
           .catch(err => console.log(err));
       })
@@ -92,7 +94,6 @@ class AccountModal extends Component {
             >
               <p>Upload image here</p>
             </Dropzone>
-
           <form onSubmit={this.updateAccount} onChange={e => this.handleChange(e)}>
             USERNAME
             <br/>

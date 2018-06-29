@@ -6,6 +6,7 @@ import axios from 'axios';
 import { Image, Video, Transformation, CloudinaryContext } from 'cloudinary-react';
 
 import { updateUserData, updatePendingFriendRequests, updateFriendList } from '../../redux/actions';
+import { CLOUD_NAME } from '../../../../config';
 
 import AccountModal from './AccountModal/AccountModal';
 
@@ -17,7 +18,7 @@ class Profile extends Component {
     this.state = {
       id: 0,
       username: '',
-      url: '',
+      url: 'Loading_Art',
       level: null,
       wins: 0,
       losses: 0,
@@ -159,7 +160,7 @@ class Profile extends Component {
             <img src={url} alt="profile pic"/>
             <button type="button" onClick={this.showStoreAndState}>****</button>
           </div> */}
-          <Image cloudName={cloudName} publicId="Blastoise_Art.png" >
+          <Image cloudName={CLOUD_NAME} publicId={url} >
             <Transformation aspectRatio="1:1" background="#262c35" border="5px_solid_rgb:FFFFFF" gravity="auto" radius="max" crop="fill" />
           </Image>
         </div>
