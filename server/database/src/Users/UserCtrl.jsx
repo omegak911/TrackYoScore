@@ -3,8 +3,6 @@ import levelHelper from './LevelHelper';
 
 import bcrypt from 'bcryptjs';
 
-
-
 const searchUsers = (req, res) => {
   //check if user is logged in
   searchUsersHelper(req.query, (result) => {
