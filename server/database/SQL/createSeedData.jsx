@@ -2,6 +2,8 @@ import fs from 'fs';
 import faker from 'faker';
 import path from 'path';
 
+import db from '../index';
+
 const seedUsers = fs.createWriteStream('./server/database/SQL/seedData/users.csv');
 const seedConfirmations = fs.createWriteStream('./server/database/SQL/seedData/confirmations.csv');
 const seedUserConfirmations = fs.createWriteStream('./server/database/SQL/seedData/userConfirmations.csv');
@@ -43,17 +45,24 @@ const createUsersConfirmationsAndHistories = async () => {
       users += `${username}\t${password}\n`;
     };
     await seedUsers.write(users);
-    console.log(users.length)
     users = '';
 
+    totalNumUsers += entries;   //we only create userIds within how many users have been created
+
     //create confirmations
+    //randomId's for confirmation and hist are not unique
     let confirmations = '';
     let userConfirmations = '';
     for (let m = 0; m < entries/50; m++) {
-      let randomId1 = Math.floor(totalNumUsers + Math.random() * entries) + 1;
-      let randomId2 = Math.floor(totalNumUsers + Math.random() * entries) + 1;
-      let randomId3 = Math.floor(totalNumUsers + Math.random() * entries) + 1;
-      let randomId4 = Math.floor(totalNumUsers + Math.random() * entries) + 1;
+      let section = totalNumUsers/4;
+      //pick from the first million
+      let randomId1 = Math.floor(Math.random() * section) + 1;
+      //pick from the 2nd million
+      let randomId2 = section + Math.floor(Math.random() * section) + 1;
+      //etc
+      let randomId3 = section * 2 + Math.floor(Math.random() * section) + 1;
+      //etc
+      let randomId4 = section * 3 + Math.floor(Math.random() * section) + 1;
       let randomGame = Math.floor(Math.random() * totalNumGames) + 1;
       totalConfirmations += 1;
       confirmations += `${randomGame}\t"{""${randomId1}"": {""username"":""${histIdNames[randomId1]}"",""score"":10},""${randomId2}"":{""username"":""${histIdNames[randomId2]}"",""score"":5},""${randomId3}"":{""username"":""${histIdNames[randomId3]}"",""score"":10},""${randomId4}"":{""username"":""${histIdNames[randomId4]}"",""score"":5}}"\t3\n`
@@ -67,25 +76,36 @@ const createUsersConfirmationsAndHistories = async () => {
     //create histories
     let histories = '';
     let userHistories = '';
-    for (let m = 0; m < entries/10; m++) {
-      let randomId1 = Math.floor(totalNumUsers + Math.random() * entries) + 1;
-      let randomId2 = Math.floor(totalNumUsers + Math.random() * entries) + 1;
-      let randomId3 = Math.floor(totalNumUsers + Math.random() * entries) + 1;
-      let randomId4 = Math.floor(totalNumUsers + Math.random() * entries) + 1;
+    for (let m = 0; m < entries/30; m++) {
+      let section = totalNumUsers/4;
+      //pick from the first million
+      let randomId1 = Math.floor(Math.random() * section) + 1;
+      //pick from the 2nd million
+      let randomId2 = section + Math.floor(Math.random() * section) + 1;
+      //etc
+      let randomId3 = section * 2 + Math.floor(Math.random() * section) + 1;
+      //etc
+      let randomId4 = section * 3 + Math.floor(Math.random() * section) + 1;
       let randomGame = Math.floor(Math.random() * totalNumGames) + 1;
+      if (randomId1 === randomId2) {
+        randomId2 += 1;
+      } 
+      if (randomId2 === randomId3) {
+        randomId3 += 1;
+      }
+      if (randomId3 === randomId4) {
+        randomId4 += 1;
+      }
       totalHistories += 1;
       histories += `${randomGame}\t"{""${randomId1}"": {""username"":""${histIdNames[randomId1]}"",""score"":10},""${randomId2}"":{""username"":""${histIdNames[randomId2]}"",""score"":5},""${randomId3}"":{""username"":""${histIdNames[randomId3]}"",""score"":10},""${randomId4}"":{""username"":""${histIdNames[randomId4]}"",""score"":5}}"\n`
       userHistories += `${totalHistories}\t${randomId1}\n${totalHistories}\t${randomId2}\n${totalHistories}\t${randomId3}\n${totalHistories}\t${randomId4}\n`;
     }
-
-    totalNumUsers += entries;   //we only create userIds within how many users have been created
 
     await seedHistories.write(histories);
     await seedUserHistories.write(userHistories);
   }
 
   //tell computer that we are done adding
-  await createUsersConfirmationsAndHistories();
   await console.log('ending createUsersConfirmationsAndHistories')
   await seedUsers.end();
   await seedConfirmations.end();
@@ -140,7 +160,7 @@ const createFriends = async () => {
   for (let i = 0; i < 75; i++) {
     let friends = '';
     let innerLimiter = 0;
-    while (firstHalfUsers < total && innerLimiter < 10000) {
+    while (firstHalfUsers < (total - 10)  && innerLimiter < 10000) {
       //randomly increment the userId by 1-3
       firstHalfUsers += (Math.floor(Math.random() * 10) + 1);
 
@@ -185,7 +205,8 @@ const createSeedData = async () => {
   await createFriends();
   let end = new Date();
   await console.log(`generating data took ${Math.floor((end - start)/1000)} seconds`);
-  await process.exit();
+  //process.exit() will exit the command line but also break all the writes before they finish.
+  //process.exit() will only work if is invoked afte a .then()
 };
 
-setTimeout( () => createSeedData(), 3000 );
+createSeedData()
