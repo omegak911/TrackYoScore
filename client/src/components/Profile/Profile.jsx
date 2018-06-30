@@ -231,7 +231,7 @@ class Profile extends Component {
                 <button type="button" name="account" onClick={e => this.showList(e)}>Account</button>
               </div>
               {account &&
-                <div className="modal">
+                <div className="profileModal">
                     <AccountModal showList={this.showList} />
                 </div>
               }
