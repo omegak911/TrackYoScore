@@ -160,7 +160,7 @@ class Profile extends Component {
             <img src={url} alt="profile pic"/>
             <button type="button" onClick={this.showStoreAndState}>****</button>
           </div> */}
-          <Image cloudName={CLOUD_NAME} publicId={url} >
+          <Image cloudName={CLOUD_NAME} publicId={`TrackYoScoreProfilePics/${url}`} >
             <Transformation aspectRatio="1:1" background="#262c35" border="5px_solid_rgb:FFFFFF" gravity="auto" radius="max" crop="fill" />
           </Image>
         </div>

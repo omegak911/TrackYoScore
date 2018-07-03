@@ -9,7 +9,7 @@ import { updateUserData } from '../../../redux/actions';
 
 import './AccountModal.scss';
 
-import { TO_THE_CLOUD, PRESET_NAME, CLOUD_URL } from '../../../../../config';
+import { TO_THE_CLOUD, PIC_PRESET_NAME, CLOUD_URL } from '../../../../../config';
 
 class AccountModal extends Component {
   constructor(props) {
@@ -62,7 +62,7 @@ class AccountModal extends Component {
   handleDrop = (file) => {
     const formData = new FormData();
     formData.append('file', file[0]);
-    formData.append("upload_preset", PRESET_NAME);
+    formData.append("upload_preset", PIC_PRESET_NAME);
     formData.append("api_key", TO_THE_CLOUD);
     formData.append("timestamp", (Date.now() / 1000) | 0);
 
@@ -72,7 +72,7 @@ class AccountModal extends Component {
         //on success, send axios put request
         const url = data.secure_url;
         const urlArr = url.split('/');
-        const photoName = urlArr[urlArr.length - 1].split('.')[0]
+        const photoName = urlArr[urlArr.length - 1].split('.')[0];
         axios
           .put('/api/user/updatePhoto', { url: photoName })
           .then(({ data }) => console.log('put data: ', data))

@@ -15,7 +15,7 @@ class Home extends Component {
       homeBackgroundUrl: null,
     }
   }
-
+/*
   componentDidMount () {
     axios
       .get('/api/game/fetch')
@@ -29,6 +29,7 @@ class Home extends Component {
       })
       .catch(err => console.log(err))
   }
+  */
 
   render() {
     let { homeBackgroundUrl } = this.state;
