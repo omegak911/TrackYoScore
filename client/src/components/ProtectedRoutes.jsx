@@ -6,6 +6,7 @@ import History from './History/History';
 import Home from './Home/Home';
 import Profile from './Profile/Profile';
 import UserSearchResults  from './Search/UserSearchResult';
+import AddGame from './AddGame/AddGame';
 
 class ProtectedRoutes extends Component {
   constructor(props) {
@@ -31,6 +32,7 @@ class ProtectedRoutes extends Component {
         <Route path={match.url + '/home'} component={Home} />
         <Route path={match.url + '/profile'} component={Profile} />
         <Route path={match.url + '/userSearchResults'} component={UserSearchResults} />
+        <Route path={match.url + '/addGame'} component={AddGame} />
       </div>
     )
   }

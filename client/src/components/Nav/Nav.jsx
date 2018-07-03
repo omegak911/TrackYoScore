@@ -38,6 +38,9 @@ class Nav extends Component {
             <div className="linkContainer">
               <Link to="/welcome/history" >History</Link>
             </div>
+            <div className="linkContainer">
+              <Link to="/welcome/addGame" >Add A Game</Link>
+            </div>
           </div>
           <div className="navRight">
             <div className="linkContainer">
