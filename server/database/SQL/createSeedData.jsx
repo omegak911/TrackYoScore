@@ -14,10 +14,13 @@ const seedFriendRequests = fs.createWriteStream('./server/database/SQL/seedData/
 const seedFriends = fs.createWriteStream('./server/database/SQL/seedData/friends.csv');
 //seed update users?
 
+const defaultPics = ['Eevee', 'Charizard', 'Magicarp', 'Pikachu', 'Gastly', 'Caterpie', 'Venusaur', 'Snorlax', 'Blastoise']
+const defaultPicsLength = defaultPics.length;
+
 const iterations = 20;
 const entries = 200000;  //equals users per iteration, confirmation + histories are entries/20 per iteration
 
-const totalNumGames = 2000000;
+const totalNumGames = 11;
 const totalFriendRequests = 1000000;
 const totalFriends = 600000;  //this number should not exceed (iterations * entries)/6.  But there's error handling so no worries
 
@@ -40,9 +43,10 @@ const createUsersConfirmationsAndHistories = async () => {
         console.log(username)
       }
       let password = faker.random.word();
+      let photo = defaultPics[Math.floor(Math.random() * defaultPicsLength)]
   
       histIdNames[totalNumUsers + i] = username;
-      users += `${username}\t${password}\n`;
+      users += `${username}\t${password}\t${photo}_Art\n`;
     };
     await seedUsers.write(users);
     users = '';
@@ -116,12 +120,26 @@ const createUsersConfirmationsAndHistories = async () => {
   return true;
 };
 
+const gamesFromCloud = [
+  'Mario Kart 8',
+  'Chess',
+  'Fortnite',
+  'Overwatch',
+  'Taboo',
+  'Exploding Kittens',
+  'Basketball',
+  'Hearthstone',
+  'DOTA 2',
+  'Beerpong',
+  'Super Smash Bros 64',
+]
+
 const createGames = async () => {
   console.log('creating createGames')
   let games = '';
-  for (let i = 0; i < totalNumGames; i++) {
-    let title = faker.random.word() + faker.random.number() + faker.random.word() + faker.random.number();
-    let image = faker.image.imageUrl();
+  for (let i = 0; i < gamesFromCloud.length; i++) {
+    let title = gamesFromCloud[i];
+    let image = gamesFromCloud[i];
     games += `${title}\t${image}\n`;
   }
   await seedGames.write(games);
@@ -184,13 +202,6 @@ const createFriends = async () => {
   }
 
 //end test
-
-  // for (let i = 0; i < totalFriends; i++) {
-  //   let randomId1 = Math.floor(Math.random() * entries * iterations) + 1;
-  //   let randomId2 = Math.floor(Math.random() * entries * iterations) + 1;
-  //   friends += `${randomId1}\t${randomId2}\n`;
-  //   friends += `${randomId2}\t${randomId1}\n`;
-  // }
   await seedFriends.end();
   await console.log('ending createFriends');
 

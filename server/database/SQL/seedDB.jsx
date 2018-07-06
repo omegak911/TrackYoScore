@@ -4,7 +4,7 @@ import { Friends, FriendRequests, Games, Histories, HistoryConfirmation, Perks, 
 import db from '../index';
 
 const seedData = async () => {
-  await db.sync()
+  await db.sync({ force: true })
     .then( async () => {
       console.log('db synced')
       //clean out all tables (order is important)
@@ -20,29 +20,20 @@ const seedData = async () => {
       let end = new Date();
       await console.log(`deleting data from tables took ${Math.floor((end - start)/1000)} seconds`);  
     })
-    // .then( async () => { //this duplicate add foreign key eliminates any possible constraint errors from the drop after
-    //   let start = new Date();
-    //   await db.query(`ALTER TABLE user_confirmations ADD FOREIGN KEY ("confirmationId") REFERENCES confirmations`);
-    //   await db.query(`ALTER TABLE user_confirmations ADD FOREIGN KEY ("userId") REFERENCES users`);
-    //   await db.query(`ALTER TABLE user_histories ADD FOREIGN KEY ("historyId") REFERENCES histories`);
-    //   await db.query(`ALTER TABLE user_histories ADD FOREIGN KEY ("userId") REFERENCES users`);
-    //   await db.query(`ALTER TABLE friend_requests ADD FOREIGN KEY ("friendId") REFERENCES users`);
-    //   await db.query(`ALTER TABLE friend_requests ADD FOREIGN KEY ("userId") REFERENCES users`);
-    //   await db.query(`ALTER TABLE friends ADD FOREIGN KEY ("friendId") REFERENCES users`);
-    //   await db.query(`ALTER TABLE friends ADD FOREIGN KEY ("userId") REFERENCES users`);
-    //   let end = new Date();
-    //   await console.log(`intial constraints restore took ${Math.floor((end - start)/1000)} seconds`);
-    // })
     .then( async () => {
       let start = new Date();
-      await db.query(`ALTER TABLE user_confirmations DROP CONSTRAINT IF EXISTS "user_confirmations_confirmationId_fkey"`);
-      await db.query(`ALTER TABLE user_confirmations DROP CONSTRAINT IF EXISTS "user_confirmations_userId_fkey"`);
-      await db.query(`ALTER TABLE user_histories DROP CONSTRAINT IF EXISTS "user_histories_historyId_fkey"`);
-      await db.query(`ALTER TABLE user_histories DROP CONSTRAINT IF EXISTS "user_histories_userId_fkey"`);
-      await db.query(`ALTER TABLE friend_requests DROP CONSTRAINT IF EXISTS "friend_requests_userId_fkey"`);
-      await db.query(`ALTER TABLE friend_requests DROP CONSTRAINT IF EXISTS "friend_requests_friendId_fkey"`);
-      await db.query(`ALTER TABLE friends DROP CONSTRAINT IF EXISTS "friends_userId_fkey"`);
-      await db.query(`ALTER TABLE friends DROP CONSTRAINT IF EXISTS "friends_friendId_fkey"`);
+      await db.query(`ALTER TABLE users DROP CONSTRAINT IF EXISTS "users_pkey" CASCADE`);
+      await db.query(`ALTER TABLE users DROP CONSTRAINT IF EXISTS "users_username_key"`);
+      await db.query(`ALTER TABLE games DROP CONSTRAINT IF EXISTS "games_pkey" CASCADE`);
+      await db.query(`ALTER TABLE games DROP CONSTRAINT IF EXISTS "games_title_key"`);
+      await db.query(`ALTER TABLE friends DROP CONSTRAINT IF EXISTS "friends_pkey"`);
+      await db.query(`ALTER TABLE friends DROP CONSTRAINT IF EXISTS "friends_userId_friendId_key"`);
+      await db.query(`ALTER TABLE friend_requests DROP CONSTRAINT IF EXISTS "friend_requests_pkey"`);
+      await db.query(`ALTER TABLE friend_requests DROP CONSTRAINT IF EXISTS "friend_requests_friendId_userId_key"`);
+      await db.query(`ALTER TABLE confirmations DROP CONSTRAINT IF EXISTS "confirmations_pkey" CASCADE`);
+      await db.query(`ALTER TABLE user_confirmations DROP CONSTRAINT IF EXISTS "user_confirmations_pkey"`);
+      await db.query(`ALTER TABLE histories DROP CONSTRAINT IF EXISTS "histories_pkey" CASCADE`);
+      await db.query(`ALTER TABLE user_histories DROP CONSTRAINT IF EXISTS "user_histories_pkey"`);
       let end = new Date();
       await console.log(`dropping constraints took ${Math.floor((end - start)/1000)} seconds`);
     })
@@ -50,7 +41,7 @@ const seedData = async () => {
       let start = new Date();
       await db.query(`COPY games (title, image) FROM '${path.join(__dirname, '/seedData/games.csv')}' DELIMITER '\t' CSV`);
       await console.log('copied games')
-      await db.query(`COPY users (username, password) FROM '${path.join(__dirname, '/seedData/users.csv')}' DELIMITER '\t' CSV`);
+      await db.query(`COPY users (username, password, photo) FROM '${path.join(__dirname, '/seedData/users.csv')}' DELIMITER '\t' CSV`);
       await console.log('copied users')
       await db.query(`COPY confirmations ("gameId", "playerScore", validation) FROM '${path.join(__dirname, '/seedData/confirmations.csv')}' DELIMITER '\t' CSV`);
       await console.log('copied confirmations');
@@ -68,14 +59,32 @@ const seedData = async () => {
     })
     .then( async ()=>{
       let start = new Date();
-      await db.query(`ALTER TABLE user_confirmations ADD FOREIGN KEY ("confirmationId") REFERENCES confirmations`);
-      await db.query(`ALTER TABLE user_confirmations ADD FOREIGN KEY ("userId") REFERENCES users`);
-      await db.query(`ALTER TABLE user_histories ADD FOREIGN KEY ("historyId") REFERENCES histories`);
-      await db.query(`ALTER TABLE user_histories ADD FOREIGN KEY ("userId") REFERENCES users`);
-      await db.query(`ALTER TABLE friend_requests ADD FOREIGN KEY ("friendId") REFERENCES users`);
-      await db.query(`ALTER TABLE friend_requests ADD FOREIGN KEY ("userId") REFERENCES users`);
-      await db.query(`ALTER TABLE friends ADD FOREIGN KEY ("friendId") REFERENCES users`);
-      await db.query(`ALTER TABLE friends ADD FOREIGN KEY ("userId") REFERENCES users`);
+      await db.query(`ALTER TABLE users ADD CONSTRAINT "users_pkey" PRIMARY KEY (id)`);
+      await db.query(`ALTER TABLE users ADD CONSTRAINT "users_username_key" UNIQUE (username)`);
+      await db.query(`ALTER TABLE games ADD CONSTRAINT "games_pkey" PRIMARY KEY (id)`);
+      await db.query(`ALTER TABLE games ADD CONSTRAINT "game_title_key" UNIQUE (title)`);
+
+      await db.query(`ALTER TABLE friends ADD CONSTRAINT "friends_pkey" PRIMARY KEY (id)`);
+      await db.query(`ALTER TABLE friends ADD CONSTRAINT "friends_userId_friendId_key" UNIQUE ("userId", "friendId")`);
+      await db.query(`ALTER TABLE friends ADD FOREIGN KEY ("friendId") REFERENCES users ON UPDATE CASCADE ON DELETE CASCADE`);
+      await db.query(`ALTER TABLE friends ADD FOREIGN KEY ("userId") REFERENCES users ON UPDATE CASCADE ON DELETE CASCADE`);
+      
+      await db.query(`ALTER TABLE friend_requests ADD CONSTRAINT "friend_requests_pkey" PRIMARY KEY (id)`);
+      await db.query(`ALTER TABLE friend_requests ADD CONSTRAINT "friend_requests_friendId_userId_key" UNIQUE ("friendId", "userId")`);
+      await db.query(`ALTER TABLE friend_requests ADD FOREIGN KEY ("friendId") REFERENCES users(id) ON UPDATE CASCADE ON DELETE CASCADE`);
+      await db.query(`ALTER TABLE friend_requests ADD FOREIGN KEY ("userId") REFERENCES users(id) ON UPDATE CASCADE ON DELETE CASCADE`);
+
+      await db.query(`ALTER TABLE confirmations ADD CONSTRAINT "confirmations_pkey" PRIMARY KEY (id)`);
+      await db.query(`ALTER TABLE confirmations ADD FOREIGN KEY ("gameId") REFERENCES games(id) ON UPDATE CASCADE ON DELETE CASCADE`);
+      await db.query(`ALTER TABLE user_confirmations ADD CONSTRAINT "user_confirmations_pkey" PRIMARY KEY ("userId", "confirmationId")`);
+      await db.query(`ALTER TABLE user_confirmations ADD FOREIGN KEY ("confirmationId") REFERENCES confirmations(id) ON UPDATE CASCADE ON DELETE CASCADE`);
+      await db.query(`ALTER TABLE user_confirmations ADD FOREIGN KEY ("userId") REFERENCES users(id) ON UPDATE CASCADE ON DELETE CASCADE`);
+
+      await db.query(`ALTER TABLE histories ADD CONSTRAINT "histories_pkey" PRIMARY KEY (id)`);
+      await db.query(`ALTER TABLE histories ADD FOREIGN KEY ("gameId") REFERENCES games(id) ON UPDATE CASCADE ON DELETE CASCADE`);
+      await db.query(`ALTER TABLE user_histories ADD CONSTRAINT "user_histories_pkey" PRIMARY KEY (id)`);
+      await db.query(`ALTER TABLE user_histories ADD FOREIGN KEY ("historyId") REFERENCES histories(id) ON UPDATE CASCADE ON DELETE SET NULL`);
+      await db.query(`ALTER TABLE user_histories ADD FOREIGN KEY ("userId") REFERENCES users(id) ON UPDATE CASCADE ON DELETE SET NULL`);
       let end = new Date();
       await console.log(`adding constraints took ${Math.floor((end - start)/1000)} seconds`);
       await process.exit();
