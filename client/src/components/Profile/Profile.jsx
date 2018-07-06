@@ -18,7 +18,7 @@ class Profile extends Component {
     this.state = {
       id: 0,
       username: '',
-      url: 'Loading_Art',
+      photo: 'Loading_Art',
       level: null,
       wins: 0,
       losses: 0,
@@ -54,8 +54,8 @@ class Profile extends Component {
     axios
       .get('/api/user/profile', options)
       .then( async ({ data }) => {
-        const { id, username, level, wins, losses, url } = data;
-        await this.setState({ id, username, level, wins, losses, url });
+        const { id, username, level, wins, losses, photo } = data;
+        await this.setState({ id, username, level, wins, losses, photo });
         //determine if it's the user's profile.  If not, are they already friends
         if (username === userData.username) {
           await this.setState({ areFriends: true });
@@ -72,7 +72,7 @@ class Profile extends Component {
   }
 
   friendRequest = () => {
-    let { friendRequests, id } = this.state;
+    let { friendRequests, id, username } = this.state;
 
     //if there's already a pending request, tell the user
     let alreadyAPendingRequest = false;
@@ -90,7 +90,7 @@ class Profile extends Component {
       }
       
       axios
-        .post('api/friend/friendRequest', options)
+        .post('/api/friend/friendRequest', options)
         .then(({ data }) => {
           console.log('friendRequest data: ', data)
           if (data === 'fail') {
@@ -139,7 +139,7 @@ class Profile extends Component {
   render() {
     let {
       username, 
-      url,
+      photo,
       level, 
       wins, 
       losses, 
@@ -155,12 +155,7 @@ class Profile extends Component {
     return (
       <div className="profileTopContainer">
         <div className="container">
-          {/* <div className="profileImage">
-            Profile Image
-            <img src={url} alt="profile pic"/>
-            <button type="button" onClick={this.showStoreAndState}>****</button>
-          </div> */}
-          <Image cloudName={CLOUD_NAME} publicId={`TrackYoScoreProfilePics/${url}`} >
+          <Image cloudName={CLOUD_NAME} publicId={`TrackYoScoreProfilePics/${photo}`} >
             <Transformation aspectRatio="1:1" background="#262c35" border="5px_solid_rgb:FFFFFF" gravity="auto" radius="max" crop="fill" />
           </Image>
         </div>
