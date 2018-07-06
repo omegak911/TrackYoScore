@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
 
-import { friends, historyConfirmations, userData, listOfUsers, pendingFriendRequests } from './reducers/userReducer';
+import { friends, historyConfirmations, userData, listOfUsers, pendingFriendRequests, selectedGame } from './reducers/userReducer';
 
 const allReducers = combineReducers({
   friends,
@@ -9,6 +9,7 @@ const allReducers = combineReducers({
   listOfUsers,
   // pendingConfirmations,
   pendingFriendRequests,
+  selectedGame
 })
 
 export default allReducers;

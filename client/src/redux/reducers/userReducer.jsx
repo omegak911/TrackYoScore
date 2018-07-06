@@ -65,4 +65,12 @@ const historyConfirmations = (state = [], action) => {
   return state;
 }
 
-export { friends, historyConfirmations, userData, listOfUsers, pendingFriendRequests };
+const selectedGame = (state = { title: '', image: '', id: null }, action) => {
+  switch(action.type) {
+    case 'SELECTED_GAME':
+      return action.payload;
+  }
+  return state;
+}
+
+export { friends, historyConfirmations, userData, listOfUsers, pendingFriendRequests, selectedGame };

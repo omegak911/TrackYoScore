@@ -27,4 +27,9 @@ const logout = () => ({
   type: 'LOGOUT'
 })
 
-export { logout, searchedUsers, updateUserData, updatePendingFriendRequests, updateFriendList, updatePendingHistConfirmations };
+const selectGame = data => ({
+  type: 'SELECTED_GAME',
+  payload: data,
+})
+
+export { logout, searchedUsers, selectGame, updateUserData, updatePendingFriendRequests, updateFriendList, updatePendingHistConfirmations };
