@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import axios from 'axios';
 
-import SubmitScore from '../Submit/Submit';
+import SubmitScore from './Submit/Submit';
 import Search from '../Search/Search';
 
 import './Home.scss';
@@ -15,21 +15,6 @@ class Home extends Component {
       homeBackgroundUrl: null,
     }
   }
-/*
-  componentDidMount () {
-    axios
-      .get('/api/game/fetch')
-      .then(({ data }) => {
-        let games = Object.keys(data);
-
-        let randomIndex = Math.ceil(Math.random() * games.length);
-        console.log(data)
-        console.log(data[randomIndex]);
-        this.setState({ games: data, homeBackgroundUrl: data[randomIndex].image });
-      })
-      .catch(err => console.log(err))
-  }
-  */
 
   render() {
     let { homeBackgroundUrl } = this.state;

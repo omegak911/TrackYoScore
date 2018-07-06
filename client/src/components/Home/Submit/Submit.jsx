@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import axios from 'axios';
 
+import GameDisplay from '../GameDisplay/GameDisplay';
 import './Submit.scss';
 
 class Submit extends Component {
@@ -21,21 +22,12 @@ class Submit extends Component {
       dropDownSelectUserScore: 'result',
       displayUserScoreDropdown: true,
       message: '',
+      showGameModal: false,
     }
   }
 
-  // componentDidMount () {
-  //   axios
-  //     .get('/api/game/fetch')
-  //     .then(({ data }) => this.setState({ games: data }))
-  //     .catch(err => console.log(err))
-  // }
-
-  selectGame = (e) => {
-    // let { games } = this.state;
-    let { games } = this.props;
-    let id = e.target.value;
-    this.setState({ selectedGame: games[id], selectedGameId: id })
+  findGame = () => {
+    this.setState({ showGameModal: !this.state.showGameModal })
   }
 
   selectUserScore = async (e) => {
@@ -90,7 +82,7 @@ class Submit extends Component {
   }
 
   submitConfirmation = () => {
-    const { totalScore, selectedGameId } = this.state;
+    const { totalScore, selectedGameId } = this.state;  // let's refactor this to selectedGame.id
     let wins = 0;
     let loss = 0;
     
@@ -104,7 +96,7 @@ class Submit extends Component {
 
     if (wins === loss) {
       axios
-        .post('/api/history/confirmation', { playerScore: totalScore, gameId: selectedGameId })
+        .post('/api/history/confirmation', { playerScore: totalScore, gameId: selectedGameId }) //affects this too
         .then(({ data }) => {
           this.setState({ message: 'Score Submitted' })
           this.restoreMessage();
@@ -141,7 +133,7 @@ class Submit extends Component {
     const { friends } = this.props;
     let { games } = this.props;
     let { 
-      // games,
+      showGameModal,
       totalScore, 
       dropDownSelectPlayer, 
       dropDownSelectScore,
@@ -151,6 +143,8 @@ class Submit extends Component {
 
     return (
       <div className="submitForm">
+        {showGameModal &&
+          <GameDisplay />}
         <h2>Submit A New Challenge Score</h2>
 
         <div className="submitGrid">
@@ -188,12 +182,9 @@ class Submit extends Component {
           </div>
 
           <div className="gridGameSelect">
-            <select className="gameChoices" onChange={this.selectGame} value={dropDownSelectScore}>
-              <option value="result">Game</option>
-              {Object.keys(games).map(id =>
-                <option key={id} value={id}>{games[id].title}</option>
-              )}
-            </select>
+            <button className="gameChoices" onClick={this.findGame}>
+              Choose Game
+            </button>
           </div>
           <div className="gridPlayerSelect">
             {displayUserScoreDropdown &&
@@ -239,7 +230,8 @@ class Submit extends Component {
 const mapStateToProps = state => {
   return {
     friends: state.friends,
-    userData: state.userData
+    userData: state.userData,
+    selectedGame: state.selectedGame,
   }
 }
 
