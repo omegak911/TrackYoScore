@@ -39,7 +39,6 @@ const updateUser = async (req, res) => {
 
   //   })
   // })
-
   
   //need passport for req.user
   //req.user should contain username + password

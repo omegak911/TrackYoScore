@@ -27,4 +27,4 @@ const selectGame = data => ({
   payload: data,
 })
 
-export { logout, searchedUsers, selectGame, updateUserData, updatePendingFriendRequests, updateFriendList, updatePendingHistConfirmations };
+export { logout, selectGame, updateUserData, updatePendingFriendRequests, updateFriendList, updatePendingHistConfirmations };
