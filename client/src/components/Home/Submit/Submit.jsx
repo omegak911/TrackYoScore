@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import axios from 'axios';
 
+import { Image, Video, Transformation, CloudinaryContext } from 'cloudinary-react';
+import { CLOUD_NAME } from '../../../../../config';
+
 import GameDisplay from '../GameDisplay/GameDisplay';
 import './Submit.scss';
 
@@ -9,7 +12,7 @@ class Submit extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      // games: {},
+      games: [],
       totalScore: {},
       playerHist: {},
       selectedGame: {},
@@ -26,8 +29,22 @@ class Submit extends Component {
     }
   }
 
-  findGame = () => {
+  componentDidMount() {
+    axios
+      .get('/api/game/fetch')
+      .then(({ data }) => {
+        this.setState({ games: data })
+      })
+      .catch(err => console.error(err))
+  }
+
+  toggleGameModal = () => {
     this.setState({ showGameModal: !this.state.showGameModal })
+  }
+
+  selectGame = (game) => {
+    console.log(game)
+    this.setState({ selectedGame: game, selectedGameId: game.id, showGameModal: !this.state.showGameModal })
   }
 
   selectUserScore = async (e) => {
@@ -131,8 +148,8 @@ class Submit extends Component {
 
   render() {
     const { friends } = this.props;
-    let { games } = this.props;
     let { 
+      games,
       showGameModal,
       totalScore, 
       dropDownSelectPlayer, 
@@ -144,7 +161,7 @@ class Submit extends Component {
     return (
       <div className="submitForm">
         {showGameModal &&
-          <GameDisplay />}
+          <GameDisplay games={games} toggleGameModal={this.toggleGameModal} selectGame={this.selectGame}/>}
         <h2>Submit A New Challenge Score</h2>
 
         <div className="submitGrid">
@@ -160,7 +177,9 @@ class Submit extends Component {
           <div className="gridGameImage">
             {selectedGame.title && 
               <div className="selectedGame">
-                <img src={selectedGame.image} alt="game image"/>
+                <Image cloudName={CLOUD_NAME} publicId={`TrackYoScoreGamePics/${selectedGame.image}`} >
+                  <Transformation aspectRatio="1:1" background="#262c35" border="5px_solid_rgb:FFFFFF" gravity="auto" radius="max" crop="fill" />
+                </Image>
                 <div>{selectedGame.title}</div>
               </div>
             }
@@ -182,7 +201,7 @@ class Submit extends Component {
           </div>
 
           <div className="gridGameSelect">
-            <button className="gameChoices" onClick={this.findGame}>
+            <button className="gameChoices" onClick={this.toggleGameModal}>
               Choose Game
             </button>
           </div>

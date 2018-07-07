@@ -1,0 +1,42 @@
+.gameDisplayTopContainer {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(155,155,155, 0.5);
+}
+
+.gameDisplayFilter {
+  display: flex;
+  flex-direction: column;
+  height: 50%;
+  width: 50%;
+  align-items: center;
+  background-color: white;
+  border: 1px solid black;
+}
+
+.gameDisplayList {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  overflow: scroll;
+  width: 100%;
+}
+
+.gameDisplayListItem {
+  display: flex;
+  flex-direction: column;
+  width: 150px;
+  height: 160px;
+  border: 1px solid black;
+  padding: 5px;
+  text-align: center;
+  img {
+    height: 90%;
+  }
+}

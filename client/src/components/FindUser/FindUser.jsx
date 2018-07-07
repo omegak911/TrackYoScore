@@ -1,15 +1,14 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
-import { searchedUsers } from '../../redux/actions';
+import UserSearchResult from './UserSearchResult';
 
 class Search extends Component {
   constructor(props) {
     super(props);
     this.state = {
       userQuery: '',
+      searchResults: []
     }
   }
 
@@ -31,8 +30,7 @@ class Search extends Component {
     axios
       .get('/api/user/search', options)
       .then(({ data }) => {
-        this.props.searchedUsers(data);
-        this.props.history.push('/welcome/userSearchResults');
+        this.setState({ searchResults: data })
       })
       .catch(err => console.log(err));
   }
@@ -49,10 +47,4 @@ class Search extends Component {
   }
 }
 
-const matchDispatchToProps = dispatch => {
-  return bindActionCreators({
-    searchedUsers,
-  }, dispatch);
-}
-
-export default connect(null, matchDispatchToProps)(Search);
+export default Search;

@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
-import { selectGame } from '../../../redux/actions';
 import axios from 'axios';
+
+import { Image, Video, Transformation, CloudinaryContext } from 'cloudinary-react';
+import { CLOUD_NAME } from '../../../../../config';
+
+import './GameDisplay.scss';
 
 class GameDisplay extends Component {
   constructor(props) {
@@ -15,22 +17,15 @@ class GameDisplay extends Component {
   }
 
   componentDidMount() {
-    axios
-      .get('/api/game/fetch')
-      .then(({ data }) => {
-        console.log(data)
-        this.setState({ games: data })
-      })
-      .catch(err => console.error(err))
+    this.setState({ games: this.props.games });
   }
 
   filterGames = (e) => {
     e.preventDefault();
     console.log('activating filter')
     let { games, filter } = this.state;
-
-    let filteredGames = games.filter(game => game.title.includes(filter))
-
+    let lowerCaseFilter = filter.toLowerCase();
+    let filteredGames = games.filter(game => game.title.toLowerCase().includes(lowerCaseFilter))
     this.setState({ filteredGames })
   }
 
@@ -38,31 +33,39 @@ class GameDisplay extends Component {
     let filter = e.target.value;
     this.setState({ filter });
   }
+  
+  stopPropagation = (e) => {
+    e.stopPropagation();
+  } 
 
   render() {
     let { filteredGames, filter } = this.state;
+    let { selectGame, toggleGameModal } = this.props;
 
     return (
-      <div>
-        <div className="gameSearchFilter">
-          <form onSubmit={e => this.filterGames(e)}>
-            <input placeholder="filter titles here" value={filter} onChange={this.handleChange}/>
-          </form>
-        </div>
-        <div className="gameList">
-        {filteredGames.map((game, index) => 
-          <div key={index} onClick={() => this.props.selectGame(game)}>
-            {game.title}
+      <div className="gameDisplayTopContainer" onClick={toggleGameModal}>
+        <div className="gameDisplayFilter" onClick={e => this.stopPropagation(e)}>
+          <div className="gameDisplayForm">
+            <form onSubmit={e => this.filterGames(e)}>
+              <input placeholder="filter titles here" value={filter} onChange={this.handleChange}/>
+            </form>
           </div>
-        )}
+          <div className="gameDisplayList">
+          {filteredGames.map((game, index) => 
+            <div key={index} onClick={() => this.props.selectGame(game)}>
+              <div className="gameDisplayListItem">
+              <Image cloudName={CLOUD_NAME} publicId={`TrackYoScoreGamePics/${game.image}`} >
+                <Transformation aspectRatio="1:1" background="#262c35" border="5px_solid_rgb:FFFFFF" gravity="auto" radius="max" crop="fill" />
+              </Image>
+              {game.title}
+              </div>
+            </div>
+          )}
+          </div>
         </div>
       </div>
     )
   }
 }
 
-const matchDispatchToProps = dispatch => {
-  return bindActionCreators({ selectGame }, dispatch)
-}
-
-export default connect(null, matchDispatchToProps)(GameDisplay);
+export default GameDisplay;

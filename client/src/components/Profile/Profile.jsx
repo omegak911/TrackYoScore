@@ -120,7 +120,7 @@ class Profile extends Component {
     }
 
     axios
-      .post('api/friend/validateFriendRequest', options)
+      .post('/api/friend/validateFriendRequest', options)
       .then(() => console.log('sent accepted friend request'))
       .catch(err => console.log(err));
   }

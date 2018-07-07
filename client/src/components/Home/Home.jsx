@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import axios from 'axios';
 
 import SubmitScore from './Submit/Submit';
-import Search from '../Search/Search';
 
 import './Home.scss';
 
@@ -11,7 +10,6 @@ class Home extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      games: [],
       homeBackgroundUrl: null,
     }
   }
@@ -24,10 +22,7 @@ class Home extends Component {
         style={{ backgroundImage: `url(${homeBackgroundUrl ? homeBackgroundUrl : 'https://wallpapers.wallhaven.cc/wallpapers/full/wallhaven-654391.jpg' })`}}>
         <div className="homeMidContainer">
           <div className="homeInnerContainer">
-            <SubmitScore games={this.state.games} />
-            <br/>
-            find new friends
-            <Search history={this.props.history}/>
+            <SubmitScore />
           </div>
         </div>
       </div>

@@ -5,8 +5,8 @@ import { connect } from 'react-redux'
 import History from './History/History';
 import Home from './Home/Home';
 import Profile from './Profile/Profile';
-import UserSearchResults  from './Search/UserSearchResult';
 import AddGame from './AddGame/AddGame';
+import FindUser from './FindUser/FindUser'
 
 class ProtectedRoutes extends Component {
   constructor(props) {
@@ -31,8 +31,8 @@ class ProtectedRoutes extends Component {
         <Route path={match.url + '/history'} component={History} />
         <Route path={match.url + '/home'} component={Home} />
         <Route path={match.url + '/profile'} component={Profile} />
-        <Route path={match.url + '/userSearchResults'} component={UserSearchResults} />
         <Route path={match.url + '/addGame'} component={AddGame} />
+        <Route path={match.url + '/findUser'} component={FindUser} />
       </div>
     )
   }

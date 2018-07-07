@@ -47,8 +47,6 @@ const friends = (state = [], action) => {
 
 const listOfUsers = (state = [], action) => {
   switch(action.type) {
-    case 'USER_LIST': 
-      return action.payload;
     case 'LOGOUT':
       return [];
   }
