@@ -23,7 +23,9 @@ History
 - Validate scores
 - View Validated scores
 
-Outstanding Features (MVP+)
+
+
+Outstanding (MVP+)
 - update account info
 - additional css styling
 - OAuth
