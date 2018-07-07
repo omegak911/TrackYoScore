@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 
+
+import { Link } from 'react-router-dom';
 import UserSearchResult from './UserSearchResult';
 
 class Search extends Component {
@@ -8,7 +10,8 @@ class Search extends Component {
     super(props);
     this.state = {
       userQuery: '',
-      searchResults: []
+      searchResults: [],
+      searched: false,
     }
   }
 
@@ -30,18 +33,47 @@ class Search extends Component {
     axios
       .get('/api/user/search', options)
       .then(({ data }) => {
-        this.setState({ searchResults: data })
+        console.log(data)
+        this.setState({ searchResults: data, searched: true })
       })
       .catch(err => console.log(err));
   }
 
   render() {
+    let { searchResults, searched } = this.state;
     return (
       <div>
         <form onSubmit={e => this.findUsers(e)}>
           <input name="userQuery" placeholder="search users" type="text" onChange={e => this.handleEntry(e)}/>
           <button type="button" onClick={this.findUsers}>search</button>
         </form>
+        <div>
+        {searched &&
+          <div>
+            {searchResults.length > 0 ? 
+              <div style={{ 
+                  display: 'flex', 
+                  flexDirection: 'column', 
+                  height: '70vh', 
+                  overflow: 'scroll', 
+                  backgroundColor: 'white',
+                  marginTop: '5px',
+                  }}>
+                {searchResults.map((user, index) =>
+                  <div key={index} style={{ border: '1px solid black', padding: '5px'}}>
+                    {user.username}
+                    <Link to={{ pathname: "/welcome/profile", state: { user: { id: user.id }}}} >{user.username}</Link>
+                  </div>
+                )}
+              </div>
+              :
+              <span style={{ color: 'red' }}>
+                No Results
+              </span>
+            }
+          </div>
+        }
+        </div>
       </div>
     )
   }
