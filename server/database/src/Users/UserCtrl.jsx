@@ -5,9 +5,12 @@ import bcrypt from 'bcryptjs';
 
 const searchUsers = (req, res) => {
   //check if user is logged in
-  searchUsersHelper(req.query, (result) => {
-    res.status(201).send(result);
-  })
+  const { id } = req.session.passport.user;
+  if (id) {
+    searchUsersHelper(req.query, (result) => {
+      res.status(201).send(result);
+    })
+  }
 }
 
 const updatePhoto = (req, res) => {
@@ -49,12 +52,12 @@ const updateUser = async (req, res) => {
 };
 
 const userProfile = (req, res) => {
-  //check if user logged in
-  console.log('in userProfile function: ', req.url)
-  console.log(req.query)
-  userProfileHelper(req.query, (result) => {
-    res.status(200).send(result);
-  })
+  const { id } = req.session.passport.user;
+  if (id) {
+    userProfileHelper(req.query, (result) => {
+      res.status(200).send(result);
+    })
+  }
 }
 
 export { searchUsers, updateUser, updatePhoto, userProfile };
