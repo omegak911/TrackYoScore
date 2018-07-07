@@ -95,3 +95,10 @@ $border: 1px solid black;
 .modal {
   z-index: 3;
 }
+
+.matchesTopContainer {
+  display: flex;
+  flex-direction: column;
+  height: 80vh;
+  overflow: scroll;
+}

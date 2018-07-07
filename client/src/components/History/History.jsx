@@ -43,38 +43,42 @@ class History extends Component {
     return (
       <div>
         <HistoryConfirmation />
-          {challengeHist.map((match, index) => 
-            <div key={index} className="match">
-              <div className="matchGame">
-                <Image cloudName={CLOUD_NAME} publicId={`TrackYoScoreGamePics/${match.history.game.image}`} >
-                  <Transformation aspectRatio="1:1" background="#262c35" border="5px_solid_rgb:FFFFFF" gravity="auto" radius="max" crop="fill" />
-                </Image>
-                <div className="columnTitle">{match.history.game.title}</div>
-              </div>
-              <div className="matchScores">
-                <div className="confirmationStats">
-                  <div className="confirmationPlayerName">
-                    <span className="columnTitle">Player</span>
-                  </div>
-                  <div className="confirmationScore">
-                    <span className="confirmationsPlayerscore columnTitle">Result</span>
-                  </div>
+          <div className="matchesTopContainer">
+            {challengeHist.map((match, index) => 
+              <div key={index}>
+              <div className="match">
+                <div className="matchGame">
+                  <Image cloudName={CLOUD_NAME} publicId={`TrackYoScoreGamePics/${match.history.game.image}`} >
+                    <Transformation aspectRatio="1:1" background="#262c35" border="5px_solid_rgb:FFFFFF" gravity="auto" radius="max" crop="fill" />
+                  </Image>
+                  <div className="columnTitle">{match.history.game.title}</div>
                 </div>
-                <div>
-                  {Object.keys(match.history.playerScore).map((user, i) => 
-                    <div className="confirmationStats" key={i}>
-                      <div className="confirmationPlayerName">
-                        <span>{match.history.playerScore[user].username}</span> 
-                      </div>
-                      <div className="confirmationScore">
-                        <span className="confirmationsPlayerscore">{match.history.playerScore[user].score === 10 ? 'Win' : 'Loss'}</span>
-                      </div>
+                <div className="matchScores">
+                  <div className="confirmationStats">
+                    <div className="confirmationPlayerName">
+                      <span className="columnTitle">Player</span>
                     </div>
-                  )}
+                    <div className="confirmationScore">
+                      <span className="confirmationsPlayerscore columnTitle">Result</span>
+                    </div>
+                  </div>
+                  <div>
+                    {Object.keys(match.history.playerScore).map((user, i) => 
+                      <div className="confirmationStats" key={i}>
+                        <div className="confirmationPlayerName">
+                          <span>{match.history.playerScore[user].username}</span> 
+                        </div>
+                        <div className="confirmationScore">
+                          <span className="confirmationsPlayerscore">{match.history.playerScore[user].score === 10 ? 'Win' : 'Loss'}</span>
+                        </div>
+                      </div>
+                    )}
+                  </div>
                 </div>
               </div>
-            </div>
-          )}
+              </div>
+            )}
+          </div>
       </div>
     )
   }
