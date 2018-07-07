@@ -42,10 +42,7 @@ class Landing extends Component {
 
     axios
       .get('/api/auth/login', options)
-      .then(({ data }) => {
-        console.log('login data: ', data)
-        this.handleData(data);
-      })
+      .then(({ data }) => this.handleData(data))
       .catch(err => console.log(err));
   }
 
@@ -60,7 +57,6 @@ class Landing extends Component {
     axios
       .post('/api/auth/signup', options)
       .then(({ data }) => {
-        console.log('signup data: ', data)
         this.login();
       })
       .catch(err => console.log(err));

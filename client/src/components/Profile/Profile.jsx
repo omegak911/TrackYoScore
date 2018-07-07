@@ -92,7 +92,6 @@ class Profile extends Component {
       axios
         .post('/api/friend/friendRequest', options)
         .then(({ data }) => {
-          console.log('friendRequest data: ', data)
           if (data === 'fail') {
             this.setState({ alreadyAPendingRequest })
           }
@@ -127,13 +126,7 @@ class Profile extends Component {
 
   showList = (e) => {
     const stateKey = e.target.name;
-    console.log(stateKey);
     this.setState({ [stateKey]: !this.state[stateKey] })
-  }
-
-  showStoreAndState = () => {
-    console.log(this.props);
-    console.log(this.state);
   }
 
   render() {

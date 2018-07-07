@@ -33,7 +33,6 @@ class AccountModal extends Component {
   }
 
   updateAccount = () => {
-    console.log(this.state)
     const { username, cPassword, nPassword, nPassword2 } = this.state;
 
     if (cPassword === nPassword) {
@@ -49,7 +48,6 @@ class AccountModal extends Component {
 
     const data = {}
 
-    console.log('gonna send request to updateUser')
     axios
       .put('/api/user/updateUser', data)
       .then((result) => {

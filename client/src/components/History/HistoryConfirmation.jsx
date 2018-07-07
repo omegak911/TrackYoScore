@@ -19,7 +19,6 @@ class HistoryConfirmation extends Component {
 
   showPendingConfirmations = () => {
     this.setState({ confirmationModal: !this.state.confirmationModal })
-    console.log(this.state.histConfirmationsPending)
   }
 
   stopPropagation = (e) => {
@@ -30,14 +29,11 @@ class HistoryConfirmation extends Component {
     const { id } = this.state.histConfirmationsPending[index].confirmation;
     axios
       .put('/api/history/confirmation', { id })
-      // then remove confirmation from index and setState
       .then(() => {
         let { histConfirmationsPending } = this.state;
         let temp = histConfirmationsPending.slice();
         temp.splice(index, 1);
         this.setState({ histConfirmationsPending: temp });
-        console.log('done')
-      
       })
       .catch(err => console.log(err))
   }

@@ -43,7 +43,6 @@ class Submit extends Component {
   }
 
   selectGame = (game) => {
-    console.log(game)
     this.setState({ selectedGame: game, selectedGameId: game.id, showGameModal: !this.state.showGameModal })
   }
 

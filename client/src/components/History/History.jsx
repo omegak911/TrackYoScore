@@ -30,7 +30,6 @@ class History extends Component {
       axios
         .get('/api/history/history', options)
         .then(({ data }) => {
-          console.log('history data: ', data)
           this.setState({ challengeHist: data })
         })
         .catch(err => console.log(err));

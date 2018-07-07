@@ -1,9 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-
-
 import { Link } from 'react-router-dom';
-import UserSearchResult from './UserSearchResult';
 
 class Search extends Component {
   constructor(props) {
@@ -33,7 +30,6 @@ class Search extends Component {
     axios
       .get('/api/user/search', options)
       .then(({ data }) => {
-        console.log(data)
         this.setState({ searchResults: data, searched: true })
       })
       .catch(err => console.log(err));
@@ -61,7 +57,6 @@ class Search extends Component {
                   }}>
                 {searchResults.map((user, index) =>
                   <div key={index} style={{ border: '1px solid black', padding: '5px'}}>
-                    {user.username}
                     <Link to={{ pathname: "/welcome/profile", state: { user: { id: user.id }}}} >{user.username}</Link>
                   </div>
                 )}

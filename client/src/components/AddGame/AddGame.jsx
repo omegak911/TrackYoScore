@@ -22,15 +22,12 @@ class AddGame extends Component {
       axios
         .post(CLOUD_URL, gamePhoto, {headers: { "X-Requested-With": "XMLHttpRequest" }})
         .then(({ data }) => {
-          //on success, send axios put request
           const url = data.secure_url;
           const urlArr = url.split('/');
           const photoName = urlArr[urlArr.length - 1].split('.')[0];
-          console.log('created: ', photoName);
-          console.log('urlArr: ', urlArr);
           axios
             .post('/api/game/add', { title: gameTitle, image: photoName })
-            .then(({ data }) => console.log('put data: ', data))
+            .then(({ data }) => console.log('success'))
             .catch(err => console.log(err));
 
           this.setState({ gamePhoto: null, gameTitle: '' })
@@ -65,10 +62,8 @@ class AddGame extends Component {
         :
         <Dropzone
           onDrop={this.handleDrop}
-          multiple={false}            //let's check what this means
+          multiple={false}
           accept="image/*"
-          // maxSize={1000000}
-          // style={}
           >
           <p>Upload image here</p>
         </Dropzone>}

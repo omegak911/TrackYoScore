@@ -18,7 +18,6 @@ class Nav extends Component {
       .post('/api/auth/logout')
       .then(() => this.props.logout())
       .catch(err => console.log(err))
-    console.log('hmmmmm')
   }
 
   render() {

@@ -22,7 +22,6 @@ class GameDisplay extends Component {
 
   filterGames = (e) => {
     e.preventDefault();
-    console.log('activating filter')
     let { games, filter } = this.state;
     let lowerCaseFilter = filter.toLowerCase();
     let filteredGames = games.filter(game => game.title.toLowerCase().includes(lowerCaseFilter))
