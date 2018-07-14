@@ -148,7 +148,7 @@ class Profile extends Component {
     return (
       <div className="profileTopContainer">
         <div className="container">
-          <Image cloudName={CLOUD_NAME} publicId={`TrackYoScoreProfilePics/${photo}`} >
+          <Image cloudName={CLOUD_NAME} publicId={`TrackYoScoreProfilePics/${photo}`} alt="profile image goes here" >
             <Transformation aspectRatio="1:1" background="#262c35" border="5px_solid_rgb:FFFFFF" gravity="auto" radius="max" crop="fill" />
           </Image>
         </div>
