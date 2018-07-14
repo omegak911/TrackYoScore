@@ -27,7 +27,7 @@ class ProtectedRoutes extends Component {
     const { match } = this.props;
 
     return (
-      <div style={{ display: 'flex', justifyContent: 'center', paddingTop: 10 }} >
+      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '90%', paddingTop: 10 }} >
         <Route path={match.url + '/history'} component={History} />
         <Route path={match.url + '/home'} component={Home} />
         <Route path={match.url + '/profile'} component={Profile} />

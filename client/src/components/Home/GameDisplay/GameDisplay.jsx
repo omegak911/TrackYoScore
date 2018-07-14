@@ -54,7 +54,6 @@ class GameDisplay extends Component {
             <div key={index} onClick={() => this.props.selectGame(game)}>
               <div className="gameDisplayListItem">
               <Image cloudName={CLOUD_NAME} publicId={`TrackYoScoreGamePics/${game.image}`} >
-                <Transformation aspectRatio="1:1" background="#262c35" border="5px_solid_rgb:FFFFFF" gravity="auto" radius="max" crop="fill" />
               </Image>
               {game.title}
               </div>

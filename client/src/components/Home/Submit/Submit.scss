@@ -75,6 +75,11 @@ $border: 1px solid black;
   grid-area: score;
   text-align: center;
 }
+
+.gridPlayerName,
+.gridScore {
+  font-size: 1.77em;
+}
   
 .gridGameSelect {
   grid-area: gameSelect;

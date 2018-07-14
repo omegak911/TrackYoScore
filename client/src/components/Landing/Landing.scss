@@ -36,3 +36,10 @@ form {
     width: 200px;
   }
 }
+
+#innerApp {
+  height: 100vh;
+  .browserContainer {
+    height: 100%;
+  }
+}

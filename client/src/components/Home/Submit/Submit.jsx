@@ -177,7 +177,6 @@ class Submit extends Component {
             {selectedGame.title && 
               <div className="selectedGame">
                 <Image cloudName={CLOUD_NAME} publicId={`TrackYoScoreGamePics/${selectedGame.image}`} >
-                  <Transformation aspectRatio="1:1" background="#262c35" border="5px_solid_rgb:FFFFFF" gravity="auto" radius="max" crop="fill" />
                 </Image>
                 <div>{selectedGame.title}</div>
               </div>
