@@ -6,7 +6,7 @@ Required Tech:
 - Webpack 3.11.0 (if you are using a different version, you may need to make some changes to webpack config)
 - Cloudinary account (you'll need to create two presets, one for profile pics and one for game pics)
 
-Instructions
+INSTRUCTIONS:
 1) git clone __repo link here__
 2) cd __directory created__
 
@@ -21,8 +21,10 @@ Instructions
 8) if you like it, star this repo =)
 
 
-Goal: To create a platform that allows players to track game scores with friends and a sense of achievement via leveling
+APPLICATION GOAL: 
+To create a platform that allows players to track game scores with friends and a sense of achievement via leveling
 
+FEATURES
 Completed Features (MVP)
 Login and security
 - Persistent login
@@ -49,6 +51,7 @@ History
 
 
 Outstanding (MVP+)
+- code cleanup
 - update account info
 - additional css styling
 - OAuth
